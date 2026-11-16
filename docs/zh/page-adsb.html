@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADS-B 飞机雷达 · SDRViewer 使用手册</title>
+<meta name="description" content="把收到的飞机画在雷达和地图上，叠加离场、进场程序、航路、导航台，放大还能看到滑行道和登机口。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../page-adsb.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a class="on" href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>ADS-B 飞机雷达</h1>
+<p class="lede">飞机每秒都在 1090 MHz 上广播自己的位置、高度、速度和呼号。这一页把它们收下来画成一张雷达图，再叠上航图：你看到的不只是“天上有架飞机”，而是它正沿着哪条程序进场、要落哪条跑道、落地后滑向哪个登机口。</p>
+
+<figure class="phone"><img class="shot" src="../img/adsb-all.png" alt="洛杉矶上空的 ADS-B 雷达图，所有航图图层全部打开"><figcaption>洛杉矶：所有图层全部打开的样子。信息很多，下面一项一项拆开来看。</figcaption></figure>
+
+<div class="note"><p><b>关于截图。</b>本页用洛杉矶国际机场（LAX）举例，航图来自<a href="data-file.html">示例数据文件</a>。图里的飞机是演示数据，呼号 DEMO01–DEMO10 是虚构的，所以左上角有一行 PREVIEW 提示；你自己接收时不会有这行字。</p></div>
+
+<h2>开始接收</h2>
+<ol class="steps">
+<li><strong>换一根合适的天线</strong>1090 MHz 的波长很短，收音机用的拉杆天线效果很差。把天线缩短到约 6.5 厘米一节，竖直放在窗边，或者用专门的 1090 MHz 天线。能看到的天空越多，收到的飞机越多。</li>
+<li><strong>点左上角的播放键</strong>接收机会被调到 1090 MHz，几秒钟内飞机就会一架架出现。标题下面显示当前的飞机数量。</li>
+<li><strong>选择雷达或地图</strong>右上角第二排的<b>地图按钮</b>在雷达图和地图之间切换；它左边的<b>图层按钮</b>管理航图的各个图层。</li>
+</ol>
+<div class="parts">
+<div class="part"><img src="../img/adsb-part-top.png" alt="页面顶部的按钮"><div><b class="name">顶部的按钮</b><p><b>CN / ICAO</b> 切换单位：CN 是米和公里/小时（中国管制的习惯），ICAO 是英尺和节（世界上多数地方的习惯）。<b>放大镜</b>按呼号、注册号、机型搜索和筛选飞机。<b>齿轮</b>是设置。第二排是图层菜单和雷达 / 地图切换。</p></div></div>
+</div>
+
+<h2>雷达图</h2>
+<figure class="phone"><img class="shot" src="../img/adsb-scope.png" alt="不带航图的雷达图：距离圈、方位刻度和飞机"><figcaption>关掉航图后的纯雷达图：50 公里范围内的十架飞机。</figcaption></figure>
+<p>中心是你的接收位置，一圈圈是距离（公里），外圈是方位角。每架飞机是一个小圆圈，后面拖着一串点是它刚飞过的轨迹，前面伸出的一条线是按当前速度一分钟后会到的位置。</p>
+<div class="parts">
+<div class="part"><img src="../img/adsb-part-label.png" alt="一架飞机的标牌"><div><b class="name">标牌怎么读</b><p>和真实管制雷达的标牌是同一套格式。从上到下：<br><b>A4301</b>　应答机编码 4301<br><b>DEMO01</b>　呼号（航班号）<br><b>023↓08 145</b>　高度 2300 英尺，正在下降，每分钟约 800 英尺；地速 145 节<br><b>A321 M</b>　机型空客 A321，尾流等级中型（H 是重型）</p></div></div>
+<div class="part"><img src="../img/adsb-part-legend.png" alt="左下角的图例"><div><b class="name">颜色和图例</b><p>颜色按飞行阶段分：<b>En route</b> 巡航（6000 米以上）、<b>Approach</b> 进近和离场、<b>Tower</b> 起降阶段（900 米以下）、<b>Ground</b> 地面。后面的数字是各有几架。<b>点一下图例里的某一行，可以隐藏这一类</b>，比如只留下正在起降的飞机。</p></div></div>
+<div class="part"><img src="../img/adsb-part-buttons.png" alt="右下角的按钮"><div><b class="name">移动和缩放</b><p>像地图一样用手指拖动、双指缩放，或者用 <b>+ / −</b>。距离圈始终以你的接收位置为中心。<b>箭头</b>回到自己的位置；<b>auto range</b> 自动选一个能装下所有飞机的范围。右下角的数字是当前范围，以及有几架飞机在屏幕之外。</p></div></div>
+</div>
+
+<h2>点一架飞机</h2>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-card.png" alt="选中飞机后底部出现的卡片"><figcaption>点一下飞机：底部出现卡片。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-page.png" alt="展开后的飞机详情"><figcaption>向上拉开卡片：全部数据。</figcaption></figure>
+</div>
+<p>卡片上是最常看的几项：离你多远、在哪个方向、高度、速度、机型。拉开以后还有气压高度和卫星高度、升降率、航向、坐标、24 位地址，以及收到了多少条报文。联网时还会查出<b>注册号、航空公司、起飞和目的机场</b>，以及这架飞机的照片（演示数据是虚构的，所以这里没有）。</p>
+
+<h2>叠加航图</h2>
+<p>导入<a href="data-file.html">航图数据文件</a>以后，点右上角的<b>图层按钮</b>，可以把航图的内容一层层叠到雷达上。全部打开会很满（就像本页第一张图），建议<b>想看什么开什么</b>。下面每张图都只开了一层。</p>
+
+<h3>离场程序（SID）</h3>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-sid-one.png" alt="只画一条离场程序 ORCKA5"><figcaption>只看一条：ORCKA5 离场。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-sid-all.png" alt="洛杉矶当前跑道方向的全部离场程序"><figcaption>当前跑道方向的全部离场。</figcaption></figure>
+</div>
+<p>绿色的线是离场程序，箭头是飞行方向。飞机起飞后并不是随便飞的，而是沿着这些固定的路线爬升、转弯、加入航路。打开这一层，你会看到刚起飞的飞机一架接一架踩在同一条线上。</p>
+<ul>
+<li>图层菜单 → <b>Procedures</b> → 打开 <b>Departures (SID)</b>。</li>
+<li><b>Airport</b>：只画某一个机场的程序。洛杉矶周围有二十个机场，全画会乱。</li>
+<li><b>Runways</b>：选跑道方向。默认 <b>Auto</b>，App 根据正在起降的飞机判断现在用的是哪个方向，只画这个方向的程序。</li>
+<li><b>Procedure</b>：只画选中的那一条，适合对着一架飞机看它到底在飞哪条程序。</li>
+</ul>
+
+<h3>进场程序（STAR）</h3>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-star-one.png" alt="只画一条进场程序 IRNMN2"><figcaption>只看一条：从西北方向来的 IRNMN2 进场。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-star-all.png" alt="洛杉矶的全部进场程序"><figcaption>全部进场：四面八方汇向机场。</figcaption></figure>
+</div>
+<p>橙色的线是进场程序：从巡航航路下来的飞机，沿着它们下降、减速，在机场附近汇成一列。把范围拉到 150 公里看最清楚，远处的飞机会一架架汇到同一条线上。</p>
+
+<h3>进近程序和等待航线</h3>
+<p>图层菜单里还有 <b>Approaches and missed</b>（进近和复飞）和 <b>Holds</b>（等待航线）：进近是最后对准跑道的那一段，复飞是落不下去时的路线，等待是飞机排队时绕的跑马场形圈。它们只在你的数据文件里有这些内容时才会画出来；洛杉矶示例文件里只有离场和进场，所以这里没有图。</p>
+
+<h3>航路</h3>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-airways.png" alt="100 公里范围的航路"><figcaption>100 公里范围：航路网。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-airways-near.png" alt="40 公里范围的航路和航路点"><figcaption>放大并打开航路点：每个三角是一个航路点。</figcaption></figure>
+</div>
+<p>灰色的细线是航路，相当于天上的高速公路，线旁标着编号（如 V25、J5）。<b>Waypoints</b> 图层把航路点的五字母名字标出来。高空飞过、不在这里起降的飞机，基本都压在某条航路上。</p>
+<ul><li>图层菜单 → <b>Layers</b> → <b>Airways</b>、<b>Waypoints</b>。</li></ul>
+
+<h3>无线电导航台</h3>
+<figure class="phone"><img class="shot" src="../img/adsb-navaids.png" alt="导航台和它们的罗盘圈"><figcaption>导航台：带刻度的圆圈是 VOR，旁边是呼号和频率。</figcaption></figure>
+<p><b>Navaids</b> 图层画出地面的无线电导航台。带一圈刻度的是 VOR，飞机用它来确定自己在导航台的哪个方位；旁边标着三个字母的呼号和频率（如 LAX 113.600）。很多航路和程序就是从一个导航台连到另一个导航台。<b>Airports</b> 图层则标出范围内的其它机场。</p>
+
+<h2>地图</h2>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-map-satellite.png" alt="卫星图上的飞机"><figcaption>卫星图。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-map-street.png" alt="街道地图上的飞机"><figcaption>街道地图。</figcaption></figure>
+</div>
+<p>点右上角的地图按钮，同样的飞机画到地图上：小飞机图标的朝向就是航向，旁边是呼号。地图和雷达图的位置、缩放是同步的，来回切换看的是同一块地方。右下角的按钮在<b>卫星图</b>和<b>街道地图</b>之间切换；卫星图上还可以叠加道路。地图需要联网加载。</p>
+<figure class="phone"><img class="shot" src="../img/adsb-map-star.png" alt="卫星图上叠加一条进场程序"><figcaption>航图同样可以叠在地图上：一条进场程序沿着海岸线进入洛杉矶。</figcaption></figure>
+<p>雷达图上能开的图层，地图上都能开。在卫星图上看程序特别直观：这条进场路线从哪座山上过、在哪里出海、最后怎么对准跑道，一目了然。</p>
+
+<p>上面那两条程序放到卫星图上，位置相同：</p>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-map-sid.png" alt="ORCKA5"><figcaption>卫星图上的同一条离场：ORCKA5。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-map-star-one.png" alt="IRNMN2"><figcaption>卫星图上的同一条进场：IRNMN2。</figcaption></figure>
+</div>
+
+<h2>机场地面：跑道、滑行道和登机口</h2>
+<p>把地图放大到机场，会出现另一层内容：跑道、滑行道和登机口。</p>
+<figure class="phone"><img class="shot" src="../img/adsb-map-airport.png" alt="卫星图上的洛杉矶机场全貌"><figcaption>放大到机场：黄线是滑行道，白字是跑道号。</figcaption></figure>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-map-gates.png" alt="卫星图上的登机口编号和滑行道名"><figcaption>再放大：登机口编号和滑行道名。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-map-taxiways.png" alt="街道地图上的滑行道和登机口"><figcaption>街道地图上更清楚。</figcaption></figure>
+</div>
+<ul>
+<li><b>黄线</b>是滑行道，旁边的字母（C、B、D10）是滑行道的名字，和地面管制在频率里说的一样。</li>
+<li><b>灰色宽带</b>是跑道，两端标着跑道号（06R/24L、07L/25R）。</li>
+<li><b>蓝色的数字</b>是登机口和停机位（41、130、148…）。</li>
+<li>在地面上的飞机同样有位置：可以看到它停在哪个登机口，或者正沿哪条滑行道滑向跑道。</li>
+</ul>
+<p>雷达图上也有同样的内容，放大到几公里以内就会出现：</p>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-scope-ground.png" alt="雷达图上的机场地面，3 公里范围"><figcaption>雷达图，3 公里：整个机场。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-scope-gates.png" alt="雷达图上的登机口和滑行道名，1 公里范围"><figcaption>雷达图，1 公里：登机口和滑行道名。</figcaption></figure>
+</div>
+<ul>
+<li>图层菜单 → <b>Airport ground</b> 里有三个开关：<b>Runways and taxiways</b>、<b>Taxiway names</b>、<b>Gates</b>。</li>
+<li>这一层的数据来自 OpenStreetMap，<b>不需要航图数据文件</b>，全世界大多数机场都有，第一次查看某个机场时需要联网。</li>
+</ul>
+
+<h2>可以看些什么</h2>
+<ul>
+<li><b>看一次进场。</b>打开进场程序，把范围拉到 150 公里，挑一架正在下降的飞机，看它沿着程序一个点一个点飞过来，最后对准跑道。</li>
+<li><b>看机场今天往哪边起降。</b>跑道方向跟着风向变。Runways 留在 Auto，程序会自动换成当前方向的那一组。</li>
+<li><b>边看边听。</b>飞机进到五边时，切到 <a href="page-atc.html">ATC</a> 页面的塔台频率，听它的落地许可；落地后换地面频率，对着地图上的滑行道名，看它被指挥着滑到哪个登机口。</li>
+<li><b>认飞机。</b>点开卡片看机型和注册号。大型机场每天都有各种少见的机型和涂装。</li>
+<li><b>看高空过路的。</b>打开航路，看巡航的飞机压着哪条航路、往哪去。</li>
+</ul>
+
+<h2>常见情况</h2>
+<table>
+<tr><th>现象</th><th>原因和办法</th></tr>
+<tr><td>一架飞机都没有</td><td>多半是天线。1090 MHz 需要短天线并且能看到天空，在室内深处几乎收不到。也确认接收机已经连接（见<a href="connect.html">连接接收机</a>）。</td></tr>
+<tr><td>只有很近的飞机</td><td>把天线放到窗外或更高的地方。接收距离主要取决于天线能“看到”多远的地平线。</td></tr>
+<tr><td>飞机有标牌但没有位置</td><td>有些飞机只广播高度和编码，不广播位置；也可能是刚收到，还没等到位置报文。</td></tr>
+<tr><td>打开了航图图层但什么都没有</td><td>还没有导入航图数据文件，见<a href="data-file.html">航图数据文件</a>。机场地面那一层不受影响。</td></tr>
+<tr><td>开了程序但什么都没画</td><td>检查 Airport 选的是不是你想看的机场；Runways 选了某个方向时，只画这个方向的程序，可以改成 All 试试。</td></tr>
+<tr><td>看不到滑行道和登机口</td><td>需要放大到机场范围（雷达图约 6 公里以内）；第一次查看需要联网；确认 Airport ground 里的开关是开着的。</td></tr>
+<tr><td>切到地图后航图过一会儿才出现</td><td>正常。底图先显示，航图稍后加载，期间会有 Loading chart… 的提示。</td></tr>
+<tr><td>查不到注册号或航线</td><td>这些信息来自网上的公开数据库，不是飞机广播的，不保证每一架都有。</td></tr>
+</table>
+
+<div class="pager">
+<a href="page-atc.html"><small>上一篇</small>ATC 航空管制</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

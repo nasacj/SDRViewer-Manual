@@ -4,7 +4,7 @@ The user manual for SDRViewer, an RTL-SDR receiver app for iPhone and iPad, in C
 
 SDRViewer（iPhone / iPad 上的 RTL-SDR 接收机）的使用手册，中英文两种语言。
 
-**Read it online · 在线阅读：** https://nasacj.github.io/SDRViewer-Manual/
+**Read it online · 在线阅读：** https://nasacj.github.io/SDRViewer-Manual/ (English) · https://nasacj.github.io/SDRViewer-Manual/zh/ (中文)
 
 ## Editing · 修改
 

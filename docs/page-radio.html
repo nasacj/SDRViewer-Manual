@@ -1,97 +1,97 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Radio 收音机 · SDRViewer 使用手册</title>
-<meta name="description" content="自动搜索 FM 广播电台，点一下就听，带立体声和电台改名。">
+<title>Radio · SDRViewer Manual</title>
+<meta name="description" content="Scan the FM broadcast band, tap a station to listen, with stereo and your own station names.">
 <link rel="stylesheet" href="assets/style.css">
-<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
 <script src="assets/site.js"></script>
 </head>
-<body data-soon="编写中">
+<body data-soon="soon">
 <header class="top">
-  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
-  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
   <span class="spacer"></span>
-  <a class="iconbtn langlink" href="en/page-radio.html">English</a>
-  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+  <a class="iconbtn langlink" href="zh/page-radio.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
 </header>
 <div class="layout">
 <nav class="side">
-<h4>开始</h4>
-<a href="index.html">首页</a>
-<a href="start.html">需要准备什么</a>
-<h4>安装 rtl_tcp</h4>
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
 <a href="install-macos.html">macOS</a>
 <a href="install-windows.html">Windows</a>
 <a href="install-linux.html">Linux</a>
-<a href="install-pi.html">树莓派</a>
-<h4>连接</h4>
-<a href="connect.html">在 App 里连接</a>
-<a href="troubleshoot.html">连不上怎么办</a>
-<h4>航图数据</h4>
-<a href="data-file.html">航图数据文件（JSON）</a>
-<h4>各页面说明</h4>
-<a href="pages.html">页面一览</a>
-<a class="on" href="page-radio.html">Radio 收音机</a>
-<a href="page-receiver.html">Receiver 接收机</a>
-<a href="page-dstar.html">D-STAR 数字语音</a>
-<a href="page-aviation.html">Aviation 航空数据链</a>
-<a href="page-atc.html">ATC 航空管制</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a class="on" href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
 <a class="soon">APRS</a>
-<a class="soon">AIS 船舶</a>
-<a href="page-adsb.html">ADS-B 飞机</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
 </nav>
 <main>
-<h1>Radio 收音机</h1>
-<p class="lede">像车载收音机一样用：搜一次台，之后点哪个听哪个。这也是检验整套设备是否正常的最快办法。</p>
+<h1>Radio</h1>
+<p class="lede">Used like a car radio: scan once, then tap whichever station you want. It is also the quickest way to check that everything works.</p>
 
-<figure class="phone"><img class="shot" src="img/radio.png" alt="Radio 页面：电台列表、当前频率、立体声指示和频谱"></figure>
+<figure class="phone"><img class="shot" src="img/radio.png" alt="The Radio page: station list, frequency, stereo indicator and spectrum"></figure>
 
-<h2>第一次使用：搜台</h2>
+<h2>The first time: scan</h2>
 <ol class="steps">
-<li><strong>刚打开时是空的</strong>第一次进入 Radio 页面，电台列表里什么都没有，写着 <b>No stations yet</b>。点右上角的 <b>Scan</b> 开始搜台。
-<figure><img class="shot" src="img/radio-scan-1-empty.png" alt="还没有电台的 Radio 页面，右上角是 Scan 按钮"></figure></li>
-<li><strong>先扫一遍整个波段</strong>左上角显示 <code>sweeping 2/50</code> 这样的进度，App 正在把整个 FM 广播波段分段看一遍，找出所有可能有电台的频率。右上角的按钮变成 <b>Stop</b>，随时可以中止。
-<figure><img class="shot" src="img/radio-scan-2-sweeping.png" alt="正在扫描波段，显示 sweeping 进度"></figure></li>
-<li><strong>再逐个确认</strong>进度变成 <code>confirming 90.9 MHz 4/19</code>：App 对每个候选频率实际解调听一下，确认真的是广播才放进列表，所以列表里不会出现点了没声音的“假电台”。确认一个，列表里就多一个。
-<figure><img class="shot" src="img/radio-scan-3-confirming.png" alt="正在逐个确认候选电台，列表中已经出现几个"></figure></li>
-<li><strong>搜完了，点一个开始听</strong>按钮变回 <b>Rescan</b> 就是搜完了。整个过程根据采样率不同大约半分钟到一分钟。列表可以左右滑动，点一下电台就播放。
-<figure><img class="shot" src="img/radio-scan-4-done.png" alt="搜台完成后的电台列表"></figure></li>
+<li><strong>It starts empty</strong>The first time you open the Radio page the station list has nothing in it and says <b>No stations yet</b>. Tap <b>Scan</b> at the top right.
+<figure><img class="shot" src="img/radio-scan-1-empty.png" alt="The Radio page with no stations yet and the Scan button at the top right"></figure></li>
+<li><strong>First a sweep of the whole band</strong>The top left shows progress such as <code>sweeping 2/50</code>: the app is looking across the FM broadcast band, a piece at a time, for every frequency that might hold a station. The button becomes <b>Stop</b>, which ends the scan at any moment.
+<figure><img class="shot" src="img/radio-scan-2-sweeping.png" alt="Sweeping the band, with the progress shown"></figure></li>
+<li><strong>Then each one is confirmed</strong>Progress becomes <code>confirming 90.9 MHz 4/19</code>: the app demodulates every candidate and listens, and only a real broadcast goes into the list. So there are no entries that turn out to be silence. Each one confirmed appears in the list at once.
+<figure><img class="shot" src="img/radio-scan-3-confirming.png" alt="Confirming candidates one by one, with the first stations already in the list"></figure></li>
+<li><strong>Done: tap a station</strong>When the button reads <b>Rescan</b> the scan is over. All of it takes half a minute to a minute, depending on the sample rate. The list scrolls sideways; one tap plays a station.
+<figure><img class="shot" src="img/radio-scan-4-done.png" alt="The station list after the scan"></figure></li>
 </ol>
-<div class="note"><p>搬到另一个城市，或者换了天线之后，点 <b>Rescan</b> 重新搜一次。</p></div>
+<div class="note"><p>In another city, or after changing the antenna, tap <b>Rescan</b>.</p></div>
 
-<h2>页面上的东西</h2>
+<h2>What is on the page</h2>
 <div class="parts">
-<div class="part"><img src="img/radio-part-stations.png" alt="电台卡片"><div><b class="name">电台卡片</b><p>搜到的电台，左右滑动查看。<b>ST</b> 是立体声台，<b>MONO</b> 是单声道台，旁边的小格子是信号强弱。点一下播放，长按可以改名。</p></div></div>
-<div class="part"><img src="img/radio-part-frequency.png" alt="频率和播放按钮"><div><b class="name">频率和播放按钮</b><p>大号数字是当前频率，下面的小字是电台名（没有名字时显示频率）。左边的圆形按钮是播放 / 停止。</p></div></div>
-<div class="part"><img src="img/radio-part-stereo.png" alt="立体声按钮、左右声道电平"><div><b class="name">立体声和电平</b><p>左边的按钮点一下在 <b>AUTO / STEREO / MONO</b> 之间切换，下面的百分比是实际的立体声分离程度；信号弱、有沙沙声时切到 MONO 会干净很多。<b>L / R</b> 是左右声道的音量，<b>L−R</b> 是两个声道的差异（数值越接近 0 立体声感越强），<b>BUF</b> 是音频缓冲的占用，稳定在一个数值附近说明网络顺畅。</p></div></div>
-<div class="part"><img src="img/radio-part-spectrum.png" alt="频谱和瀑布图"><div><b class="name">频谱和瀑布图</b><p>当前频率附近的信号。上半部分是此刻的频谱，下半部分是随时间向下滚动的瀑布图，亮的竖条就是电台，中间的竖线是正在收听的频率。左上角的 <b>AUTO</b> 和 <b>CAL</b> 控制瀑布图的明暗：AUTO 自动调整，CAL 按当前的底噪重新校准一次。</p></div></div>
-<div class="part"><img src="img/radio-part-tuning.png" alt="调谐按钮和刻度盘"><div><b class="name">手动调台</b><p><b>‹ ›</b> 移动一个步进，<b>« »</b> 一次移动十个步进；中间的 <b>Step</b> 可以改步进大小（FM 广播用 100k）；拖动最下面的刻度盘可以连续调节。</p></div></div>
+<div class="part"><img src="img/radio-part-stations.png" alt="Station cards"><div><b class="name">Station cards</b><p>The stations found; swipe sideways for more. <b>ST</b> marks a stereo station, <b>MONO</b> a mono one, and the small bars are signal strength. Tap to play, touch and hold to rename.</p></div></div>
+<div class="part"><img src="img/radio-part-frequency.png" alt="Frequency and play button"><div><b class="name">Frequency and play</b><p>The large figures are the current frequency, with the station's name beneath (its frequency when it has none). The round button on the left is play and stop.</p></div></div>
+<div class="part"><img src="img/radio-part-stereo.png" alt="Stereo button and channel levels"><div><b class="name">Stereo and levels</b><p>The button on the left steps through <b>AUTO / STEREO / MONO</b>; the percentage is the separation actually achieved. With a weak, hissy signal, MONO is much cleaner. <b>L</b> and <b>R</b> are the two channels' levels, <b>L−R</b> is how much they differ (nearer 0 means more stereo), and <b>BUF</b> is how full the audio buffer is: steady around one value means the network is keeping up.</p></div></div>
+<div class="part"><img src="img/radio-part-spectrum.png" alt="Spectrum and waterfall"><div><b class="name">Spectrum and waterfall</b><p>The signals around the current frequency: the spectrum now on top, and under it the waterfall scrolling down through time. Bright columns are stations, and the line in the middle is what you are listening to. <b>AUTO</b> and <b>CAL</b> at the top left set the waterfall's brightness: AUTO adjusts it by itself, CAL sets it once from the present noise floor.</p></div></div>
+<div class="part"><img src="img/radio-part-tuning.png" alt="Tuning buttons and dial"><div><b class="name">Tuning by hand</b><p><b>‹ ›</b> move one step, <b>« »</b> ten steps; <b>Step</b> in the middle changes the step (100k for FM broadcast); drag the dial at the very bottom to tune continuously.</p></div></div>
 </div>
 
-<h2>给电台改名</h2>
-<p>电台默认显示频率。<b>长按</b>一个电台卡片，选 <b>Rename</b>，就可以写上它的名字，比如“音乐之声”。想恢复时长按选 <b>Use the original name</b>。</p>
-<p>在有 RDS 广播的国家和地区，电台会自己播发名称，App 会自动显示；国内的电台大多不播发 RDS，所以需要自己起名。</p>
+<h2>Naming a station</h2>
+<p>A station shows its frequency by default. <b>Touch and hold</b> a station card and choose <b>Rename</b> to give it a name. To go back, touch and hold and choose <b>Use the original name</b>.</p>
+<p>Where stations broadcast RDS they send their own name and the app shows it. Where they do not — most of China, for one — you name them yourself.</p>
 
-<h2>顺便校准了接收机</h2>
-<p>每听一个立体声电台几秒钟，App 就会悄悄量一次接收机的频率误差。听过三个以上的立体声台之后，校准会自动生效，之后收航空、APRS、AIS 这些对频率要求高的信号就准了。详见<a href="connect.html">频率校准</a>。</p>
+<h2>It calibrates the receiver as you listen</h2>
+<p>Every few seconds spent on a stereo station, the app quietly measures the receiver's frequency error. After three or more stereo stations the correction applies itself, and signals that need an exact frequency — air traffic, APRS, AIS — are where they should be. See <a href="connect.html">Frequency calibration</a>.</p>
 
-<h2>常见情况</h2>
+<h2>Common situations</h2>
 <table>
-<tr><th>现象</th><th>原因和办法</th></tr>
-<tr><td>搜不到台，或者只有一两个</td><td>天线太短或位置不好。把拉杆每边拉到约 75 厘米，放到窗边再搜一次。</td></tr>
-<tr><td>有的台显示 MONO</td><td>正常。新闻、谈话类电台常常用单声道播出。</td></tr>
-<tr><td>立体声台有明显的沙沙声</td><td>立体声对信号强度要求更高。切到 MONO，或者改善天线。</td></tr>
-<tr><td>切到别的页面，广播还在响</td><td>这是设计如此：声音在后台继续播放。回到 Radio 页面点停止，或者在使用同一只接收机的其它页面点播放，它会自动让出。</td></tr>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>No stations found, or one or two</td><td>The antenna is too short or badly placed. Extend each side to about 75 cm, put it by a window and scan again.</td></tr>
+<tr><td>Some stations say MONO</td><td>Normal. News and talk stations often broadcast in mono.</td></tr>
+<tr><td>A stereo station hisses</td><td>Stereo needs a stronger signal. Switch to MONO, or improve the antenna.</td></tr>
+<tr><td>The radio keeps playing on another page</td><td>By design: audio carries on in the background. Stop it on the Radio page, or press play on another page that uses the same receiver and it gives way.</td></tr>
 </table>
 
 <div class="pager">
-<a href="pages.html"><small>上一篇</small>页面一览</a>
-<a class="next" href="page-receiver.html"><small>下一篇</small>Receiver 接收机</a>
+<a href="pages.html"><small>Previous</small>All pages</a>
+<a class="next" href="page-receiver.html"><small>Next</small>Receiver</a>
 </div>
-<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
 </main>
 </div>
 </body>

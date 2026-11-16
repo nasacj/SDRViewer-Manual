@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the manual: src/<lang>/*.html fragments -> docs/ (Chinese) and docs/en/ (English).
+"""Build the manual: src/<lang>/*.html fragments -> docs/ (English, the default) and docs/zh/ (Chinese).
 
     python3 tools/build.py
 
@@ -91,6 +91,10 @@ def read(lang, name):
     return m.group(1), m.group(2), text[m.end():]
 
 
+# The language served at the site's root; the other lives in its own folder.
+ROOT = "en"
+
+
 def build(lang):
     t = TEXT[lang]
     other = "en" if lang == "zh" else "zh"
@@ -99,9 +103,9 @@ def build(lang):
     pages = {name: read(lang, name) for name in names}
     others = {name: read(other, name) is not None for name in names}
     order = [name for name in names if pages[name]]
-    out_dir = OUT if lang == "zh" else os.path.join(OUT, "en")
+    out_dir = OUT if lang == ROOT else os.path.join(OUT, lang)
     os.makedirs(out_dir, exist_ok=True)
-    base = "" if lang == "zh" else "../"
+    base = "" if lang == ROOT else "../"
     for name in order:
         title, summary, body = pages[name]
         nav = []
@@ -122,9 +126,10 @@ def build(lang):
             pager.append(f'<a class="next" href="{order[i+1]}.html"><small>{t["next"]}</small>{html.escape(pages[order[i+1]][0])}</a>')
         pager.append("</div>")
         target = name if others[name] else "index"
-        other_href = (f"en/{target}.html" if lang == "zh" else f"../{target}.html")
-        # Fragments name images and assets as on the Chinese page, at the site's root.
+        other_href = (f"{other}/{target}.html" if lang == ROOT else f"../{target}.html")
+        # Fragments name images and assets as on the root-language page.
         body = body.replace('src="img/', f'src="{base}img/')
+        body = body.replace('href="data/', f'href="{base}data/')
         page = TEMPLATE.format(title=html.escape(title), summary=html.escape(summary), logo=LOGO, base=base,
                                nav="\n".join(nav), body=body, pager="\n".join(pager), other_href=other_href,
                                **{k: t[k] for k in ("lang", "site", "suffix", "soon", "other", "menu", "theme",

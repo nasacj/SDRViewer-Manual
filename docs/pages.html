@@ -1,83 +1,83 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>页面一览 · SDRViewer 使用手册</title>
-<meta name="description" content="SDRViewer 的七个页面分别收什么、适合什么时候用。">
+<title>All pages · SDRViewer Manual</title>
+<meta name="description" content="What each of SDRViewer&#x27;s seven pages receives, and when to use it.">
 <link rel="stylesheet" href="assets/style.css">
-<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
 <script src="assets/site.js"></script>
 </head>
-<body data-soon="编写中">
+<body data-soon="soon">
 <header class="top">
-  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
-  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
   <span class="spacer"></span>
-  <a class="iconbtn langlink" href="en/pages.html">English</a>
-  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+  <a class="iconbtn langlink" href="zh/pages.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
 </header>
 <div class="layout">
 <nav class="side">
-<h4>开始</h4>
-<a href="index.html">首页</a>
-<a href="start.html">需要准备什么</a>
-<h4>安装 rtl_tcp</h4>
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
 <a href="install-macos.html">macOS</a>
 <a href="install-windows.html">Windows</a>
 <a href="install-linux.html">Linux</a>
-<a href="install-pi.html">树莓派</a>
-<h4>连接</h4>
-<a href="connect.html">在 App 里连接</a>
-<a href="troubleshoot.html">连不上怎么办</a>
-<h4>航图数据</h4>
-<a href="data-file.html">航图数据文件（JSON）</a>
-<h4>各页面说明</h4>
-<a class="on" href="pages.html">页面一览</a>
-<a href="page-radio.html">Radio 收音机</a>
-<a href="page-receiver.html">Receiver 接收机</a>
-<a href="page-dstar.html">D-STAR 数字语音</a>
-<a href="page-aviation.html">Aviation 航空数据链</a>
-<a href="page-atc.html">ATC 航空管制</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a class="on" href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
 <a class="soon">APRS</a>
-<a class="soon">AIS 船舶</a>
-<a href="page-adsb.html">ADS-B 飞机</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
 </nav>
 <main>
-<h1>页面一览</h1>
-<p class="lede">App 底部有七个标签，每个页面对应一类信号。它们用的是同一只接收机（除非你配置了多只），所以同一时间通常只有一个在工作。</p>
+<h1>All pages</h1>
+<p class="lede">The app has seven tabs, one for each kind of signal. They share one receiver (unless you set up several), so usually one of them is working at a time.</p>
 
 <table>
-<tr><th>页面</th><th>收什么</th><th>频率</th><th>说明</th></tr>
-<tr><td><a href="page-radio.html"><b>Radio</b></a></td><td>FM 广播</td><td>87.5–108 MHz</td><td>自动搜台，点播即听。新手从这里开始。</td></tr>
-<tr><td><a href="page-receiver.html"><b>Receiver</b></a></td><td>任意频率</td><td>24–1766 MHz</td><td>通用接收机：频谱、瀑布图，FM / AM / 单边带，点一下瀑布图就调过去。还能解码 D-STAR 数字语音和图片。</td></tr>
-<tr><td><a href="page-aviation.html"><b>Aviation</b></a></td><td>ACARS 航空数据链</td><td>131 MHz 附近</td><td>飞机和地面之间的文字报文：位置、气象、放行许可等，按飞机归类显示。</td></tr>
-<tr><td><a href="page-atc.html"><b>ATC</b></a></td><td>航空管制通话</td><td>118–137 MHz</td><td>塔台、进近、通播。导入航图数据后可以按机场列出频率。</td></tr>
-<tr><td><b>APRS</b></td><td>业余无线电位置和消息</td><td>144 MHz 附近</td><td>在地图上显示电台位置和轨迹。也可以不用接收机，直接接对讲机的音频。</td></tr>
-<tr><td><b>AIS</b></td><td>船舶自动识别</td><td>162 MHz</td><td>在地图上显示船只的位置、航向和船名。需要离水域比较近。</td></tr>
-<tr><td><a href="page-adsb.html"><b>ADS-B</b></a></td><td>飞机位置广播</td><td>1090 MHz</td><td>地图和雷达两种显示，带航迹、机型、航线，放大后能看到机场的滑行道和登机口。</td></tr>
+<tr><th>Page</th><th>Receives</th><th>Frequency</th><th>Notes</th></tr>
+<tr><td><a href="page-radio.html"><b>Radio</b></a></td><td>FM broadcast</td><td>87.5–108 MHz</td><td>Scans the band, plays at a tap. Start here.</td></tr>
+<tr><td><a href="page-receiver.html"><b>Receiver</b></a></td><td>Any frequency</td><td>24–1766 MHz</td><td>The general receiver: spectrum, waterfall, FM, AM and single sideband; tap the waterfall to tune. Also decodes D-STAR digital voice and pictures.</td></tr>
+<tr><td><a href="page-aviation.html"><b>Aviation</b></a></td><td>ACARS data link</td><td>around 131 MHz</td><td>Text messages between aircraft and the ground: positions, weather, clearances, grouped by aircraft.</td></tr>
+<tr><td><a href="page-atc.html"><b>ATC</b></a></td><td>Air traffic control voice</td><td>118–137 MHz</td><td>Tower, approach and ATIS. With airspace data imported it lists the frequencies by airport.</td></tr>
+<tr><td><b>APRS</b></td><td>Amateur radio positions and messages</td><td>around 144 MHz</td><td>Stations and their tracks on a map. Also works without the receiver, from a handheld's audio.</td></tr>
+<tr><td><b>AIS</b></td><td>Ship identification</td><td>162 MHz</td><td>Ships on a map with position, heading and name. Needs water fairly near.</td></tr>
+<tr><td><a href="page-adsb.html"><b>ADS-B</b></a></td><td>Aircraft position broadcasts</td><td>1090 MHz</td><td>A map and a radar scope, with tracks, types and routes; zoomed in, an airport's taxiways and gates.</td></tr>
 </table>
 
-<div class="note"><p>Radio 和 Receiver 已经有详细说明，其它页面的还在编写中，会陆续补上。左侧目录里标着“编写中”的就是。</p></div>
+<div class="note"><p>Radio and Receiver have their detailed pages; the others are still being written and will follow. They are the entries marked "soon" in the contents.</p></div>
 
-<h2>先试哪个</h2>
+<h2>Which to try first</h2>
 <ol class="steps">
-<li><strong>Radio</strong>FM 广播信号最强，用它确认设备、网络和天线都正常，并顺便完成频率校准。</li>
-<li><strong>ADS-B</strong>只要天线能“看见”一片天空，几乎任何城市都有飞机可收，效果直观。</li>
-<li><strong>其它页面</strong>取决于你附近有什么：靠近机场试 ATC 和 Aviation，靠近港口或江边试 AIS，有业余无线电活动的地方试 APRS。</li>
+<li><strong>Radio</strong>FM broadcast is the strongest signal there is. Use it to confirm the receiver, the network and the antenna, and to calibrate the frequency along the way.</li>
+<li><strong>ADS-B</strong>With an antenna that sees a piece of sky there are aircraft to receive in almost any city, and the result is plain to see.</li>
+<li><strong>The others</strong>depend on what is near you: ATC and Aviation by an airport, AIS by a harbour or a river, APRS where radio amateurs are active.</li>
 </ol>
 
 <figure class="pair">
-  <img class="shot" src="img/adsb-map-satellite.png" alt="ADS-B 页面的地图显示">
-  <img class="shot" src="img/adsb-scope.png" alt="ADS-B 页面的雷达显示">
-  <figcaption>ADS-B 页面的地图和雷达两种显示。</figcaption>
+  <img class="shot" src="img/adsb-map-satellite.png" alt="The ADS-B page's map">
+  <img class="shot" src="img/adsb-scope.png" alt="The ADS-B page's radar scope">
+  <figcaption>The ADS-B page as a map and as a radar scope.</figcaption>
 </figure>
 
 <div class="pager">
-<a href="data-file.html"><small>上一篇</small>航图数据文件</a>
-<a class="next" href="page-radio.html"><small>下一篇</small>Radio 收音机</a>
+<a href="data-file.html"><small>Previous</small>Airspace data file</a>
+<a class="next" href="page-radio.html"><small>Next</small>Radio</a>
 </div>
-<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
 </main>
 </div>
 </body>

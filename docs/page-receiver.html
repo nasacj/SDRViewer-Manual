@@ -1,125 +1,125 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Receiver 接收机 · SDRViewer 使用手册</title>
-<meta name="description" content="通用接收机：任意频率、七种解调方式、频谱和瀑布图，还能解码 D-STAR 数字语音。">
+<title>Receiver · SDRViewer Manual</title>
+<meta name="description" content="The general receiver: any frequency, seven demodulators, a spectrum and waterfall, and D-STAR digital voice.">
 <link rel="stylesheet" href="assets/style.css">
-<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
 <script src="assets/site.js"></script>
 </head>
-<body data-soon="编写中">
+<body data-soon="soon">
 <header class="top">
-  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
-  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
   <span class="spacer"></span>
-  <a class="iconbtn langlink" href="en/page-receiver.html">English</a>
-  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+  <a class="iconbtn langlink" href="zh/page-receiver.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
 </header>
 <div class="layout">
 <nav class="side">
-<h4>开始</h4>
-<a href="index.html">首页</a>
-<a href="start.html">需要准备什么</a>
-<h4>安装 rtl_tcp</h4>
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
 <a href="install-macos.html">macOS</a>
 <a href="install-windows.html">Windows</a>
 <a href="install-linux.html">Linux</a>
-<a href="install-pi.html">树莓派</a>
-<h4>连接</h4>
-<a href="connect.html">在 App 里连接</a>
-<a href="troubleshoot.html">连不上怎么办</a>
-<h4>航图数据</h4>
-<a href="data-file.html">航图数据文件（JSON）</a>
-<h4>各页面说明</h4>
-<a href="pages.html">页面一览</a>
-<a href="page-radio.html">Radio 收音机</a>
-<a class="on" href="page-receiver.html">Receiver 接收机</a>
-<a href="page-dstar.html">D-STAR 数字语音</a>
-<a href="page-aviation.html">Aviation 航空数据链</a>
-<a href="page-atc.html">ATC 航空管制</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a class="on" href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
 <a class="soon">APRS</a>
-<a class="soon">AIS 船舶</a>
-<a href="page-adsb.html">ADS-B 飞机</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
 </nav>
 <main>
-<h1>Receiver 接收机</h1>
-<p class="lede">这是 App 里的“万能”页面：想听哪个频率就调到哪个频率，用瀑布图找信号。其它页面都是为某一类信号专门做的，这一页什么都能收。</p>
+<h1>Receiver</h1>
+<p class="lede">The page that does everything: tune wherever you like and find signals on the waterfall. The other pages are each built for one kind of signal; this one receives any of them.</p>
 
-<figure class="phone"><img class="shot" src="img/receiver.png" alt="Receiver 页面：频率、电平表、静噪和增益滑块、解调方式、频谱和瀑布图"></figure>
+<figure class="phone"><img class="shot" src="img/receiver.png" alt="The Receiver page: frequency, level meter, squelch and gain sliders, mode, spectrum and waterfall"></figure>
 
-<h2>三步上手</h2>
+<h2>Three steps</h2>
 <ol class="steps">
-<li><strong>输入频率</strong>点一下大号的频率数字，在弹出的 Tune 页面里输入以 MHz 为单位的频率，比如 <code>101.7</code>，点 Go。</li>
-<li><strong>选解调方式</strong>点左边蓝色的方式名（WFM、NFM、AM…），在菜单里选一个。不知道选什么时看下面的<a href="#modes">对照表</a>。</li>
-<li><strong>点播放</strong>频率左边的圆形按钮。瀑布图开始滚动后，看到亮的竖条就是信号，<b>直接点它</b>就会调过去。</li>
+<li><strong>Enter a frequency</strong>Tap the large frequency figures, type the frequency in MHz on the Tune sheet, for example <code>101.7</code>, and tap Go.</li>
+<li><strong>Choose a mode</strong>Tap the blue mode name on the left (WFM, NFM, AM…) and pick one. If you are not sure which, see <a href="#modes">the table below</a>.</li>
+<li><strong>Press play</strong>The round button left of the frequency. Once the waterfall scrolls, a bright column is a signal: <b>tap it</b> and the receiver tunes there.</li>
 </ol>
 
-<h2>页面上的东西</h2>
+<h2>What is on the page</h2>
 <div class="parts">
-<div class="part"><img src="img/receiver-part-frequency.png" alt="频率和播放按钮"><div><b class="name">频率和播放按钮</b><p>大号数字是正在收听的频率，点它可以直接输入。下面一行小字：<b>hw</b> 是接收机硬件实际停在的频率（App 会故意让它偏开一点，避开接收机中心的杂散），后面是解调方式和通带宽度。</p></div></div>
-<div class="part"><img src="img/receiver-part-meter.png" alt="信号电平表"><div><b class="name">电平表</b><p>当前接收到的信号强弱，单位 dBFS（0 是满刻度）。右边的 <b>gain 15/28</b> 是接收机当前的增益档位，App 会自动调节：信号太强时降低，太弱时升高，不用手动管。</p></div></div>
-<div class="part"><img src="img/receiver-part-sliders.png" alt="静噪和 AGC 滑块"><div><b class="name">SQL 静噪和 AGC 音量</b><p><b>SQL</b>：没人说话时把沙沙声关掉。滑块上的小竖线是当前实测的噪声水平，把滑块拖到它右边一点就行；右边显示 <b>OPEN</b>（有信号，出声）或 <b>shut</b>（没信号，静音）。<b>AGC</b>：自动把声音放大到滑块设定的响度，右边的数字是实际加了多少增益。</p></div></div>
-<div class="part"><img src="img/receiver-part-chips.png" alt="解调方式和功能按钮"><div><b class="name">解调方式和功能按钮</b><p>左边选解调方式。按钮亮着表示开启：<b>SQL</b> 静噪开关；<b>FIL1 / 2 / 3</b> 通带宽度（窄 / 标准 / 宽），点一下轮换；<b>MONI</b> 强制打开静噪，听一下弱信号；<b>NCH</b> 滤掉接收机自身产生的固定啸叫；<b>NR</b> 降噪，能压低底噪，但声音会略微发空。后两个在 WFM 下不显示，因为它们是为语音设计的。</p></div></div>
-<div class="part"><img src="img/receiver-part-span.png" alt="显示范围和步进按钮"><div><b class="name">显示范围和步进</b><p>左边 <b>− +</b> 缩放瀑布图的显示范围，中间的数字是当前能看到的宽度。右边 <b>‹ ›</b> 移动一个步进，<b>« »</b> 移动十个步进，中间的数字是步进大小，点它可以改（航空用 25k，FM 广播用 100k）。</p></div></div>
-<div class="part"><img src="img/receiver-part-stats.png" alt="状态数字"><div><b class="name">状态数字</b><p>出问题时看这里。<b>link</b> 实际收到的采样率；<b>iqdrop</b> 手机来不及处理而丢掉的样本，应为 0；<b>under</b> 扬声器等不到声音的次数；<b>ring</b> 音频缓冲占用。详见<a href="troubleshoot.html">连不上怎么办</a>。</p></div></div>
-<div class="part"><img src="img/receiver-part-waterfall.png" alt="频谱和瀑布图"><div><b class="name">频谱和瀑布图</b><p>上面是此刻的频谱，下面的瀑布图记录了过去十几秒，越往下越早。中间的竖线和灰色区域是正在收听的频率和通带。这一块可以直接用手指操作，见下一节。</p></div></div>
+<div class="part"><img src="img/receiver-part-frequency.png" alt="Frequency and play button"><div><b class="name">Frequency and play</b><p>The large figures are the frequency you are listening to; tap them to type one. On the line beneath, <b>hw</b> is where the receiver hardware actually sits (the app keeps it slightly off on purpose, clear of the spike at the receiver's centre), followed by the mode and the passband width.</p></div></div>
+<div class="part"><img src="img/receiver-part-meter.png" alt="Signal level meter"><div><b class="name">Level meter</b><p>The strength of what is arriving, in dBFS (0 is full scale). <b>gain 15/28</b> on the right is the receiver's present gain step, which the app sets by itself: down when the signal is too strong, up when it is weak.</p></div></div>
+<div class="part"><img src="img/receiver-part-sliders.png" alt="Squelch and AGC sliders"><div><b class="name">SQL squelch and AGC level</b><p><b>SQL</b> silences the hiss when nobody is talking. The small mark on the slider is the noise measured right now: put the slider a little to its right. The label says <b>OPEN</b> (signal, audio on) or <b>shut</b> (no signal, silent). <b>AGC</b> brings the audio up to the loudness the slider sets; the figure on the right is the gain actually applied.</p></div></div>
+<div class="part"><img src="img/receiver-part-chips.png" alt="Mode and function buttons"><div><b class="name">Mode and function buttons</b><p>The mode is on the left. A lit button is on: <b>SQL</b> squelch; <b>FIL1 / 2 / 3</b> the passband (narrow, standard, wide), one tap each; <b>MONI</b> forces the squelch open to hear a weak signal; <b>NCH</b> removes the steady tones the receiver makes itself; <b>NR</b> noise reduction, which lowers the hiss and leaves the voice a little hollow. The last two are not shown in WFM: they are made for speech.</p></div></div>
+<div class="part"><img src="img/receiver-part-span.png" alt="Span and step buttons"><div><b class="name">Span and step</b><p><b>− +</b> on the left zoom the waterfall; the figure between them is the width on screen. On the right, <b>‹ ›</b> move one step and <b>« »</b> ten; the figure in the middle is the step, and tapping it changes it (25k for the air band, 100k for FM broadcast).</p></div></div>
+<div class="part"><img src="img/receiver-part-stats.png" alt="Status figures"><div><b class="name">Status figures</b><p>Where to look when something is wrong. <b>link</b> is the sample rate arriving; <b>iqdrop</b> counts samples the phone could not process in time and should be 0; <b>under</b> counts times the speaker ran out of audio; <b>ring</b> is how full the audio buffer is. See <a href="troubleshoot.html">If it will not connect</a>.</p></div></div>
+<div class="part"><img src="img/receiver-part-waterfall.png" alt="Spectrum and waterfall"><div><b class="name">Spectrum and waterfall</b><p>The spectrum now on top; under it the waterfall holds the last ten seconds or so, older further down. The line and the grey band in the middle are the frequency and the passband being heard. You work this area with a finger; see the next section.</p></div></div>
 </div>
 
-<h2>在瀑布图上操作</h2>
+<h2>Working on the waterfall</h2>
 <table>
-<tr><th>手势</th><th>效果</th></tr>
-<tr><td><b>点一下</b></td><td>调到点的那个频率。看到哪里有信号就点哪里，这是最快的调谐方式。</td></tr>
-<tr><td><b>左右拖动</b></td><td>连续调谐，画面跟着手指走。</td></tr>
-<tr><td><b>上下拖动</b></td><td>调整瀑布图的明暗。信号都挤在一种颜色里看不清时，拖一下让底噪变暗、信号变亮。</td></tr>
-<tr><td>左上角 <b>AUTO</b></td><td>让 App 自动调整明暗。</td></tr>
-<tr><td>左上角 <b>CAL</b></td><td>按当前的底噪重新定一次明暗，然后保持不变。</td></tr>
+<tr><th>Gesture</th><th>What it does</th></tr>
+<tr><td><b>Tap</b></td><td>Tunes to that frequency. Tap where you see a signal: it is the quickest way to tune.</td></tr>
+<tr><td><b>Drag sideways</b></td><td>Tunes continuously; the picture follows the finger.</td></tr>
+<tr><td><b>Drag up or down</b></td><td>Changes the waterfall's brightness. When everything is squeezed into one colour, a drag makes the noise dark and the signals bright.</td></tr>
+<tr><td><b>AUTO</b>, top left</td><td>Lets the app set the brightness.</td></tr>
+<tr><td><b>CAL</b>, top left</td><td>Sets the brightness once from the present noise floor and keeps it.</td></tr>
 </table>
-<div class="note"><p>瀑布图比耳朵快。找一个不知道在哪的信号时，先把显示范围调宽，看哪里间歇地出现亮条，再点过去听。</p></div>
+<div class="note"><p>The waterfall is faster than the ear. To find a signal whose frequency you do not know, widen the span, watch for a column that comes and goes, then tap it and listen.</p></div>
 
-<h2 id="modes">解调方式怎么选</h2>
+<h2 id="modes">Which mode</h2>
 <table>
-<tr><th>方式</th><th>用来收什么</th><th>典型频率</th></tr>
-<tr><td><b>WFM</b></td><td>FM 广播</td><td>87.5–108 MHz</td></tr>
-<tr><td><b>NFM</b></td><td>对讲机、业余无线电、海事、铁路等窄带调频通话</td><td>136–174 MHz、400–470 MHz</td></tr>
-<tr><td><b>AM</b></td><td>航空管制通话</td><td>118–137 MHz</td></tr>
-<tr><td><b>USB / LSB</b></td><td>业余无线电和短波的单边带语音</td><td>144 MHz 附近的弱信号段等</td></tr>
-<tr><td><b>CW</b></td><td>莫尔斯电码</td><td>各业余波段的低端</td></tr>
-<tr><td><b>DV</b></td><td>D-STAR 数字语音</td><td>业余波段的 D-STAR 频率和中继</td></tr>
+<tr><th>Mode</th><th>For</th><th>Typical frequencies</th></tr>
+<tr><td><b>WFM</b></td><td>FM broadcast</td><td>87.5–108 MHz</td></tr>
+<tr><td><b>NFM</b></td><td>Narrow FM voice: handhelds, amateur radio, marine, railways</td><td>136–174 MHz, 400–470 MHz</td></tr>
+<tr><td><b>AM</b></td><td>Air traffic control voice</td><td>118–137 MHz</td></tr>
+<tr><td><b>USB / LSB</b></td><td>Single-sideband voice on the amateur and short-wave bands</td><td>The weak-signal segment near 144 MHz, among others</td></tr>
+<tr><td><b>CW</b></td><td>Morse code</td><td>The low end of the amateur bands</td></tr>
+<tr><td><b>DV</b></td><td>D-STAR digital voice</td><td>D-STAR simplex frequencies and repeaters</td></tr>
 </table>
-<p>选错了方式不会损坏任何东西，只是听起来不对：调频信号用 AM 听是很小的失真声，AM 信号用 NFM 听是沙沙声。换一个试试就知道了。</p>
+<p>A wrong mode harms nothing; it just sounds wrong. FM heard in AM is faint and distorted, AM heard in NFM is hiss. Try another and you will know.</p>
 
-<h2>D-STAR 数字语音</h2>
-<p>把方式选成 <b>DV</b> 并调到 D-STAR 的频率，就能听到数字语音，看到对方的呼号、留言、位置，还能收图片；收到的通联都记在右上角时钟图标的 <b>RX History</b> 里。这部分内容比较多，单独写了一篇：<a href="page-dstar.html">D-STAR 数字语音 →</a></p>
+<h2>D-STAR digital voice</h2>
+<p>Choose <b>DV</b> and tune to a D-STAR frequency to hear the voice, see the callsign, message and position, and receive pictures; everything received is kept in <b>RX History</b>, behind the clock at the top right. There is enough of it for a page of its own: <a href="page-dstar.html">D-STAR digital voice →</a></p>
 
-<h2>设置里和这一页有关的项</h2>
+<h2>Settings that matter on this page</h2>
 <table>
-<tr><th>设置项</th><th>作用</th></tr>
-<tr><td><b>Sample rate</b></td><td>采样率，决定瀑布图一次能看到多宽。1.024 MSPS 对网络要求低，适合日常用；2.4 MSPS 能看到 2.4 MHz 宽，适合找信号，但需要更好的 Wi-Fi。</td></tr>
-<tr><td><b>Waterfall</b></td><td><b>Station</b>：正在听的频率始终在画面中间。<b>Whole band</b>：画面固定显示接收机收到的整段频谱，标记在上面移动。</td></tr>
-<tr><td><b>Crystal error</b></td><td>频率校准，在接收机的编辑页里，见<a href="connect.html">在 App 里连接</a>。</td></tr>
+<tr><th>Setting</th><th>What it does</th></tr>
+<tr><td><b>Sample rate</b></td><td>How wide a piece of spectrum the waterfall sees. 1.024 MSPS asks little of the network and suits everyday use; 2.4 MSPS shows 2.4 MHz at once, good for hunting, and wants better Wi-Fi.</td></tr>
+<tr><td><b>Waterfall</b></td><td><b>Station</b>: the frequency being heard stays in the middle. <b>Whole band</b>: the picture holds the whole piece of spectrum the receiver delivers and the marker moves across it.</td></tr>
+<tr><td><b>Crystal error</b></td><td>Frequency calibration, in the receiver's editor; see <a href="connect.html">Connect in the app</a>.</td></tr>
 </table>
 
-<h2>这一页还是“监视器”</h2>
-<p>当别的页面（比如 ADS-B 或 AIS）正在使用接收机时，切到 Receiver 页面可以看到它们那个频段的瀑布图，例如 ADS-B 运行时这里显示 1090 MHz。这时页面顶部会写明是哪个页面在用。想自己用，直接点播放，另一个页面会自动停下。</p>
+<h2>This page is also the monitor</h2>
+<p>While another page — ADS-B or AIS, say — is using the receiver, the Receiver page shows the waterfall of that page's band: 1090 MHz while ADS-B runs. The top of the page says which page holds the receiver. To use it yourself, press play, and the other page stops.</p>
 
-<h2>常见情况</h2>
+<h2>Common situations</h2>
 <table>
-<tr><th>现象</th><th>原因和办法</th></tr>
-<tr><td>有信号的亮条，但没有声音</td><td>静噪关着：把 SQL 滑块往左拖，或者点 MONI 强制打开。</td></tr>
-<tr><td>一直有沙沙声</td><td>静噪开得太低：把 SQL 滑块拖到那条小竖线的右边。</td></tr>
-<tr><td>语音里有持续的尖锐啸叫</td><td>接收机自身的杂散落在了通带里：确认 NCH 是亮的。</td></tr>
-<tr><td>声音太小</td><td>把 AGC 滑块往右拖。它只放大不压缩，本身已经很响的广播不会再变响。</td></tr>
-<tr><td>电台在瀑布图上，但偏离中线</td><td>频率没校准，见<a href="connect.html">频率校准</a>。</td></tr>
-<tr><td>调到 24 MHz 以下没有信号</td><td>RTL-SDR 的调谐范围大约是 24–1766 MHz，中波和短波需要另外的上变频器或支持直采的型号。</td></tr>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>A bright column, but no sound</td><td>The squelch is shut: drag SQL to the left, or tap MONI to force it open.</td></tr>
+<tr><td>Hiss all the time</td><td>The squelch is set too low: drag SQL to the right of the small mark.</td></tr>
+<tr><td>A steady whistle under speech</td><td>One of the receiver's own spurious tones is in the passband: check NCH is lit.</td></tr>
+<tr><td>Too quiet</td><td>Drag AGC to the right. It only adds gain, so a broadcast that is already loud will not get louder.</td></tr>
+<tr><td>A station sits off the centre line</td><td>The frequency is not calibrated; see <a href="connect.html">Frequency calibration</a>.</td></tr>
+<tr><td>Nothing below 24 MHz</td><td>An RTL-SDR tunes roughly 24–1766 MHz. Medium wave and short wave need an upconverter or a model with direct sampling.</td></tr>
 </table>
 
 <div class="pager">
-<a href="page-radio.html"><small>上一篇</small>Radio 收音机</a>
-<a class="next" href="page-dstar.html"><small>下一篇</small>D-STAR 数字语音</a>
+<a href="page-radio.html"><small>Previous</small>Radio</a>
+<a class="next" href="page-dstar.html"><small>Next</small>D-STAR digital voice</a>
 </div>
-<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
 </main>
 </div>
 </body>

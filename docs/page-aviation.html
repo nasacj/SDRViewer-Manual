@@ -1,160 +1,160 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aviation 航空数据链 · SDRViewer 使用手册</title>
-<meta name="description" content="接收飞机和地面之间的文字报文（ACARS / VDL2），按飞机和航班整理，并把通播、放行许可、起降时刻翻译成看得懂的内容。">
+<title>Aviation · SDRViewer Manual</title>
+<meta name="description" content="Receives the text messages between aircraft and the ground (ACARS / VDL2), files them by aircraft and flight, and reads ATIS, clearances and movement times into plain fields.">
 <link rel="stylesheet" href="assets/style.css">
-<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
 <script src="assets/site.js"></script>
 </head>
-<body data-soon="编写中">
+<body data-soon="soon">
 <header class="top">
-  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
-  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
   <span class="spacer"></span>
-  <a class="iconbtn langlink" href="en/page-aviation.html">English</a>
-  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+  <a class="iconbtn langlink" href="zh/page-aviation.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
 </header>
 <div class="layout">
 <nav class="side">
-<h4>开始</h4>
-<a href="index.html">首页</a>
-<a href="start.html">需要准备什么</a>
-<h4>安装 rtl_tcp</h4>
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
 <a href="install-macos.html">macOS</a>
 <a href="install-windows.html">Windows</a>
 <a href="install-linux.html">Linux</a>
-<a href="install-pi.html">树莓派</a>
-<h4>连接</h4>
-<a href="connect.html">在 App 里连接</a>
-<a href="troubleshoot.html">连不上怎么办</a>
-<h4>航图数据</h4>
-<a href="data-file.html">航图数据文件（JSON）</a>
-<h4>各页面说明</h4>
-<a href="pages.html">页面一览</a>
-<a href="page-radio.html">Radio 收音机</a>
-<a href="page-receiver.html">Receiver 接收机</a>
-<a href="page-dstar.html">D-STAR 数字语音</a>
-<a class="on" href="page-aviation.html">Aviation 航空数据链</a>
-<a href="page-atc.html">ATC 航空管制</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a class="on" href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
 <a class="soon">APRS</a>
-<a class="soon">AIS 船舶</a>
-<a href="page-adsb.html">ADS-B 飞机</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
 </nav>
 <main>
-<h1>Aviation 航空数据链</h1>
-<p class="lede">飞机和地面之间除了说话，还一直在互发文字：要通播、要放行许可、报告推出和起飞时刻、收天气。这些报文走的是 ACARS 和 VDL2 数据链。这一页把它们收下来，按飞机和航班排好，并把常见的报文解读成一张看得懂的表。</p>
+<h1>Aviation data link</h1>
+<p class="lede">Besides talking, aircraft and the ground exchange text all the time: asking for the ATIS, asking for a clearance, reporting pushback and take-off times, receiving weather. Those messages travel over ACARS and VDL2. This page receives them, files them by aircraft and flight, and reads the common ones into a table anyone can follow.</p>
 
-<figure class="phone"><img class="shot" src="img/aviation.png" alt="一架飞机的报文时间线"><figcaption>一架飞机起飞前的报文，按时间排列。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation.png" alt="One aircraft's messages in order"><figcaption>One aircraft's messages before departure, in order.</figcaption></figure>
 
-<div class="note"><p><b>关于截图。</b>本页的报文是为手册编写的演示数据：飞机 .NDEMO1、航班 XD0101 都不存在，内容仿照真实报文的格式，背景设在洛杉矶。你收到的真实报文样子相同。收到的内容请只用于自己学习，并遵守当地的法规。</p></div>
+<div class="note"><p><b>About the pictures.</b> The messages here were written for this manual: the aircraft .NDEMO1 and flight XD0101 do not exist, the text follows the format of real messages, and the setting is Los Angeles. What you receive looks the same. Keep what you receive for your own study, and follow your local law.</p></div>
 
-<h2>开始接收</h2>
+<h2>Starting</h2>
 <ol class="steps">
-<li><strong>选对地区</strong>点右上角的 <b>…</b> → <b>Settings</b>，在 <b>Region</b> 里选你所在的地区。各地用的频率不同：中国是 131.450 MHz，北美是 131.550 MHz，欧洲又是另一组。选错了就是在听一段空的频率。</li>
-<li><strong>点播放键</strong>接收机会同时监听这个地区的几个频率。<b>Listen around</b> 可以换一组频率，或者改收 <b>VDL2</b>（136.975 MHz 一带，更新的一种数据链）。</li>
-<li><strong>等一会儿</strong>数据链是一阵一阵的短促发射，不像广播一直有信号。在机场附近几十秒就有一条，离机场远的地方可能要等几分钟。顶上的 <b>msgs</b> 是已经收到的报文数。</li>
+<li><strong>Choose the right region</strong>Tap <b>…</b> at the top right → <b>Settings</b>, and pick where you are under <b>Region</b>. The frequencies differ: 131.450 MHz in China, 131.550 MHz in North America, another set in Europe. The wrong one is empty air.</li>
+<li><strong>Tap play</strong>The receiver listens to several of the region's frequencies at once. <b>Listen around</b> moves to another group, or to <b>VDL2</b> (round 136.975 MHz, a newer link).</li>
+<li><strong>Wait</strong>A data link is short bursts, not a continuous signal like a broadcast. Near an airport there is one every few tens of seconds; far from one it can be minutes. <b>msgs</b> at the top is how many have arrived.</li>
 </ol>
-<div class="note"><p>天线用收航空波段的那一种（和 <a href="page-atc.html">ATC</a> 页一样），并且要做过<a href="connect.html">频率校准</a>：这里的信道很窄，偏一点就完全收不到。</p></div>
+<div class="note"><p>Use the antenna you use for the air band (as on the <a href="page-atc.html">ATC</a> page), and make sure the receiver's <a href="connect.html">frequency calibration</a> is done: the channels are narrow, and a little off is nothing at all.</p></div>
 
-<h2>三层：飞机 → 航班 → 报文</h2>
+<h2>Three levels: aircraft → flight → message</h2>
 <div class="pair">
-<figure class="phone"><img class="shot" src="img/aviation-list.png" alt="收到过报文的飞机列表"><figcaption>第一层：收到过的每一架飞机。</figcaption></figure>
-<figure class="phone"><img class="shot" src="img/aviation-out.png" alt="一条报文的详情"><figcaption>第三层：一条报文的详情。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-list.png" alt="The aircraft heard"><figcaption>First: every aircraft heard.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-out.png" alt="One message in full"><figcaption>Third: one message in full.</figcaption></figure>
 </div>
 <ul>
-<li><b>飞机</b>：按注册号（相当于飞机的车牌）列出，下面的小字是它执飞的航班号，右边是报文数量（8/13 表示 13 条里有 8 条是有内容的）和最后一次收到的时间。</li>
-<li><b>航班</b>：点进一架飞机，报文按航班分组、按时间排列（就是本页第一张图）。</li>
-<li><b>报文</b>：点任意一条，看完整解读。<b>WHAT IT SAYS</b> 是解读出来的内容，<b>AS RECEIVED</b> 是收到的原文，一个字都不改。</li>
+<li><b>Aircraft</b>: listed by registration (the aircraft's number plate), with the flight it is operating in small type, the message count on the right (8/13 means 8 of 13 carry content) and when it was last heard.</li>
+<li><b>Flight</b>: inside an aircraft, messages are grouped by flight and run in time order, as in the first picture.</li>
+<li><b>Message</b>: tap one for the whole reading. <b>WHAT IT SAYS</b> is what was read out of it, and <b>AS RECEIVED</b> is the text exactly as it arrived.</li>
 </ul>
 <div class="parts">
-<div class="part"><img src="img/aviation-part-row.png" alt="时间线上的一条报文"><div><b class="name">一条报文上的标记</b><p><b>TX</b> 是飞机发出的，<b>RX</b> 是地面发给飞机的。<b>LBL</b> 后面是报文的类型代码（B9、A9、B3…）。右边是收到它的频率。<b>inferred</b> 表示这条报文本身没写航班号，是根据同一架飞机前后的报文归到这个航班的。标题那一行是报文的类型，下面是解读出来的各项内容。</p></div></div>
+<div class="part"><img src="img/aviation-part-row.png" alt="One message in the list"><div><b class="name">The marks on a message</b><p><b>TX</b> was sent by the aircraft and <b>RX</b> was sent to it by the ground. After <b>LBL</b> is the message's type code (B9, A9, B3…). On the right is the frequency it arrived on. <b>inferred</b> means the message itself named no flight, and was filed under this one from the same aircraft's other messages. The title line is the kind of message, with its fields below.</p></div></div>
 </div>
-<p>右上角的<b>中文</b>按钮把解读切换成中文：字段名变成中文，机场代码后面会带上机场名。</p>
-<figure class="phone"><img class="shot" src="img/aviation-clearance-zh.png" alt="放行许可的中文解读"><figcaption>同一条放行许可，中文显示。</figcaption></figure>
+<p>The <b>中文</b> button at the top right changes the reading to Chinese: the field names, and airport names after their codes.</p>
+<figure class="phone"><img class="shot" src="img/aviation-clearance-zh.png" alt="A clearance read in Chinese"><figcaption>The same clearance in Chinese.</figcaption></figure>
 
-<h2>跟着一架飞机看一次离场</h2>
-<p>把一架飞机起飞前的报文连起来看，就是一次完整的离场准备。演示里的 XD0101 从洛杉矶飞往旧金山：</p>
+<h2>Following one departure</h2>
+<p>Read together, an aircraft's messages before take-off are the whole preparation for a departure. In the demonstration, XD0101 is going from Los Angeles to San Francisco:</p>
 <table>
-<tr><th>顺序</th><th>方向</th><th>报文</th><th>在做什么</th></tr>
-<tr><td>1</td><td>飞机 → 地面</td><td>Request ATIS Report</td><td>机组索取洛杉矶的离场通播。</td></tr>
-<tr><td>2</td><td>地面 → 飞机</td><td>Deliver ATIS Information</td><td>通播发到驾驶舱：编号 K，离场跑道 25R，气压 1015。</td></tr>
-<tr><td>3</td><td>飞机 → 地面</td><td>Departure Clearance Request</td><td>申请放行：我在 41 号登机口，去旧金山，已收到通播 K。</td></tr>
-<tr><td>4</td><td>地面 → 飞机</td><td>Flight System Message</td><td>“申请已收到，正在处理，请等待。”</td></tr>
-<tr><td>5</td><td>地面 → 飞机</td><td><b>Departure Clearance Message</b></td><td>放行许可：跑道 25R，离场程序 ORCKA5，应答机 4301，初始高度 5000 英尺，下一个频率 121.750。</td></tr>
-<tr><td>6</td><td>飞机 → 地面</td><td>Departure Clearance Read Back</td><td>机组把许可原样复诵回去，表示确认。</td></tr>
-<tr><td>7</td><td>飞机 → 地面</td><td>Departure（OUT）</td><td>18:26 推出登机口，机上燃油 9800。</td></tr>
-<tr><td>8</td><td>飞机 → 地面</td><td>Departure（OFF）</td><td>18:34 离地。</td></tr>
+<tr><th>#</th><th>Direction</th><th>Message</th><th>What is happening</th></tr>
+<tr><td>1</td><td>aircraft → ground</td><td>Request ATIS Report</td><td>The crew ask for the Los Angeles departure ATIS.</td></tr>
+<tr><td>2</td><td>ground → aircraft</td><td>Deliver ATIS Information</td><td>It arrives on the flight deck: information K, departures from 25R, pressure 1015.</td></tr>
+<tr><td>3</td><td>aircraft → ground</td><td>Departure Clearance Request</td><td>The request: at gate 41, for San Francisco, with information K.</td></tr>
+<tr><td>4</td><td>ground → aircraft</td><td>Flight System Message</td><td>"Request received, being processed, stand by."</td></tr>
+<tr><td>5</td><td>ground → aircraft</td><td><b>Departure Clearance Message</b></td><td>The clearance: runway 25R, the ORCKA5 departure, squawk 4301, initially 5,000 ft, next frequency 121.750.</td></tr>
+<tr><td>6</td><td>aircraft → ground</td><td>Departure Clearance Read Back</td><td>The crew send it back as received, to confirm it.</td></tr>
+<tr><td>7</td><td>aircraft → ground</td><td>Departure (OUT)</td><td>Off the gate at 18:26, fuel on board 9800.</td></tr>
+<tr><td>8</td><td>aircraft → ground</td><td>Departure (OFF)</td><td>Airborne at 18:34.</td></tr>
 </table>
-<p>这些内容在语音频率里是听不到的。大机场的放行许可现在多数走数据链，而不是在放行频率上念。</p>
+<p>None of this is heard on a voice frequency. At large airports most clearances now go by data link instead of being read out.</p>
 
-<h3>放行许可里写了什么</h3>
+<h3>What a clearance says</h3>
 <div class="pair">
-<figure class="phone"><img class="shot" src="img/aviation-clearance.png" alt="放行许可报文的解读"><figcaption>放行许可：每一项都拆开列出。</figcaption></figure>
-<figure class="phone"><img class="shot" src="img/aviation-atis.png" alt="数字通播报文的解读"><figcaption>数字通播：跑道、气压、放行频率。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-clearance.png" alt="A departure clearance read into fields"><figcaption>The clearance, one field at a time.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-atis.png" alt="A digital ATIS read into fields"><figcaption>The digital ATIS: runway, pressure, clearance frequency.</figcaption></figure>
 </div>
 <table>
-<tr><th>字段</th><th>含义</th></tr>
-<tr><td>CLRD TO</td><td>许可飞往的目的地机场。</td></tr>
-<tr><td>RUNWAY</td><td>起飞跑道。</td></tr>
-<tr><td>SID</td><td>离场程序的名字：起飞后沿哪条固定路线离开机场。</td></tr>
-<tr><td>SQUAWK</td><td>应答机编码。在 <a href="page-adsb.html">ADS-B</a> 页的标牌第一行能看到同一个数字。</td></tr>
-<tr><td>ADT</td><td>批准的起飞时刻。</td></tr>
-<tr><td>INITIAL ALT</td><td>起飞后先爬到的高度。</td></tr>
-<tr><td>NEXT FREQ</td><td>下一个要联系的频率（这里是地面）。</td></tr>
-<tr><td>APP FREQ</td><td>起飞后联系的进近 / 离场频率。</td></tr>
-<tr><td>ATIS</td><td>机组已经收到的通播编号。</td></tr>
+<tr><th>Field</th><th>Meaning</th></tr>
+<tr><td>CLRD TO</td><td>The destination the flight is cleared to.</td></tr>
+<tr><td>RUNWAY</td><td>The departure runway.</td></tr>
+<tr><td>SID</td><td>The departure procedure: the fixed route out of the airport after take-off.</td></tr>
+<tr><td>SQUAWK</td><td>The transponder code. The same number is the first line of the aircraft's label on the <a href="page-adsb.html">ADS-B</a> page.</td></tr>
+<tr><td>ADT</td><td>The approved departure time.</td></tr>
+<tr><td>INITIAL ALT</td><td>The first altitude to climb to.</td></tr>
+<tr><td>NEXT FREQ</td><td>The next frequency to call (here, ground).</td></tr>
+<tr><td>APP FREQ</td><td>The approach / departure frequency after take-off.</td></tr>
+<tr><td>ATIS</td><td>The ATIS information the crew already have.</td></tr>
 </table>
 
-<h3>把离场程序画到地图上</h3>
-<p>放行许可里的 <b>ORCKA5</b> 只是一个名字。如果你导入了<a href="data-file.html">航图数据文件</a>，报文下面会出现一个按钮 <b>Show departure ORCKA5 · 25R on the map</b>，点一下：</p>
+<h3>The departure, drawn on the map</h3>
+<p><b>ORCKA5</b> in the clearance is only a name. With an <a href="data-file.html">airspace data file</a> imported, a button appears under the message, <b>Show departure ORCKA5 · 25R on the map</b>. Tap it:</p>
 <div class="pair">
-<figure class="phone"><img class="shot" src="img/aviation-departure-map.png" alt="卫星图上画出的 ORCKA5 离场程序"><figcaption>许可里的那条离场程序，画在卫星图上。</figcaption></figure>
-<figure class="phone"><img class="shot" src="img/adsb-map-sid.png" alt="ADS-B 页面里的同一条离场程序和飞机"><figcaption>ADS-B 页面里的同一条程序，上面有正在飞的飞机。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-departure-map.png" alt="The ORCKA5 departure drawn over satellite imagery"><figcaption>The departure in the clearance, over satellite imagery.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-map-sid.png" alt="The same departure on the ADS-B page, with aircraft"><figcaption>The same procedure on the ADS-B page, with the traffic on it.</figcaption></figure>
 </div>
-<p>这架飞机接下来要飞的路线就在眼前：从 25R 跑道起飞，经 DOCKR、KLIPR、KEGGS、COOPP，到 ORCKA。地图下面列出了每一个航路点。</p>
-<p>三个页面在这里连了起来：</p>
+<p>There is the route this aircraft is about to fly: off runway 25R, by DOCKR, KLIPR, KEGGS and COOPP to ORCKA. Every fix is listed under the map.</p>
+<p>Three pages meet here:</p>
 <ul>
-<li><b>Aviation</b> 告诉你这架飞机被许可飞哪条程序、用哪个应答机编码。</li>
-<li><b><a href="page-adsb.html">ADS-B</a></b> 里打开同一条离场程序，几分钟后就能看到它起飞、沿着这条线飞出去，标牌上是同一个编码。</li>
-<li><b><a href="page-atc.html">ATC</a></b> 里切到许可中写的下一个频率，听它和地面、塔台的通话。</li>
+<li><b>Aviation</b> says which departure the aircraft was cleared for, and its transponder code.</li>
+<li>On <b><a href="page-adsb.html">ADS-B</a></b>, turn on the same departure, and minutes later watch it take off and fly out along that line, with the same code on its label.</li>
+<li>On <b><a href="page-atc.html">ATC</a></b>, go to the next frequency the clearance gave and hear it talk to ground and tower.</li>
 </ul>
-<div class="note"><p>只有当许可里的程序名、机场和跑道在你的数据文件里能唯一对上时，按钮才会出现。对不上时页面会直接说明原因，不会画一条“差不多”的路线。</p></div>
+<div class="note"><p>The button appears only when the procedure name, airport and runway in the clearance match exactly one procedure in your file. When they do not, the page says why in its place; it never draws a route that is merely close.</p></div>
 
-<h2>还能收到哪些报文</h2>
+<h2>What else arrives</h2>
 <table>
-<tr><th>类型</th><th>内容</th></tr>
-<tr><td>数字通播（D-ATIS）</td><td>机场的使用跑道、天气、气压。和语音通播内容相同，但是文字。</td></tr>
-<tr><td>放行许可（DCL）</td><td>申请、受理、许可、复诵，就是上面那一串。</td></tr>
-<tr><td>推出、起飞、落地、到位</td><td>航空公司用来统计准点的四个时刻，通常带起降机场和燃油量。</td></tr>
-<tr><td>天气</td><td>发给机组的 METAR 实况和 TAF 预报，切到中文显示时会解读成风、能见度、云、温度。</td></tr>
-<tr><td>位置报告</td><td>飞机报告自己的坐标、高度、预计到达时间。</td></tr>
-<tr><td>机务报告</td><td>发动机参数、故障代码。能认出是哪个系统，更细的含义属于厂家的手册。</td></tr>
-<tr><td>链路测试和确认</td><td>Link test、Ack：飞机和地面互相确认链路通畅，没有内容。数量最多。</td></tr>
-<tr><td>频率切换</td><td>地面通知飞机改用另一个数据链频率。页面会提示有哪些频率是你现在没在听的。</td></tr>
-<tr><td>未解读</td><td>各家航空公司自定义的格式很多。认不出的报文标为未解码，只显示原文。</td></tr>
+<tr><th>Kind</th><th>What it carries</th></tr>
+<tr><td>Digital ATIS (D-ATIS)</td><td>Runways in use, weather, pressure. The voice ATIS, as text.</td></tr>
+<tr><td>Departure clearance (DCL)</td><td>Request, acknowledgement, clearance, read-back: the sequence above.</td></tr>
+<tr><td>Out, off, on, in</td><td>The four times an airline measures punctuality by, usually with both airports and the fuel on board.</td></tr>
+<tr><td>Weather</td><td>METAR observations and TAF forecasts sent to the crew; the Chinese display reads them out as wind, visibility, cloud and temperature.</td></tr>
+<tr><td>Position reports</td><td>The aircraft's coordinates, altitude and estimates.</td></tr>
+<tr><td>Maintenance reports</td><td>Engine figures and fault codes. The system concerned is named; the detail belongs to the manufacturer's manuals.</td></tr>
+<tr><td>Link tests and acknowledgements</td><td>Link test, Ack: the aircraft and the ground confirming the link, with no content. The most numerous.</td></tr>
+<tr><td>Frequency changes</td><td>The ground moving an aircraft to another data-link frequency. The page tells you which of those you are not listening to.</td></tr>
+<tr><td>Not decoded</td><td>Airlines define many formats of their own. A message that is not recognised is marked so and shown as received.</td></tr>
 </table>
-<p>设置里的 <b>Content only</b> 默认打开：飞机列表只按有内容的报文来排，只发过链路测试和确认的飞机不占位置。</p>
+<p><b>Content only</b> in the settings is on by default: the aircraft list goes by messages with content, and an aircraft that only ever sent link tests and acknowledgements takes no room.</p>
 
-<h2>常见情况</h2>
+<h2>Common situations</h2>
 <table>
-<tr><th>现象</th><th>原因和办法</th></tr>
-<tr><td>一直是 0 条</td><td>先看 Region 选得对不对；再确认做过频率校准；然后多等几分钟。离机场远、天线在室内时，可能确实收不到。</td></tr>
-<tr><td>syncs 在涨，msgs 不涨</td><td>收到了信号的开头，但内容校验没通过，说明信号偏弱。改善天线位置。少量这样的情况是正常的。</td></tr>
-<tr><td>只有 Link test 和 Ack</td><td>正常，这两种本来就最多。有内容的报文集中在飞机起飞前和落地后，在机场附近更容易收到。</td></tr>
-<tr><td>飞机下面没有航班号</td><td>只有飞机发出的报文带航班号。如果只收到了地面发给它的，就只能按注册号显示。</td></tr>
-<tr><td>提示有别的频率没在听</td><td>接收机一次只能覆盖约 1 MHz。有些机场的流量在另一组频率上，在 Listen around 里换过去试试。</td></tr>
-<tr><td>放行许可下面没有地图按钮</td><td>没有导入航图数据文件，或者文件里没有这条程序。按钮位置会有一行说明。</td></tr>
-<tr><td>很多报文是未解码</td><td>正常。航空公司自定义的格式没有公开的说明，App 不会去猜。</td></tr>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>Nothing arrives</td><td>Check Region first, then the frequency calibration, then wait a few minutes more. Far from an airport, with an antenna indoors, there may truly be nothing to hear.</td></tr>
+<tr><td>syncs rises, msgs does not</td><td>The start of a transmission was heard and its contents failed their check: the signal is weak. Improve the antenna's position. A few of these are normal.</td></tr>
+<tr><td>Only Link test and Ack</td><td>Normal; those are the commonest. Messages with content come mostly before departure and after landing, and are easier to hear near an airport.</td></tr>
+<tr><td>An aircraft with no flight number</td><td>Only messages sent by the aircraft carry one. If only the ground's messages to it were heard, it is listed by registration alone.</td></tr>
+<tr><td>A note about frequencies not being heard</td><td>The receiver covers about 1 MHz at a time. Some airports' traffic is in another group; try it under Listen around.</td></tr>
+<tr><td>No map button under a clearance</td><td>No data file is imported, or the file does not have that procedure. A line where the button would be says which.</td></tr>
+<tr><td>Many messages not decoded</td><td>Normal. Airline formats are not published, and the app does not guess.</td></tr>
 </table>
 
 <div class="pager">
-<a href="page-dstar.html"><small>上一篇</small>D-STAR 数字语音</a>
-<a class="next" href="page-atc.html"><small>下一篇</small>ATC 航空管制</a>
+<a href="page-dstar.html"><small>Previous</small>D-STAR digital voice</a>
+<a class="next" href="page-atc.html"><small>Next</small>ATC</a>
 </div>
-<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
 </main>
 </div>
 </body>

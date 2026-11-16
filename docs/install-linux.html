@@ -1,92 +1,92 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>在 Linux 上安装 rtl_tcp · SDRViewer 使用手册</title>
-<meta name="description" content="用包管理器安装 rtl-sdr，屏蔽电视棒驱动，运行 rtl_tcp。">
+<title>Install rtl_tcp on Linux · SDRViewer Manual</title>
+<meta name="description" content="Install rtl-sdr from the package manager, blacklist the TV driver and run rtl_tcp.">
 <link rel="stylesheet" href="assets/style.css">
-<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
 <script src="assets/site.js"></script>
 </head>
-<body data-soon="编写中">
+<body data-soon="soon">
 <header class="top">
-  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
-  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
   <span class="spacer"></span>
-  <a class="iconbtn langlink" href="en/install-linux.html">English</a>
-  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+  <a class="iconbtn langlink" href="zh/install-linux.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
 </header>
 <div class="layout">
 <nav class="side">
-<h4>开始</h4>
-<a href="index.html">首页</a>
-<a href="start.html">需要准备什么</a>
-<h4>安装 rtl_tcp</h4>
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
 <a href="install-macos.html">macOS</a>
 <a href="install-windows.html">Windows</a>
 <a class="on" href="install-linux.html">Linux</a>
-<a href="install-pi.html">树莓派</a>
-<h4>连接</h4>
-<a href="connect.html">在 App 里连接</a>
-<a href="troubleshoot.html">连不上怎么办</a>
-<h4>航图数据</h4>
-<a href="data-file.html">航图数据文件（JSON）</a>
-<h4>各页面说明</h4>
-<a href="pages.html">页面一览</a>
-<a href="page-radio.html">Radio 收音机</a>
-<a href="page-receiver.html">Receiver 接收机</a>
-<a href="page-dstar.html">D-STAR 数字语音</a>
-<a href="page-aviation.html">Aviation 航空数据链</a>
-<a href="page-atc.html">ATC 航空管制</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
 <a class="soon">APRS</a>
-<a class="soon">AIS 船舶</a>
-<a href="page-adsb.html">ADS-B 飞机</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
 </nav>
 <main>
-<h1>在 Linux 上安装 rtl_tcp</h1>
-<p class="lede">以 Debian / Ubuntu 为例，其它发行版把 <code>apt</code> 换成自己的包管理器即可。</p>
+<h1>Install rtl_tcp on Linux</h1>
+<p class="lede">Shown for Debian and Ubuntu; on another distribution use its own package manager in place of <code>apt</code>.</p>
 
 <ol class="steps">
-<li><strong>安装工具</strong>
+<li><strong>Install the tools</strong>
 <pre><code>sudo apt update
 sudo apt install rtl-sdr</code></pre>
-<p>Fedora 用 <code>sudo dnf install rtl-sdr</code>，Arch 用 <code>sudo pacman -S rtl-sdr</code>。</p></li>
+<p>Fedora: <code>sudo dnf install rtl-sdr</code>. Arch: <code>sudo pacman -S rtl-sdr</code>.</p></li>
 
-<li><strong>屏蔽系统自带的电视棒驱动</strong>
-<p>内核会抢先把接收机当成数字电视棒占用，需要把那个驱动屏蔽掉：</p>
+<li><strong>Blacklist the kernel's TV driver</strong>
+<p>The kernel claims the receiver as a digital TV tuner first, so that driver has to be kept away:</p>
 <pre><code>echo 'blacklist dvb_usb_rtl28xxu' | sudo tee /etc/modprobe.d/blacklist-rtl-sdr.conf
 sudo modprobe -r dvb_usb_rtl28xxu</code></pre>
-<p>然后把接收机拔下来再插上。（新版的 <code>rtl-sdr</code> 软件包通常已经帮你做了这一步，再做一次也没有坏处。）</p></li>
+<p>Then unplug the receiver and plug it back in. (Recent <code>rtl-sdr</code> packages usually do this for you; doing it again does no harm.)</p></li>
 
-<li><strong>检查能不能认到接收机</strong>
+<li><strong>Check the receiver is seen</strong>
 <pre><code>rtl_test -t</code></pre>
-<p>看到 <code>Found 1 device(s)</code> 和型号就对了。</p>
-<div class="warn"><p>如果提示 <code>usb_open error -3</code>，是当前用户没有权限访问 USB 设备。把自己加入 <code>plugdev</code> 组后重新登录：<code>sudo usermod -aG plugdev $USER</code>。</p></div></li>
+<p><code>Found 1 device(s)</code> and the model name mean it is working.</p>
+<div class="warn"><p><code>usb_open error -3</code> means your user may not open the USB device. Add yourself to the <code>plugdev</code> group and log in again: <code>sudo usermod -aG plugdev $USER</code>.</p></div></li>
 
-<li><strong>运行 rtl_tcp</strong>
+<li><strong>Run rtl_tcp</strong>
 <pre><code>rtl_tcp -a 0.0.0.0</code></pre>
-<p>看到 <code>listening...</code> 就是在等手机连接了。<code>-a 0.0.0.0</code> 表示允许其它设备连进来，不能省。</p>
-<p>如果开了防火墙，放行 1234 端口，例如 <code>sudo ufw allow 1234/tcp</code>。</p></li>
+<p><code>listening...</code> means it is waiting for the phone. <code>-a 0.0.0.0</code> lets other devices connect and cannot be left out.</p>
+<p>With a firewall on, open port 1234, for example <code>sudo ufw allow 1234/tcp</code>.</p></li>
 
-<li><strong>查到这台电脑的地址</strong>
+<li><strong>Find this computer's address</strong>
 <pre><code>hostname -I</code></pre>
-<p>输出的第一个地址（类似 <code>192.168.1.20</code>）就是要填进 App 的。</p></li>
+<p>The first address printed, something like <code>192.168.1.20</code>, is the one for the app.</p></li>
 </ol>
 
-<div class="ok"><p>电脑这边准备好了。接下来：<a href="connect.html">在 App 里连接 →</a></p></div>
+<div class="ok"><p>The computer is ready. Next: <a href="connect.html">Connect in the app →</a></p></div>
 
-<h2>RTL-SDR Blog V4 / V4L 需要新版驱动</h2>
-<p>这两个型号需要 librtlsdr <b>2.0.2 以上（V4L 需要 2.0.3 以上）</b>。用 <code>rtl_test -t</code> 检查：能看到 <code>RTL-SDR Blog V4 Detected</code> 或 <code>RTL-SDR Blog V4 Lite Detected</code> 才算正确识别。如果只显示 R820T 而且收不到任何信号，说明系统自带的版本太旧，需要升级软件包，或者按 <a href="https://github.com/rtlsdrblog/rtl-sdr-blog">RTL-SDR Blog 的说明</a>从源码编译安装。</p>
+<h2>An RTL-SDR Blog V4 or V4L needs a recent driver</h2>
+<p>These two need librtlsdr <b>2.0.2 or later (2.0.3 for the V4L)</b>. Check with <code>rtl_test -t</code>: it must say <code>RTL-SDR Blog V4 Detected</code> or <code>RTL-SDR Blog V4 Lite Detected</code>. If it shows only an R820T and nothing is received, the packaged version is too old: upgrade the package, or build from source following <a href="https://github.com/rtlsdrblog/rtl-sdr-blog">RTL-SDR Blog's instructions</a>.</p>
 
-<h2>想让它开机自动运行</h2>
-<p>见<a href="install-pi.html">树莓派</a>一篇里的系统服务写法，在任何使用 systemd 的 Linux 上都一样。</p>
+<h2>Starting it automatically</h2>
+<p>The service file on the <a href="install-pi.html">Raspberry Pi</a> page works on any Linux with systemd.</p>
 
 <div class="pager">
-<a href="install-windows.html"><small>上一篇</small>在 Windows 上安装 rtl_tcp</a>
-<a class="next" href="install-pi.html"><small>下一篇</small>在树莓派上安装 rtl_tcp</a>
+<a href="install-windows.html"><small>Previous</small>Install rtl_tcp on Windows</a>
+<a class="next" href="install-pi.html"><small>Next</small>Install rtl_tcp on a Raspberry Pi</a>
 </div>
-<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
 </main>
 </div>
 </body>

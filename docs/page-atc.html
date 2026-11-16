@@ -1,129 +1,129 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ATC 航空管制 · SDRViewer 使用手册</title>
-<meta name="description" content="按你所在的机场列出塔台、地面、进近和通播的频率，点一下就听，还能看出哪个频率正在有人说话。">
+<title>ATC · SDRViewer Manual</title>
+<meta name="description" content="Lists the tower, ground, approach and ATIS frequencies of the airport you are at, plays one at a tap, and shows which are active.">
 <link rel="stylesheet" href="assets/style.css">
-<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
 <script src="assets/site.js"></script>
 </head>
-<body data-soon="编写中">
+<body data-soon="soon">
 <header class="top">
-  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
-  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
   <span class="spacer"></span>
-  <a class="iconbtn langlink" href="en/page-atc.html">English</a>
-  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+  <a class="iconbtn langlink" href="zh/page-atc.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
 </header>
 <div class="layout">
 <nav class="side">
-<h4>开始</h4>
-<a href="index.html">首页</a>
-<a href="start.html">需要准备什么</a>
-<h4>安装 rtl_tcp</h4>
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
 <a href="install-macos.html">macOS</a>
 <a href="install-windows.html">Windows</a>
 <a href="install-linux.html">Linux</a>
-<a href="install-pi.html">树莓派</a>
-<h4>连接</h4>
-<a href="connect.html">在 App 里连接</a>
-<a href="troubleshoot.html">连不上怎么办</a>
-<h4>航图数据</h4>
-<a href="data-file.html">航图数据文件（JSON）</a>
-<h4>各页面说明</h4>
-<a href="pages.html">页面一览</a>
-<a href="page-radio.html">Radio 收音机</a>
-<a href="page-receiver.html">Receiver 接收机</a>
-<a href="page-dstar.html">D-STAR 数字语音</a>
-<a href="page-aviation.html">Aviation 航空数据链</a>
-<a class="on" href="page-atc.html">ATC 航空管制</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a class="on" href="page-atc.html">ATC</a>
 <a class="soon">APRS</a>
-<a class="soon">AIS 船舶</a>
-<a href="page-adsb.html">ADS-B 飞机</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
 </nav>
 <main>
-<h1>ATC 航空管制</h1>
-<p class="lede">这一页是为听航空管制通话做的。它不让你自己去记频率，而是根据你在哪个机场，把那里的通播、放行、地面、塔台、进近频率列出来，点哪个听哪个。</p>
+<h1>ATC</h1>
+<p class="lede">The page for listening to air traffic control. Rather than leave you to remember frequencies, it takes the airport you are at and lists its ATIS, clearance, ground, tower and approach frequencies, each a tap away.</p>
 
-<figure class="phone"><img class="shot" src="img/atc.png" alt="ATC 页面：位置在洛杉矶国际机场，下面列出该机场的各个频率"><figcaption>位置选在洛杉矶国际机场时的 ATC 页面（未连接接收机时的样子）。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/atc.png" alt="The ATC page placed at Los Angeles International, with the airport's frequencies listed"><figcaption>The ATC page placed at Los Angeles International (as it looks with no receiver connected).</figcaption></figure>
 
-<div class="note"><p><b>这一页需要航图数据。</b>频率表来自你导入的数据文件，App 本身不带。还没导入的话先看<a href="data-file.html">航图数据文件</a>，那里有一份洛杉矶的示例可以下载。本页的截图用的就是它。</p></div>
+<div class="note"><p><b>This page needs airspace data.</b> The frequencies come from a data file you import; the app has none of its own. If you have not imported one, see <a href="data-file.html">Airspace data file</a>, which offers a Los Angeles example. The pictures here use it.</p></div>
 
-<h2>三步上手</h2>
+<h2>Three steps</h2>
 <ol class="steps">
-<li><strong>导入数据文件</strong>第一次打开时页面写着 <b>No airspace data</b>，点 <b>Choose a file</b> 选你的 JSON 文件。只需要做一次。</li>
-<li><strong>告诉它你在哪</strong>点右上角的<b>定位箭头</b>，在弹出的 Position 页里选一种方式：
-<figure><img class="shot" src="img/atc-position.png" alt="Position 页：使用定位、输入坐标、或从列表里选机场"></figure>
+<li><strong>Import a data file</strong>The first time, the page says <b>No airspace data</b>. Tap <b>Choose a file</b> and pick your JSON. Once is enough.</li>
+<li><strong>Say where you are</strong>Tap the <b>location arrow</b> at the top right and choose one of the ways on the Position sheet:
+<figure><img class="shot" src="img/atc-position.png" alt="The Position sheet: use my location, typed coordinates, or choose an airport"></figure>
 <ul>
-<li><b>Use my location</b>：用手机的定位。</li>
-<li><b>Typed coordinates</b>：自己输入纬度、经度和高度（米）。西经和南纬写负数。</li>
-<li><b>Choose an airport</b>：直接从列表里选一个机场，离你最近的排在前面，也可以搜索代码或名字。在机舱里定位常常不可用，这是最省事的办法。</li>
+<li><b>Use my location</b>: the phone's own fix.</li>
+<li><b>Typed coordinates</b>: latitude, longitude and altitude in metres. West and south are negative.</li>
+<li><b>Choose an airport</b>: pick one from the list, nearest first, or search by code or name. Location often does not work in a cabin, and this is the least trouble.</li>
 </ul></li>
-<li><strong>点一个频率</strong>回到页面，下面就是这个机场的频率表。点右边的频率数字开始收听。建议先点 <b>ATIS</b>：它是循环播放的录音，一直有信号，最适合确认一切正常。</li>
+<li><strong>Tap a frequency</strong>Back on the page is that airport's list. Tap a frequency on the right to listen. Start with <b>ATIS</b>: a recording on a loop, always on the air, and the best proof that everything works.</li>
 </ol>
 
-<h2>一次航班，一路上的频率</h2>
-<p>一架飞机从登机口到巡航，要依次和好几个席位通话。过去你得自己查每个席位的频率；在这里，选好机场后它们全都在一张表里，按这个顺序点下去，就能跟着一架飞机听完全程：</p>
+<h2>One flight, and every frequency along it</h2>
+<p>From the gate to the cruise an aircraft talks to a string of positions in turn. You used to have to look each one up; here, once an airport is chosen, they are all in one list, and tapping down it in this order follows a flight the whole way:</p>
 <table>
-<tr><th>顺序</th><th>席位</th><th>在说什么</th><th>洛杉矶的例子</th></tr>
-<tr><td>1</td><td><b>ATIS</b> 通播</td><td>循环播放的机场情报：天气、使用跑道、气压。飞行员开车前先听它。</td><td>133.800（进场）<br>135.650（离场）</td></tr>
-<tr><td>2</td><td><b>Clearance</b> 放行</td><td>发放航路许可：飞哪条离场程序、初始高度、应答机编码。</td><td>120.350</td></tr>
-<tr><td>3</td><td><b>Ramp</b> 机坪</td><td>登机口附近的推出和开车，按航站楼分区。</td><td>129.325 – 131.450</td></tr>
-<tr><td>4</td><td><b>Ground</b> 地面</td><td>滑行路线：走哪条滑行道，到哪条跑道外等待。</td><td>121.650（北区）<br>121.750（南区）</td></tr>
-<tr><td>5</td><td><b>Tower</b> 塔台</td><td>起飞和落地许可。最容易听到、也最有画面感的一个频率。</td><td>133.900（北区）<br>120.950（南区）</td></tr>
-<tr><td>6</td><td><b>Approach</b> 进近 / 离场</td><td>机场周围几十公里：给离场的飞机爬升和转弯，把进场的飞机排好队送上五边。</td><td>124.300、124.500、124.900 …</td></tr>
-<tr><td>7</td><td><b>Center</b> 区调</td><td>巡航阶段的区域管制，一个扇区管几百公里。</td><td>需要带扇区的数据，见下文</td></tr>
+<tr><th>#</th><th>Position</th><th>What is said</th><th>At Los Angeles</th></tr>
+<tr><td>1</td><td><b>ATIS</b></td><td>A recording on a loop: weather, runways in use, pressure. Pilots hear it before starting.</td><td>133.800 (arrivals)<br>135.650 (departures)</td></tr>
+<tr><td>2</td><td><b>Clearance</b></td><td>The route clearance: which departure, the first altitude, the transponder code.</td><td>120.350</td></tr>
+<tr><td>3</td><td><b>Ramp</b></td><td>Pushback and engine start near the gates, split by terminal.</td><td>129.325 – 131.450</td></tr>
+<tr><td>4</td><td><b>Ground</b></td><td>The taxi route: which taxiways, and where to hold short.</td><td>121.650 (north)<br>121.750 (south)</td></tr>
+<tr><td>5</td><td><b>Tower</b></td><td>Take-off and landing clearances. The easiest to hear and the most vivid.</td><td>133.900 (north)<br>120.950 (south)</td></tr>
+<tr><td>6</td><td><b>Approach</b> / departure</td><td>The tens of kilometres round the airport: climbs and turns for departures, and arrivals put in line for the final.</td><td>124.300, 124.500, 124.900 …</td></tr>
+<tr><td>7</td><td><b>Center</b></td><td>En-route control in the cruise, one sector covering hundreds of kilometres.</td><td>Needs a file with sectors; see below</td></tr>
 </table>
-<p>落地的飞机顺序反过来：区调 → 进近 → 塔台 → 地面 → 机坪。配合 <a href="page-adsb.html">ADS-B</a> 页面一起用更有意思：在雷达上看到一架飞机正在五边，切到塔台频率，就能听到它的落地许可。</p>
+<p>An arrival runs the other way: center, approach, tower, ground, ramp. It is better still beside the <a href="page-adsb.html">ADS-B</a> page: see an aircraft on final on the radar, switch to the tower, and hear it cleared to land.</p>
 
-<h2>页面上的东西</h2>
+<h2>What is on the page</h2>
 <div class="parts">
-<div class="part"><img src="img/atc-part-where.png" alt="当前位置和机场"><div><b class="name">你在哪</b><p>大字是识别出的机场（或者覆盖你所在位置的管制扇区）。下面一行是位置的来源、坐标和高度。位置是很久以前的会提示 <b>locate again</b>；没有高度时显示 <b>altitude unknown</b>，这时所有频率都会列出来。</p></div></div>
-<div class="part"><img src="img/atc-part-player.png" alt="播放条和小瀑布图"><div><b class="name">播放条和瀑布图</b><p>左边是播放 / 停止，旁边是正在听的频率。下面的小瀑布图显示这个频率附近约 1 MHz 的信号：航空通话是断断续续的，有人说话时会出现一小段亮条。<b>Watching … inside · outside</b> 一行说明当前这次调谐能同时“看到”列表里的几个频率。</p></div></div>
-<div class="part"><img src="img/atc-part-filters.png" alt="静噪、陷波、降噪和阈值滑块"><div><b class="name">Squelch、Notch、NR</b><p><b>Squelch</b> 静噪：没人说话时静音，下面的滑块调门限，右边显示门限和实测值。<b>Notch</b> 陷波：滤掉接收机自身的固定啸叫。<b>NR</b> 降噪：压低底噪，声音会略微发空。再下面一行告诉你要听完列表里所有频率，接收机需要调谐几次。</p></div></div>
-<div class="part"><img src="img/atc-part-list.png" alt="机场频率列表"><div><b class="name">频率列表</b><p>每一行是一个席位：名字在左，频率在右，有备用频率时并排显示。<b>蓝色</b>的是正在听的；有信号的频率旁边会亮起<b>绿灯</b>，表示此刻有人在说话，点过去就能听到。灰掉并标着 <b>not at this altitude</b> 的，是按你现在的高度用不到的频率（比如在巡航高度时的地面和塔台）。</p></div></div>
+<div class="part"><img src="img/atc-part-where.png" alt="Where you are"><div><b class="name">Where you are</b><p>The heading is the airport recognised (or the sector that covers your position). The line beneath gives where the position came from, the coordinates and the altitude. An old position says <b>locate again</b>; with no altitude it says <b>altitude unknown</b> and every frequency is listed.</p></div></div>
+<div class="part"><img src="img/atc-part-player.png" alt="Player and waterfall"><div><b class="name">Player and waterfall</b><p>Play and stop on the left, with the frequency being heard. The small waterfall shows about 1 MHz round it: air traffic speech comes and goes, and a short bright streak is somebody talking. The <b>Watching … inside · outside</b> line says how many of the listed frequencies this one tuning can see at once.</p></div></div>
+<div class="part"><img src="img/atc-part-filters.png" alt="Squelch, notch, noise reduction and the threshold slider"><div><b class="name">Squelch, Notch, NR</b><p><b>Squelch</b> silences the gaps; the slider sets its threshold, shown with the measured level. <b>Notch</b> removes the steady tones the receiver makes itself. <b>NR</b> lowers the hiss and leaves the voice a little hollow. The line below says how many tunings it would take to hear every frequency in the list.</p></div></div>
+<div class="part"><img src="img/atc-part-list.png" alt="The airport's frequencies"><div><b class="name">The frequency list</b><p>One row per position: its name on the left and its frequency on the right, with a standby frequency beside it where there is one. <b>Blue</b> is the one being heard. A <b>green lamp</b> beside a frequency means somebody is talking there now: tap it and you hear them. Rows dimmed and marked <b>not at this altitude</b> are not in use at your height, such as ground and tower from the cruise.</p></div></div>
 </div>
 
-<h2>指示灯：哪个频率有人在说话</h2>
-<p>接收机一次能看到约 1 MHz 宽的频谱，落在这个范围里的频率可以同时被监视，不用一个个去试：</p>
+<h2>The lamps: which frequency is active</h2>
+<p>The receiver sees about 1 MHz at a time, and every listed frequency inside that is watched together, with no need to try them one by one:</p>
 <table>
-<tr><th>状态</th><th>含义</th></tr>
-<tr><td><b>listening</b>（蓝）</td><td>你正在听的频率。</td></tr>
-<tr><td><b>signal</b>（绿）</td><td>这个频率此刻有信号。</td></tr>
-<tr><td><b>quiet</b>（灰）</td><td>在监视范围内，现在没人说话。</td></tr>
-<tr><td><b>not watched</b></td><td>不在当前的监视范围内，状态未知。点它，接收机会调过去。</td></tr>
+<tr><th>State</th><th>Meaning</th></tr>
+<tr><td><b>listening</b> (blue)</td><td>The frequency you are hearing.</td></tr>
+<tr><td><b>signal</b> (green)</td><td>There is a signal there now.</td></tr>
+<tr><td><b>quiet</b> (grey)</td><td>Watched, and nobody is talking.</td></tr>
+<tr><td><b>not watched</b></td><td>Outside what is being watched; unknown. Tap it and the receiver tunes there.</td></tr>
 </table>
-<div class="note"><p>“没亮灯”不等于“没人用”。管制通话一分钟里可能只有几句，多看一会儿再下结论。</p></div>
+<div class="note"><p>No lamp does not mean no traffic. A controller may speak a few times a minute; watch a while before deciding.</p></div>
 
-<h2>有扇区数据时：按位置和高度</h2>
-<figure class="phone"><img class="shot" src="img/atc-sectors.png" alt="高空位置下的 ATC 页面：列出覆盖该位置的区域管制扇区"><figcaption>一份带扇区的数据在 7500 米高度时的样子（这里用的是一份演示用的虚构数据）。</figcaption></figure>
-<p>如果你的数据文件里有管制扇区，这一页还能回答“我现在归谁管”：</p>
+<h2>With sector data: by position and altitude</h2>
+<figure class="phone"><img class="shot" src="img/atc-sectors.png" alt="The ATC page at altitude, listing the en-route sector that covers the position"><figcaption>A file with sectors, at 7500 m (an invented file made for demonstration).</figcaption></figure>
+<p>If your data file has sectors, the page also answers "who has me now":</p>
 <ul>
-<li>标题变成覆盖你所在位置和高度的扇区，比如某个区域管制或进近扇区。</li>
-<li><b>Candidate sectors</b> 列出所有符合的扇区，带主频率、备用频率和高度范围。</li>
-<li><b>Covers the place, not the altitude</b> 是水平位置在范围内、但高度不符的扇区数量。爬升或下降后它们才会用到。</li>
-<li>坐飞机时很有用：在巡航高度听到的是区域管制，下降后依次换成进近、塔台。</li>
+<li>The heading becomes the sector covering your position and altitude, an en-route or approach sector.</li>
+<li><b>Candidate sectors</b> lists every one that fits, with its frequency, standby frequency and vertical extent.</li>
+<li><b>Covers the place, not the altitude</b> counts sectors over your position at another height. They come into play as you climb or descend.</li>
+<li>Useful as a passenger: en-route control in the cruise, then approach and tower on the way down.</li>
 </ul>
-<p>洛杉矶示例里没有扇区，所以只能按机场列频率，这也完全够用。</p>
+<p>The Los Angeles example has no sectors, so it lists by airport only, which is all most listening needs.</p>
 
-<h2>常见情况</h2>
+<h2>Common situations</h2>
 <table>
-<tr><th>现象</th><th>原因和办法</th></tr>
-<tr><td>页面显示 No airspace data</td><td>还没有导入数据文件，见<a href="data-file.html">航图数据文件</a>。</td></tr>
-<tr><td>显示 Outside published airspace，没有频率</td><td>你所在的位置离数据里的任何机场都超过 30 公里，也不在任何扇区内。点右上角的箭头，直接选一个机场。</td></tr>
-<tr><td>点了频率，一直没有声音</td><td>管制通话是间歇的，等一会儿；或者先点 ATIS 确认能收到。还要确认接收机做过<a href="connect.html">频率校准</a>：航空信道很窄，偏一点就收不到。</td></tr>
-<tr><td>只能收到塔台和进近，收不到地面</td><td>地面席位的天线低、功率小，离机场几公里以外通常就收不到了。</td></tr>
-<tr><td>只听到管制员，听不到飞行员（或相反）</td><td>正常。地面电台和飞机在不同的位置，你的天线不一定两边都收得到；飞机在高空，往往更容易收到。</td></tr>
-<tr><td>语音里有尖锐的啸叫</td><td>打开 Notch。</td></tr>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>No airspace data</td><td>No data file has been imported; see <a href="data-file.html">Airspace data file</a>.</td></tr>
+<tr><td>Outside published airspace, and no frequencies</td><td>Your position is more than 30 km from every airport in the data and inside no sector. Tap the arrow at the top right and choose an airport.</td></tr>
+<tr><td>A frequency plays nothing</td><td>Traffic is intermittent: wait, or tap ATIS first to prove reception. And check the receiver's <a href="connect.html">frequency calibration</a>: an air band channel is narrow, and a little off is nothing at all.</td></tr>
+<tr><td>Tower and approach are heard, ground is not</td><td>Ground uses a low antenna and little power, and is rarely heard more than a few kilometres from the field.</td></tr>
+<tr><td>The controller is heard and the pilots are not, or the reverse</td><td>Normal. The ground station and the aircraft are in different places and your antenna may not reach both; aircraft, being high, are often the easier.</td></tr>
+<tr><td>A whistle under the speech</td><td>Turn on Notch.</td></tr>
 </table>
 
 <div class="pager">
-<a href="page-aviation.html"><small>上一篇</small>Aviation 航空数据链</a>
-<a class="next" href="page-adsb.html"><small>下一篇</small>ADS-B 飞机雷达</a>
+<a href="page-aviation.html"><small>Previous</small>Aviation</a>
+<a class="next" href="page-adsb.html"><small>Next</small>ADS-B</a>
 </div>
-<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
 </main>
 </div>
 </body>

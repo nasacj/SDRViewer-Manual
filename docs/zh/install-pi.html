@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>在树莓派上安装 rtl_tcp · SDRViewer 使用手册</title>
+<meta name="description" content="让树莓派开机自动运行 rtl_tcp，配上充电宝就能带着走。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../install-pi.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a class="on" href="install-pi.html">树莓派</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>在树莓派上安装 rtl_tcp</h1>
+<p class="lede">树莓派是最省心的方案：插上电自动运行，不用开电脑，配一个充电宝还能带到阳台、车里或者机场边。</p>
+
+<div class="note"><p>下面假设树莓派已经装好 Raspberry Pi OS、连上了 Wi-Fi，并且你能通过 SSH 或者接显示器登录它。还没装系统的话，用官方的 Raspberry Pi Imager 烧一张卡，烧录时可以顺便填好 Wi-Fi 和开启 SSH。</p></div>
+
+<ol class="steps">
+<li><strong>安装工具并检查接收机</strong>
+<pre><code>sudo apt update
+sudo apt install rtl-sdr
+rtl_test -t</code></pre>
+<p>看到 <code>Found 1 device(s)</code> 和型号就对了。遇到问题参考 <a href="install-linux.html">Linux</a> 一篇，步骤完全相同。</p></li>
+
+<li><strong>做成开机自动运行的服务</strong>
+<p>把下面的内容保存成一个服务文件。先打开编辑器：</p>
+<pre><code>sudo nano /etc/systemd/system/rtl_tcp.service</code></pre>
+<p>粘贴以下内容，然后按 <kbd>Control</kbd> + <kbd>O</kbd> 回车保存，<kbd>Control</kbd> + <kbd>X</kbd> 退出：</p>
+<pre><code>[Unit]
+Description=rtl_tcp for SDRViewer
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+ExecStart=/usr/bin/rtl_tcp -a 0.0.0.0 -p 1234
+Restart=always
+RestartSec=3
+KillSignal=SIGINT
+TimeoutStopSec=5
+DynamicUser=yes
+SupplementaryGroups=plugdev
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+<p>启用并立即启动：</p>
+<pre><code>sudo systemctl daemon-reload
+sudo systemctl enable --now rtl_tcp</code></pre>
+<p><code>Restart=always</code> 的作用是：接收机被拔掉或者程序出错退出后，每 3 秒自动重试，重新插上就能恢复。</p></li>
+
+<li><strong>确认它在运行</strong>
+<pre><code>systemctl status rtl_tcp</code></pre>
+<p>看到 <code>active (running)</code> 就好了。想看它的输出用 <code>journalctl -fu rtl_tcp</code>。</p></li>
+
+<li><strong>查到树莓派的地址</strong>
+<pre><code>hostname -I</code></pre>
+<p>也可以直接用名字：树莓派默认会广播自己的主机名，在 App 里填 <code>raspberrypi.local</code>（或者你给它起的名字加 <code>.local</code>）通常就能连上，不用记数字地址。</p></li>
+</ol>
+
+<div class="ok"><p>树莓派准备好了。接下来：<a href="connect.html">在 App 里连接 →</a></p></div>
+
+<h2>带出门用</h2>
+<ul>
+<li><b>供电</b>：树莓派 4 / 5 加一只接收机，用能输出 5V 3A 的充电宝。电不够时树莓派会降频，表现为声音卡顿。</li>
+<li><b>网络</b>：打开 iPhone 的个人热点，让树莓派连这个热点（提前在家里配置好）。这样手机既能上网，又能连到树莓派。</li>
+<li><b>两只接收机</b>：树莓派可以同时插两只，各运行一个 <code>rtl_tcp</code>，用不同的端口（比如 1234 和 1236）。App 里的接收机列表可以各加一项，这样可以一边听航空通话一边看 ADS-B。</li>
+</ul>
+
+<div class="pager">
+<a href="install-linux.html"><small>上一篇</small>在 Linux 上安装 rtl_tcp</a>
+<a class="next" href="connect.html"><small>下一篇</small>在 App 里连接</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

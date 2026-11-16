@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>需要准备什么 · SDRViewer 使用手册</title>
+<meta name="description" content="一只 RTL-SDR、一根天线、一台运行 rtl_tcp 的电脑或树莓派，和同一个 Wi-Fi。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../start.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a class="on" href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>需要准备什么</h1>
+<p class="lede">四样东西：接收机、天线、一台小电脑、一个 Wi-Fi。大多数人手边已经有后两样。</p>
+
+<h2>清单</h2>
+<table>
+<tr><th>东西</th><th>说明</th><th>备注</th></tr>
+<tr><td><b>RTL-SDR 接收机</b></td><td>一只 USB 接口的软件无线电接收机，几十到一两百元。</td><td>推荐 RTL-SDR Blog V3、V4 或 V4L：频率准、做工好。普通的“电视棒”也能用。</td></tr>
+<tr><td><b>天线</b></td><td>接收机通常自带一副拉杆天线，够听 FM 广播。</td><td>收航空、船舶、ADS-B 时，天线越靠窗、越高越好，见下面的小贴士。</td></tr>
+<tr><td><b>电脑或树莓派</b></td><td>Mac、Windows、Linux 都可以，只负责把接收机的数据转到网络上。</td><td>想随身带着用，树莓派配一个充电宝最方便。</td></tr>
+<tr><td><b>Wi-Fi</b></td><td>手机和这台电脑要在同一个网络里。</td><td>家里的路由器、或者手机开的个人热点都行。</td></tr>
+<tr><td><b>iPhone 或 iPad</b></td><td>安装 SDRViewer。</td><td>目前通过 TestFlight 公开测试。</td></tr>
+</table>
+
+<div class="note"><p><b>为什么不能把接收机直接插在 iPhone 上？</b> iOS 不允许 App 直接驱动这一类 USB 设备，这是系统的限制，所有同类 App 都是通过网络连接的。所以中间需要一台机器运行 <code>rtl_tcp</code>，它是 RTL-SDR 官方工具里自带的一个小程序。</p></div>
+
+<h2>关于采样率和网络</h2>
+<p>接收机每秒送出一两百万个样本，对网络有一点要求：</p>
+<table>
+<tr><th>用途</th><th>采样率</th><th>网络流量</th></tr>
+<tr><td>FM 广播、航空通话、APRS、AIS</td><td>约 1 MSPS</td><td>约 16 Mbit/s</td></tr>
+<tr><td>ADS-B 飞机</td><td>2 MSPS</td><td>约 32 Mbit/s</td></tr>
+</table>
+<p>普通的家用 Wi-Fi 完全够用。如果声音断断续续或者 App 里提示丢样本，多半是 Wi-Fi 信号弱，让电脑和手机离路由器近一些，或者电脑改用网线。</p>
+
+<h2>天线小贴士</h2>
+<ul>
+<li><b>FM 广播</b>：自带的拉杆天线拉到每边约 75 厘米，放在窗边即可。</li>
+<li><b>航空波段（118–137 MHz）</b>：拉杆每边约 58 厘米，竖直放置，尽量能“看见”天空或机场方向。</li>
+<li><b>ADS-B（1090 MHz）</b>：拉杆每边约 6.9 厘米。这个频率几乎只能直线传播，天线放在室外或窗台上差别非常大。</li>
+<li><b>避免干扰</b>：让天线离电脑、充电器、显示器远一点，用一根 USB 延长线把接收机拉开往往就有改善。</li>
+</ul>
+
+<h2>下一步</h2>
+<p>在电脑上安装并运行 <code>rtl_tcp</code>，按你的系统选一篇：</p>
+<div class="cards">
+  <a class="card" href="install-macos.html"><div class="ico">🍎</div><b>macOS</b><span>用 Homebrew 一行装好</span></a>
+  <a class="card" href="install-windows.html"><div class="ico">🪟</div><b>Windows</b><span>装驱动，再解压运行</span></a>
+  <a class="card" href="install-linux.html"><div class="ico">🐧</div><b>Linux</b><span>包管理器安装</span></a>
+  <a class="card" href="install-pi.html"><div class="ico">🍓</div><b>树莓派</b><span>开机自动运行</span></a>
+</div>
+
+<div class="pager">
+<a href="index.html"><small>上一篇</small>首页</a>
+<a class="next" href="install-macos.html"><small>下一篇</small>在 macOS 上安装 rtl_tcp</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>
