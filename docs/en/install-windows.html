@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install rtl_tcp on Windows · SDRViewer Manual</title>
+<meta name="description" content="Install the driver with Zadig, download the RTL-SDR tools and run rtl_tcp.">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="soon">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../install-windows.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a class="on" href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
+</nav>
+<main>
+<h1>Install rtl_tcp on Windows</h1>
+<p class="lede">Windows needs one extra step: a generic driver for the receiver. About ten minutes.</p>
+
+<ol class="steps">
+<li><strong>Plug in the receiver and install the driver with Zadig</strong>
+<p>Windows takes it for a TV tuner by default. It needs the WinUSB driver instead, installed with a small tool called Zadig:</p>
+<ul>
+<li>Download Zadig from <a href="https://zadig.akeo.ie">zadig.akeo.ie</a> and run it.</li>
+<li>In the <b>Options</b> menu, tick <b>List All Devices</b>.</li>
+<li>In the list choose <b>Bulk-In, Interface (Interface 0)</b>. Some models show as <b>RTL2838UHIDIR</b> or <b>RTL2832U</b>.</li>
+<li>Choose <b>WinUSB</b> as the driver, click <b>Replace Driver</b> (or Install Driver) and wait a minute or two.</li>
+</ul>
+<div class="bad"><p><b>Do not pick the wrong device.</b> Choosing a mouse, keyboard or camera in that list stops it working. Change only the entry named above.</p></div></li>
+
+<li><strong>Download the RTL-SDR tools</strong>
+<p>From <a href="https://github.com/rtlsdrblog/rtl-sdr-blog/releases">the RTL-SDR Blog releases page</a>, download the latest <code>Release.zip</code> and unzip it somewhere easy to find, such as <code>C:\rtl-sdr</code>. Its <code>x64</code> folder holds <code>rtl_tcp.exe</code> and <code>rtl_test.exe</code>.</p></li>
+
+<li><strong>Check the receiver is seen</strong>
+<p>In the <code>x64</code> folder, hold <kbd>Shift</kbd>, right-click an empty area and choose "Open in Terminal" (or "Open PowerShell window here"), then:</p>
+<pre><code>.\rtl_test.exe -t</code></pre>
+<p><code>Found 1 device(s)</code> and the model name mean it is working. If no device is found, go back and install the driver again.</p></li>
+
+<li><strong>Run rtl_tcp</strong>
+<pre><code>.\rtl_tcp.exe -a 0.0.0.0</code></pre>
+<p><code>listening...</code> means it is waiting for the phone. Leave the window open.</p>
+<div class="warn"><p><b>Allow it through the firewall.</b> The first time, Windows asks whether to allow network access: tick "Private networks" and allow. If you cancelled, the phone cannot connect; go to Windows Security → Firewall → Allow an app through firewall and tick rtl_tcp.</p></div></li>
+
+<li><strong>Find this computer's address</strong>
+<p>In another terminal window:</p>
+<pre><code>ipconfig</code></pre>
+<p>Under the network in use (Wi-Fi or Ethernet), note the <b>IPv4 Address</b>, something like <code>192.168.1.20</code>.</p></li>
+</ol>
+
+<div class="ok"><p>The computer is ready. Next: <a href="connect.html">Connect in the app →</a></p></div>
+
+<h2>Common questions</h2>
+<h3>It is not seen after moving to another USB port</h3>
+<p>Windows remembers the driver per USB port. Run Zadig again for the new port, or go back to the old one.</p>
+<h3>An RTL-SDR Blog V4 or V4L receives nothing</h3>
+<p>Use the tools from the RTL-SDR Blog releases page above. Older builds from elsewhere do not know these two models.</p>
+
+<div class="pager">
+<a href="install-macos.html"><small>Previous</small>Install rtl_tcp on macOS</a>
+<a class="next" href="install-linux.html"><small>Next</small>Install rtl_tcp on Linux</a>
+</div>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
+</main>
+</div>
+</body>
+</html>

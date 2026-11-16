@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All pages · SDRViewer Manual</title>
+<meta name="description" content="What each of SDRViewer&#x27;s seven pages receives, and when to use it.">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="soon">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../pages.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a class="on" href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
+</nav>
+<main>
+<h1>All pages</h1>
+<p class="lede">The app has seven tabs, one for each kind of signal. They share one receiver (unless you set up several), so usually one of them is working at a time.</p>
+
+<table>
+<tr><th>Page</th><th>Receives</th><th>Frequency</th><th>Notes</th></tr>
+<tr><td><a href="page-radio.html"><b>Radio</b></a></td><td>FM broadcast</td><td>87.5–108 MHz</td><td>Scans the band, plays at a tap. Start here.</td></tr>
+<tr><td><a href="page-receiver.html"><b>Receiver</b></a></td><td>Any frequency</td><td>24–1766 MHz</td><td>The general receiver: spectrum, waterfall, FM, AM and single sideband; tap the waterfall to tune. Also decodes D-STAR digital voice and pictures.</td></tr>
+<tr><td><a href="page-aviation.html"><b>Aviation</b></a></td><td>ACARS data link</td><td>around 131 MHz</td><td>Text messages between aircraft and the ground: positions, weather, clearances, grouped by aircraft.</td></tr>
+<tr><td><a href="page-atc.html"><b>ATC</b></a></td><td>Air traffic control voice</td><td>118–137 MHz</td><td>Tower, approach and ATIS. With airspace data imported it lists the frequencies by airport.</td></tr>
+<tr><td><b>APRS</b></td><td>Amateur radio positions and messages</td><td>around 144 MHz</td><td>Stations and their tracks on a map. Also works without the receiver, from a handheld's audio.</td></tr>
+<tr><td><b>AIS</b></td><td>Ship identification</td><td>162 MHz</td><td>Ships on a map with position, heading and name. Needs water fairly near.</td></tr>
+<tr><td><a href="page-adsb.html"><b>ADS-B</b></a></td><td>Aircraft position broadcasts</td><td>1090 MHz</td><td>A map and a radar scope, with tracks, types and routes; zoomed in, an airport's taxiways and gates.</td></tr>
+</table>
+
+<div class="note"><p>Radio and Receiver have their detailed pages; the others are still being written and will follow. They are the entries marked "soon" in the contents.</p></div>
+
+<h2>Which to try first</h2>
+<ol class="steps">
+<li><strong>Radio</strong>FM broadcast is the strongest signal there is. Use it to confirm the receiver, the network and the antenna, and to calibrate the frequency along the way.</li>
+<li><strong>ADS-B</strong>With an antenna that sees a piece of sky there are aircraft to receive in almost any city, and the result is plain to see.</li>
+<li><strong>The others</strong>depend on what is near you: ATC and Aviation by an airport, AIS by a harbour or a river, APRS where radio amateurs are active.</li>
+</ol>
+
+<figure class="pair">
+  <img class="shot" src="../img/adsb-map-satellite.png" alt="The ADS-B page's map">
+  <img class="shot" src="../img/adsb-scope.png" alt="The ADS-B page's radar scope">
+  <figcaption>The ADS-B page as a map and as a radar scope.</figcaption>
+</figure>
+
+<div class="pager">
+<a href="data-file.html"><small>Previous</small>Airspace data file</a>
+<a class="next" href="page-radio.html"><small>Next</small>Radio</a>
+</div>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
+</main>
+</div>
+</body>
+</html>

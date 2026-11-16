@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radio · SDRViewer Manual</title>
+<meta name="description" content="Scan the FM broadcast band, tap a station to listen, with stereo and your own station names.">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="soon">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../page-radio.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a class="on" href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
+</nav>
+<main>
+<h1>Radio</h1>
+<p class="lede">Used like a car radio: scan once, then tap whichever station you want. It is also the quickest way to check that everything works.</p>
+
+<figure class="phone"><img class="shot" src="../img/radio.png" alt="The Radio page: station list, frequency, stereo indicator and spectrum"></figure>
+
+<h2>The first time: scan</h2>
+<ol class="steps">
+<li><strong>It starts empty</strong>The first time you open the Radio page the station list has nothing in it and says <b>No stations yet</b>. Tap <b>Scan</b> at the top right.
+<figure><img class="shot" src="../img/radio-scan-1-empty.png" alt="The Radio page with no stations yet and the Scan button at the top right"></figure></li>
+<li><strong>First a sweep of the whole band</strong>The top left shows progress such as <code>sweeping 2/50</code>: the app is looking across the FM broadcast band, a piece at a time, for every frequency that might hold a station. The button becomes <b>Stop</b>, which ends the scan at any moment.
+<figure><img class="shot" src="../img/radio-scan-2-sweeping.png" alt="Sweeping the band, with the progress shown"></figure></li>
+<li><strong>Then each one is confirmed</strong>Progress becomes <code>confirming 90.9 MHz 4/19</code>: the app demodulates every candidate and listens, and only a real broadcast goes into the list. So there are no entries that turn out to be silence. Each one confirmed appears in the list at once.
+<figure><img class="shot" src="../img/radio-scan-3-confirming.png" alt="Confirming candidates one by one, with the first stations already in the list"></figure></li>
+<li><strong>Done: tap a station</strong>When the button reads <b>Rescan</b> the scan is over. All of it takes half a minute to a minute, depending on the sample rate. The list scrolls sideways; one tap plays a station.
+<figure><img class="shot" src="../img/radio-scan-4-done.png" alt="The station list after the scan"></figure></li>
+</ol>
+<div class="note"><p>In another city, or after changing the antenna, tap <b>Rescan</b>.</p></div>
+
+<h2>What is on the page</h2>
+<div class="parts">
+<div class="part"><img src="../img/radio-part-stations.png" alt="Station cards"><div><b class="name">Station cards</b><p>The stations found; swipe sideways for more. <b>ST</b> marks a stereo station, <b>MONO</b> a mono one, and the small bars are signal strength. Tap to play, touch and hold to rename.</p></div></div>
+<div class="part"><img src="../img/radio-part-frequency.png" alt="Frequency and play button"><div><b class="name">Frequency and play</b><p>The large figures are the current frequency, with the station's name beneath (its frequency when it has none). The round button on the left is play and stop.</p></div></div>
+<div class="part"><img src="../img/radio-part-stereo.png" alt="Stereo button and channel levels"><div><b class="name">Stereo and levels</b><p>The button on the left steps through <b>AUTO / STEREO / MONO</b>; the percentage is the separation actually achieved. With a weak, hissy signal, MONO is much cleaner. <b>L</b> and <b>R</b> are the two channels' levels, <b>L−R</b> is how much they differ (nearer 0 means more stereo), and <b>BUF</b> is how full the audio buffer is: steady around one value means the network is keeping up.</p></div></div>
+<div class="part"><img src="../img/radio-part-spectrum.png" alt="Spectrum and waterfall"><div><b class="name">Spectrum and waterfall</b><p>The signals around the current frequency: the spectrum now on top, and under it the waterfall scrolling down through time. Bright columns are stations, and the line in the middle is what you are listening to. <b>AUTO</b> and <b>CAL</b> at the top left set the waterfall's brightness: AUTO adjusts it by itself, CAL sets it once from the present noise floor.</p></div></div>
+<div class="part"><img src="../img/radio-part-tuning.png" alt="Tuning buttons and dial"><div><b class="name">Tuning by hand</b><p><b>‹ ›</b> move one step, <b>« »</b> ten steps; <b>Step</b> in the middle changes the step (100k for FM broadcast); drag the dial at the very bottom to tune continuously.</p></div></div>
+</div>
+
+<h2>Naming a station</h2>
+<p>A station shows its frequency by default. <b>Touch and hold</b> a station card and choose <b>Rename</b> to give it a name. To go back, touch and hold and choose <b>Use the original name</b>.</p>
+<p>Where stations broadcast RDS they send their own name and the app shows it. Where they do not — most of China, for one — you name them yourself.</p>
+
+<h2>It calibrates the receiver as you listen</h2>
+<p>Every few seconds spent on a stereo station, the app quietly measures the receiver's frequency error. After three or more stereo stations the correction applies itself, and signals that need an exact frequency — air traffic, APRS, AIS — are where they should be. See <a href="connect.html">Frequency calibration</a>.</p>
+
+<h2>Common situations</h2>
+<table>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>No stations found, or one or two</td><td>The antenna is too short or badly placed. Extend each side to about 75 cm, put it by a window and scan again.</td></tr>
+<tr><td>Some stations say MONO</td><td>Normal. News and talk stations often broadcast in mono.</td></tr>
+<tr><td>A stereo station hisses</td><td>Stereo needs a stronger signal. Switch to MONO, or improve the antenna.</td></tr>
+<tr><td>The radio keeps playing on another page</td><td>By design: audio carries on in the background. Stop it on the Radio page, or press play on another page that uses the same receiver and it gives way.</td></tr>
+</table>
+
+<div class="pager">
+<a href="pages.html"><small>Previous</small>All pages</a>
+<a class="next" href="page-receiver.html"><small>Next</small>Receiver</a>
+</div>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
+</main>
+</div>
+</body>
+</html>

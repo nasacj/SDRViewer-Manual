@@ -1,0 +1,56 @@
+<!-- Install rtl_tcp on a Raspberry Pi | Have a Raspberry Pi run rtl_tcp at boot; add a power bank and it goes anywhere. -->
+<h1>Install rtl_tcp on a Raspberry Pi</h1>
+<p class="lede">The least trouble of the four: power it and it runs, no computer left on, and with a power bank it goes to the balcony, the car or the airport fence.</p>
+
+<div class="note"><p>This assumes the Pi already runs Raspberry Pi OS, is on Wi-Fi, and you can log in over SSH or with a screen. If not, write a card with the official Raspberry Pi Imager, which can set the Wi-Fi and turn on SSH as it writes.</p></div>
+
+<ol class="steps">
+<li><strong>Install the tools and check the receiver</strong>
+<pre><code>sudo apt update
+sudo apt install rtl-sdr
+rtl_test -t</code></pre>
+<p><code>Found 1 device(s)</code> and the model name mean it is working. For problems see the <a href="install-linux.html">Linux</a> page; the steps are the same.</p></li>
+
+<li><strong>Make it a service that starts at boot</strong>
+<p>Open an editor on a new service file:</p>
+<pre><code>sudo nano /etc/systemd/system/rtl_tcp.service</code></pre>
+<p>Paste this, then <kbd>Control</kbd> + <kbd>O</kbd>, Return to save and <kbd>Control</kbd> + <kbd>X</kbd> to leave:</p>
+<pre><code>[Unit]
+Description=rtl_tcp for SDRViewer
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+ExecStart=/usr/bin/rtl_tcp -a 0.0.0.0 -p 1234
+Restart=always
+RestartSec=3
+KillSignal=SIGINT
+TimeoutStopSec=5
+DynamicUser=yes
+SupplementaryGroups=plugdev
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+<p>Enable it and start it now:</p>
+<pre><code>sudo systemctl daemon-reload
+sudo systemctl enable --now rtl_tcp</code></pre>
+<p><code>Restart=always</code> is what brings it back: if the receiver is unplugged or the program exits, it is tried again every three seconds, so plugging the receiver back in is enough.</p></li>
+
+<li><strong>Check it is running</strong>
+<pre><code>systemctl status rtl_tcp</code></pre>
+<p><code>active (running)</code> is what you want. <code>journalctl -fu rtl_tcp</code> shows its output.</p></li>
+
+<li><strong>Find the Pi's address</strong>
+<pre><code>hostname -I</code></pre>
+<p>Or use its name: a Pi announces its hostname, so <code>raspberrypi.local</code> (or the name you gave it, plus <code>.local</code>) usually works in the app, with no numbers to remember.</p></li>
+</ol>
+
+<div class="ok"><p>The Pi is ready. Next: <a href="connect.html">Connect in the app →</a></p></div>
+
+<h2>Taking it outdoors</h2>
+<ul>
+<li><b>Power</b>: a Pi 4 or 5 with one receiver wants a power bank that gives 5 V at 3 A. Short of power, the Pi slows down and the audio stutters.</li>
+<li><b>Network</b>: turn on the iPhone's Personal Hotspot and have the Pi join it (set that up at home first). The phone then has the internet and the Pi at once.</li>
+<li><b>Two receivers</b>: a Pi can hold two, each with its own <code>rtl_tcp</code> on its own port (1234 and 1236, say). Add one entry for each to the app's receiver list, and you can listen to air traffic while watching ADS-B.</li>
+</ul>

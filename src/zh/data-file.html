@@ -1,0 +1,225 @@
+<!-- 航图数据文件 | ATC 和 ADS-B 页面用的航图数据是一个 JSON 文件：它的格式、每一节的含义。 -->
+<h1>航图数据文件</h1>
+<p class="lede">ATC 页面里的机场频率，ADS-B 页面上的航路、导航台和进离场程序，都来自一个你自己导入的 JSON 文件。App 本身不带任何国家的航图数据。这一页说明这个文件长什么样，并给出一份可以直接下载试用的洛杉矶示例。</p>
+
+<figure class="pair">
+  <img class="shot" src="img/data-lax-radar.png" alt="ADS-B 雷达上的洛杉矶：航路和进离场程序">
+  <img class="shot" src="img/data-lax-map.png" alt="ADS-B 地图上的洛杉矶：航路、程序和机场">
+  <figcaption>导入一份洛杉矶地区的数据后，ADS-B 页面的雷达（左）和地图（右）：绿色是航路，橙色等颜色是进离场程序，圆圈是机场。</figcaption>
+</figure>
+
+<h2>先试一下示例</h2>
+<ol class="steps">
+<li><strong>下载示例文件</strong><a href="data/atc-lax.json">atc-lax.json</a>（约 600 KB）：洛杉矶国际机场周边 90 公里内的 20 个有塔台的机场、152 个频率、51 个导航台、84 条航路和 698 条进离场程序。数据整理自美国联邦航空局（FAA）公开发布的 NASR 数据，生效日期 2026-10-29。</li>
+<li><strong>把文件放到 iPhone 上</strong>用隔空投送、iCloud 云盘或者“文件”App，任何能让 iPhone 看到这个文件的方式都可以。</li>
+<li><strong>在 App 里导入</strong>打开 <b>ATC</b> 页面。第一次使用时页面上有一个“选择文件”按钮，点它，在文件列表里选中刚才的 JSON。也可以在“文件”App 里长按这个文件，选“共享”，再选 SDRViewer。</li>
+<li><strong>去 ADS-B 页面看效果</strong>把地图或雷达移到洛杉矶，就能看到上面截图里的画面。右上角的图层按钮可以分别开关航路、航路点、导航台、机场和各类程序。</li>
+</ol>
+
+<div class="warn"><p><b>不可用于导航。</b>这些数据只是接收机屏幕上的背景图，会过期，也可能有错。任何飞行用途请使用官方发布的现行资料。</p></div>
+
+<h2>为什么要自己导入</h2>
+<p>各国的航行资料由各自的民航部门发布，版权和使用条件各不相同：有的国家（如美国）公开且可以自由使用；有的国家可以免费查阅，但不允许再分发。所以 App 不内置数据，而是规定一种文件格式，由你把自己有权使用的数据放进来。</p>
+
+<h2>文件的整体结构</h2>
+<p>文件是一个 JSON 对象，开头是几项说明，后面是五个列表。哪个列表都可以是空的 <code>[]</code>：只有机场频率也能用。</p>
+<pre><code>{
+  "format": "sdrviewer-atc",
+  "version": 1,
+  "region": "us-klax",
+  "updated": "2026-10-29",
+  "source": "FAA NASR 28-day subscription, effective 2026-10-29 …",
+  "airports":   [ … ],
+  "navaids":    [ … ],
+  "routes":     [ … ],
+  "procedures": [ … ],
+  "sectors":    [ … ]
+}</code></pre>
+<table>
+<tr><th>字段</th><th>含义</th></tr>
+<tr><td><code>format</code></td><td>固定写 <code>"sdrviewer-atc"</code>，App 靠它认出这是航图数据文件。</td></tr>
+<tr><td><code>version</code></td><td>格式版本，目前是 <code>1</code>。</td></tr>
+<tr><td><code>region</code></td><td>你给这份数据起的简称，随意。</td></tr>
+<tr><td><code>updated</code></td><td>数据的日期。航行资料每 28 天更新一次，写上日期才知道它有多旧。</td></tr>
+<tr><td><code>source</code></td><td>数据来源的说明，会显示在 App 里。</td></tr>
+</table>
+<div class="note"><p>所有坐标都是<b>十进制度</b>，WGS-84：北纬和东经为正，南纬和西经为负。洛杉矶的经度是 <code>-118.408</code>。频率的单位是 MHz。</p></div>
+
+<h2>airports：机场和频率</h2>
+<p>每个机场一项，里面的 <code>channels</code> 是这个机场的各个频率。<b>ATC 页面</b>按它列出可以收听的频率，ADS-B 页面用它画机场的圆圈和名字。</p>
+<pre><code>{
+  "icao": "KLAX",
+  "iata": "LAX",
+  "name": "Los Angeles Intl",
+  "nameEnglish": "Los Angeles Intl",
+  "position": {"lat": 33.9425, "lon": -118.40805, "elevationMetres": 39.0},
+  "channels": [
+    {"role": "atis", "label": "ATIS · Arr", "mhz": 133.8, "callsignEnglish": "Los Angeles ATIS", "hours": "H24"},
+    {"role": "delivery", "label": "Clearance", "mhz": 120.35, "callsignEnglish": "Los Angeles Clearance", "hours": "H24"},
+    {"role": "ground", "label": "Ground · South Cmplx", "mhz": 121.75, "callsignEnglish": "Los Angeles Ground", "hours": "H24"},
+    {"role": "tower", "label": "Tower · North Cmplx", "mhz": 133.9, "callsignEnglish": "Los Angeles Tower", "hours": "H24"}
+  ]
+}</code></pre>
+<table>
+<tr><th>字段</th><th>必填</th><th>含义</th></tr>
+<tr><td><code>icao</code></td><td>是</td><td>机场的四字代码，是它的唯一标识，程序和扇区都用它来指向机场。</td></tr>
+<tr><td><code>iata</code></td><td></td><td>三字代码，只用于显示。</td></tr>
+<tr><td><code>name</code> / <code>nameEnglish</code></td><td>是</td><td>当地语言的名称和英文名称。只有一种时两个写成一样。</td></tr>
+<tr><td><code>position</code></td><td>是</td><td>机场基准点的纬度、经度和标高（米）。</td></tr>
+<tr><td><code>channels[].role</code></td><td>是</td><td>这个频率是干什么的，见下表。</td></tr>
+<tr><td><code>channels[].mhz</code></td><td>是</td><td>频率。</td></tr>
+<tr><td><code>channels[].label</code></td><td></td><td>显示在按钮上的短名称，比如扇区名或“北跑道”。</td></tr>
+<tr><td><code>channels[].callsign</code> / <code>callsignEnglish</code></td><td></td><td>无线电呼号，如“Los Angeles Tower”。</td></tr>
+<tr><td><code>channels[].backup</code></td><td></td><td>备用频率。</td></tr>
+<tr><td><code>channels[].hours</code></td><td></td><td>开放时间，<code>H24</code> 表示全天。</td></tr>
+<tr><td><code>channels[].note</code></td><td></td><td>任何补充说明。</td></tr>
+</table>
+<p><code>role</code> 可以用的值：</p>
+<table>
+<tr><th>role</th><th>含义</th></tr>
+<tr><td><code>atis</code></td><td>通播（机场情报自动广播）。一直在播，最适合用来测试接收。</td></tr>
+<tr><td><code>delivery</code></td><td>放行许可</td></tr>
+<tr><td><code>ground</code></td><td>地面管制</td></tr>
+<tr><td><code>apron</code></td><td>机坪管制</td></tr>
+<tr><td><code>tower</code></td><td>塔台</td></tr>
+<tr><td><code>approach</code></td><td>进近和离场</td></tr>
+<tr><td><code>emergency</code></td><td>应急频率 121.5</td></tr>
+<tr><td><code>ops</code></td><td>航空公司或机场运行频率</td></tr>
+</table>
+<p>写了不认识的 <code>role</code> 不会导致整个文件被拒绝，那一项会归到“其它”。</p>
+
+<h2>navaids：导航台</h2>
+<p>地面的无线电导航台（VOR、NDB）。ADS-B 页面把它们画成航图上的符号，放大后在 VOR 周围画出方位刻度盘。</p>
+<pre><code>{"ident": "LAX", "type": "VOR/DME", "name": "Los Angeles", "lat": 33.93315, "lon": -118.43201, "frequency": "113.6 MHz"}</code></pre>
+<table>
+<tr><th>字段</th><th>必填</th><th>含义</th></tr>
+<tr><td><code>ident</code></td><td>是</td><td>导航台的识别码，两到三个字母。</td></tr>
+<tr><td><code>type</code></td><td>是</td><td><code>VOR/DME</code> 或 <code>NDB</code>，决定画哪种符号。</td></tr>
+<tr><td><code>lat</code> / <code>lon</code></td><td>是</td><td>位置。</td></tr>
+<tr><td><code>frequency</code></td><td></td><td>频率，带单位的文字，如 <code>"113.6 MHz"</code> 或 <code>"362 kHz"</code>。</td></tr>
+<tr><td><code>name</code> / <code>nameChinese</code></td><td></td><td>名称。</td></tr>
+</table>
+
+<h2>routes：航路</h2>
+<p>一条航路是一串按顺序排列的点。ADS-B 页面把相邻的点连成线，并在线上标出航路代号。</p>
+<pre><code>{
+  "designator": "V23",
+  "section": "NASR AWY",
+  "points": [
+    {"name": "OCN", "lat": 33.24063, "lon": -117.41772, "compulsory": false},
+    {"name": "KELPS", "lat": 33.3242, "lon": -117.51505, "compulsory": false},
+    {"name": "DANAH", "lat": 33.48101, "lon": -117.69837, "compulsory": false},
+    {"name": "SLI", "lat": 33.7833, "lon": -118.05476, "compulsory": false}
+  ]
+}</code></pre>
+<table>
+<tr><th>字段</th><th>必填</th><th>含义</th></tr>
+<tr><td><code>designator</code></td><td>是</td><td>航路代号，如 V23、J5、A593。</td></tr>
+<tr><td><code>points[].name</code></td><td>是</td><td>航路点或导航台的名字。</td></tr>
+<tr><td><code>points[].lat</code> / <code>lon</code></td><td>是</td><td>这个点的位置。每个点都自带坐标，不需要另外的航路点表。</td></tr>
+<tr><td><code>points[].compulsory</code></td><td></td><td>是否为强制报告点，影响符号是实心还是空心。</td></tr>
+<tr><td><code>section</code></td><td></td><td>数据出处的章节，只作备注。</td></tr>
+</table>
+<p>航路很长时不必给全：示例只保留了每条航路进入洛杉矶周边 280 公里的那一段。</p>
+
+<h2>procedures：进离场和进近程序</h2>
+<p>一条程序是从一个点飞到另一个点的一串<b>航段</b>。ADS-B 页面按类型用不同颜色画出来，并沿线画箭头表示飞行方向。</p>
+<pre><code>{
+  "kind": "sid",
+  "name": "ORCKA5",
+  "airport": "KLAX",
+  "runways": ["24L"],
+  "byATC": false,
+  "legs": [
+    {"type": "DER", "fix": "", "lat": 33.94682, "lon": -118.43467},
+    {"type": "TF", "fix": "DLREY", "lat": 33.94368, "lon": -118.46515},
+    {"type": "TF", "fix": "KLIPR", "lat": 33.92951, "lon": -118.43878},
+    {"type": "TF", "fix": "KEGGS", "lat": 34.00845, "lon": -118.29959},
+    {"type": "TF", "fix": "COOPP", "lat": 34.12113, "lon": -118.10053},
+    {"type": "TF", "fix": "ORCKA", "lat": 34.34973, "lon": -117.69314}
+  ]
+}</code></pre>
+<table>
+<tr><th>字段</th><th>必填</th><th>含义</th></tr>
+<tr><td><code>kind</code></td><td>是</td><td><code>sid</code> 离场，<code>star</code> 进场，<code>approach</code> 进近，<code>missed</code> 复飞，<code>hold</code> 等待。</td></tr>
+<tr><td><code>name</code></td><td>是</td><td>程序名，如 ORCKA5。</td></tr>
+<tr><td><code>airport</code></td><td>是</td><td>所属机场的四字代码，要和 <code>airports</code> 里的一致。</td></tr>
+<tr><td><code>runways</code></td><td>是</td><td>适用的跑道，可以是空列表。在 App 里选定跑道方向后，只显示对应跑道的程序。</td></tr>
+<tr><td><code>transition</code></td><td></td><td>过渡段的名字。同一条程序常常分成“主体”和若干条通向不同方向的过渡段，各写成一项。</td></tr>
+<tr><td><code>byATC</code></td><td></td><td>是否为“由管制员指定”的程序。</td></tr>
+<tr><td><code>legs</code></td><td>是</td><td>航段列表，至少两个带坐标的点才画得出来。</td></tr>
+</table>
+<p>每个航段的字段：</p>
+<table>
+<tr><th>字段</th><th>含义</th></tr>
+<tr><td><code>type</code></td><td>航段类型，见下表。不确定时，第一个点写 <code>IF</code>，后面都写 <code>TF</code> 即可。</td></tr>
+<tr><td><code>fix</code></td><td>这个航段终点的航路点名字，没有名字时写空字符串。</td></tr>
+<tr><td><code>lat</code> / <code>lon</code></td><td>终点的位置。</td></tr>
+<tr><td><code>altitude</code></td><td>高度限制，文字形式：<code>"1200"</code> 表示正好，<code>"≥1500"</code> 不低于，<code>"≤1800"</code> 不高于，<code>"≤1800/≥1200"</code> 在两者之间。放大后显示在航路点旁边。</td></tr>
+<tr><td><code>speed</code></td><td>速度限制，如 <code>"MAX250"</code>。</td></tr>
+<tr><td><code>course</code></td><td>航向（度）。</td></tr>
+<tr><td><code>turn</code></td><td>转弯方向，<code>"L"</code> 或 <code>"R"</code>。</td></tr>
+<tr><td><code>flyOver</code></td><td>是否必须飞越这个点。</td></tr>
+</table>
+<table>
+<tr><th>type</th><th>含义</th></tr>
+<tr><td><code>IF</code></td><td>起始点</td></tr>
+<tr><td><code>TF</code></td><td>从上一个点直线飞到这个点。最常用。</td></tr>
+<tr><td><code>DF</code></td><td>从当前位置直飞这个点</td></tr>
+<tr><td><code>CF</code></td><td>沿指定航向飞到这个点</td></tr>
+<tr><td><code>DER</code></td><td>跑道离场端，离场程序的起点</td></tr>
+<tr><td><code>VA</code> / <code>CA</code></td><td>保持航向爬升到指定高度（没有固定的终点）</td></tr>
+<tr><td><code>HM</code></td><td>等待航线，配合 <code>course</code> 和 <code>turn</code></td></tr>
+</table>
+<div class="note"><p>洛杉矶示例整理自 FAA 的 NASR 数据，那里面只有程序经过哪些点，<b>没有高度和速度限制，也没有进近程序</b>。所以示例里的程序只有线和点名；上面表里的 <code>altitude</code>、<code>speed</code> 等字段在你自己的数据里有就可以写。</p></div>
+
+<h2>sectors：管制扇区</h2>
+<p>一个扇区是一块有高度范围的空域，归一个管制席位管，有自己的频率。<b>ATC 页面</b>用它回答“我现在所在的位置归谁管、该听哪个频率”；ADS-B 页面把扇区边界画出来。</p>
+<p>洛杉矶示例里没有扇区（<code>sectors</code> 是空的），因为 FAA 的这份数据不含扇区的形状。下面是一个编造的进近扇区，用来说明格式：</p>
+<pre><code>{
+  "id": "ZZZZAP01",
+  "name": "AP01",
+  "kind": "approach",
+  "callsignEnglish": "Example Approach",
+  "mhz": 119.3,
+  "backup": 124.5,
+  "hours": "H24",
+  "serves": ["ZZZZ"],
+  "volumes": [
+    {
+      "ring": [[30.98925, -140.0], [30.9492, -141.1122], [29.99507, -141.14225], [29.04163, -141.09102], [29.01075, -140.0]],
+      "lower": {"metres": 0, "surface": true},
+      "upper": {"metres": 6000, "datum": "STD"}
+    }
+  ]
+}</code></pre>
+<table>
+<tr><th>字段</th><th>必填</th><th>含义</th></tr>
+<tr><td><code>id</code></td><td>是</td><td>扇区的唯一标识。</td></tr>
+<tr><td><code>name</code></td><td>是</td><td>扇区名。</td></tr>
+<tr><td><code>kind</code></td><td>是</td><td><code>area</code> 区域管制，<code>approach</code> 进近，<code>terminal</code> 终端区。图层菜单按这个分类开关。</td></tr>
+<tr><td><code>mhz</code></td><td>是</td><td>主频率。</td></tr>
+<tr><td><code>callsign</code> / <code>callsignEnglish</code></td><td></td><td>无线电呼号。</td></tr>
+<tr><td><code>backup</code>、<code>hours</code></td><td></td><td>备用频率、开放时间。</td></tr>
+<tr><td><code>serves</code></td><td></td><td>这个扇区服务的机场代码列表。</td></tr>
+<tr><td><code>volumes</code></td><td>是</td><td>一块或几块空域。每块有边界 <code>ring</code> 和上下限。</td></tr>
+<tr><td><code>volumes[].ring</code></td><td>是</td><td>边界的顶点，按顺序排列的 <code>[纬度, 经度]</code>，首尾不用重复。</td></tr>
+<tr><td><code>volumes[].lower</code> / <code>upper</code></td><td>是</td><td>下限和上限，单位米。<code>"surface": true</code> 表示从地面起；<code>"datum": "STD"</code> 表示按标准气压（飞行高度层）。</td></tr>
+</table>
+
+<h2>自己做一份</h2>
+<table>
+<tr><th>你想要的</th><th>怎么做</th></tr>
+<tr><td>只要几个机场的频率</td><td>下载上面的示例，照着改 <code>airports</code> 一节，其它列表留空。手写就够了。</td></tr>
+<tr><td>一个国家或地区的完整数据</td><td>从该国民航部门发布的航行资料（AIP）里整理。请先确认它的使用条款：很多国家的资料可以免费查阅，但不允许再分发，这种情况下做出来的文件只能自己用。</td></tr>
+</table>
+
+<h2>导入时出错</h2>
+<table>
+<tr><th>现象</th><th>原因和办法</th></tr>
+<tr><td>提示文件无法读取</td><td>不是合法的 JSON。最常见的是多了或少了逗号、引号没配对。用任何一个 JSON 校验工具检查一下。</td></tr>
+<tr><td>导入成功，但 ADS-B 上什么都没画</td><td>画面不在数据覆盖的地区（把地图移过去），或者图层菜单顶上的 Chart 总开关关着。</td></tr>
+<tr><td>程序画出来了，但位置明显不对</td><td>经纬度写反了，或者西经、南纬忘了写负号。</td></tr>
+<tr><td>地图刚打开时有几秒“Loading chart…”</td><td>正常。文件越大这一步越久，全国范围的数据需要几秒。</td></tr>
+<tr><td>ATC 页面显示“已发布空域之外”</td><td>文件里没有覆盖你当前位置的扇区。只有机场频率、没有扇区的文件就是这样，频率仍然可以在机场列表里找到。</td></tr>
+</table>

@@ -1,0 +1,66 @@
+<!-- D-STAR 数字语音 | 在 Receiver 页面接收 D-STAR：实时卡片、语音、位置和图片，以及 RX History 里的记录。 -->
+<h1>D-STAR 数字语音</h1>
+<p class="lede">D-STAR 是业余无线电里常见的数字语音制式。SDRViewer 在 Receiver 页面里接收它：能听到语音，看到对方的呼号、留言和位置，还能收对方发来的图片。收到的每一次通联都会存下来。</p>
+
+<h2>怎么开始收</h2>
+<ol class="steps">
+<li><strong>调到 D-STAR 的频率</strong>在 <a href="page-receiver.html">Receiver</a> 页面输入频率，比如本地的 D-STAR 直频或中继的下行频率。</li>
+<li><strong>解调方式选 DV</strong>点左边蓝色的方式名，选 <b>DV</b>。选 <b>NFM</b> 也可以：App 会自动认出 D-STAR 信号，区别只是 NFM 下没人发射时你听到的是普通的调频声音。</li>
+<li><strong>点播放，等人发射</strong>有人发射时，页面下方会弹出一张卡片，扬声器里播放解码后的语音。</li>
+</ol>
+<div class="warn"><p><b>频率要准。</b>D-STAR 的信道只有 6.25 kHz 宽，接收机的频率偏一点就完全解不出来。使用前先完成<a href="connect.html">频率校准</a>。另外手持机离接收机太近（几米之内）信号会过强，反而解不出来，拉开距离再试。</p></div>
+
+<h2>收语音时弹出的卡片</h2>
+<figure class="phone"><img class="shot" src="img/dstar-card-voice.png" alt="Receiver 页面在 DV 方式下，下方弹出一张 D-STAR 卡片"><figcaption>有人发射时，卡片出现在瀑布图下方；发射结束后停留几秒再消失。</figcaption></figure>
+<div class="parts">
+<div class="part"><img src="img/dstar-card-only.png" alt="D-STAR 卡片的内容"><div><b class="name">卡片上的内容</b>
+<p><b>第一行</b>：对方的呼号和后缀（通常是机型，如 ID52）。左边的绿点表示正在接收，右上角的 RX 同理。</p>
+<p><b>→ CQCQCQ</b>：对方呼叫的对象，CQCQCQ 表示呼叫所有人。</p>
+<p><b>via … → …</b>：经过的中继。DIRECT → DIRECT 表示没有经过中继，是直接通联。</p>
+<p><b>留言</b>：对方电台里预设的一句话，最多 20 个字符。</p>
+<p><b>位置</b>（对方开了 GPS 才有）：<b>DST</b> 是到你的距离和方位；下面是对方的经纬度和网格（<b>GL</b>）；<b>COURSE / SPEED / ALT</b> 是对方自己的航向、速度和高度。右边的罗盘上，红色三角指北，蓝色指针指向对方所在的方向，橙色箭头是对方自己的行进方向。</p></div></div>
+</div>
+<div class="note"><p>距离和方位是按<b>你的位置</b>算的。在设置的“我的位置”里填上坐标或网格，或者打开“跟随我的位置”。没填的话卡片只显示对方的坐标，不显示距离，因为瞎猜一个位置算出来的距离是错的。</p></div>
+
+<h2>收图片时</h2>
+<p>ICOM 的 ID-52、IC-705 等电台可以通过 D-STAR 发送照片。对方发图时，卡片里会出现图片区域，并且<b>一块一块地填充</b>：已经收到的部分显示出来，还没到的部分是空的，红色小方块标出最新到达的那一块。</p>
+<figure class="pair"><img class="shot" src="img/dstar-card-picture-1.png" alt="图片收到一半时的卡片"><img class="shot" src="img/dstar-card-picture-2.png" alt="图片快收完时的卡片"><figcaption>同一次发射的两个时刻：收到 592 块和 1047 块（共 1200 块）。标题右边的数字是进度，红色小方块是最新到达的一块。</figcaption></figure>
+<ul>
+<li>一张 640×480 的照片分成 1200 块，用快速数据方式发送大约需要两分钟；小尺寸的 160×120 是 80 块。</li>
+<li>发图期间对方通常不说话，所以没有语音，这是正常的。</li>
+<li>信号不好丢了几块时，图片仍然会显示，只是丢的那几块用相邻的内容填补。</li>
+<li>发射结束后，完整的图片保存进 RX History。</li>
+</ul>
+
+<h2>RX History：收到过的通联</h2>
+<p>点 Receiver 页面右上角的<b>时钟图标</b>打开。每一次收到的 D-STAR 发射是一条记录，最新的在最上面。</p>
+<figure class="phone"><img class="shot" src="img/dstar-history.png" alt="RX History 列表：三条记录，分别带语音、图片和位置"></figure>
+<table>
+<tr><th>列表上的标记</th><th>含义</th></tr>
+<tr><td>左边的缩略图</td><td>有图片的记录显示图片缩略图，其它显示声波图标。</td></tr>
+<tr><td>喇叭图标和秒数</td><td>这条记录有语音，以及语音的长度。</td></tr>
+<tr><td>图片图标和尺寸</td><td>这条记录有图片，后面写着尺寸和是否收完整。</td></tr>
+<tr><td>塔形图标、距离和方位</td><td>对方发了位置，这是它离你的距离和方向。</td></tr>
+<tr><td>对话图标和文字</td><td>对方的留言。</td></tr>
+</table>
+<p>点一条记录看详情；向左滑可以删除单条；右上角的垃圾桶清空全部。</p>
+
+<h3>播放语音</h3>
+<figure class="phone"><img class="shot" src="img/dstar-record-voice.png" alt="一条带语音和位置的记录：播放按钮、通联信息和罗盘"></figure>
+<p>记录顶部是<b>播放按钮</b>和进度条，点一下回放当时收到的语音。下面依次是模式、频率、时间、时长、呼号、目标、中继和留言。对方发了位置时，会显示和实时卡片一样的罗盘、距离、坐标、航向和速度，以及位置是通过哪种格式发来的。</p>
+<p>最下面两行是给想了解信号质量的人看的：<b>语音</b>一行是语音帧数和纠正的错误位数，越少说明信号越干净；<b>FEC 判据</b>是 App 判断这次发射是语音还是数据的依据。</p>
+
+<h3>查看图片</h3>
+<figure class="phone"><img class="shot" src="img/dstar-record-picture.png" alt="一条带图片的记录：图片和通联信息"></figure>
+<p>带图片的记录在顶部显示收到的照片。<b>图片</b>一行写着尺寸、收到的块数（如 1200/1200 表示完整）和对方设定的画质。</p>
+
+<h2>常见情况</h2>
+<table>
+<tr><th>现象</th><th>原因和办法</th></tr>
+<tr><td>瀑布图上有信号，但没有卡片也没有声音</td><td>频率偏了，先做<a href="connect.html">频率校准</a>；或者信号太强，离发射机远一点；也可能那不是 D-STAR 信号。</td></tr>
+<tr><td>卡片上只有呼号一栏是空的</td><td>你是在对方发射中途才开始收的。呼号只在每次发射的开头发一次，但语音、留言和位置仍然能解出来。</td></tr>
+<tr><td>有卡片但没有声音</td><td>对方在发图片或数据，没有语音；或者手机静音了。</td></tr>
+<tr><td>语音有点“机器人”腔</td><td>数字语音编码本身的特点，再加上 App 用的是开源解码器，音质会比原厂电台略差。</td></tr>
+<tr><td>没有显示距离和方位</td><td>对方没有发位置，或者你没有填自己的位置。</td></tr>
+<tr><td>RX History 是空的</td><td>记录只在一次发射结束后才保存；纯噪声触发的“假接收”会被自动丢弃。</td></tr>
+</table>

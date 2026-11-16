@@ -1,0 +1,41 @@
+<!-- Install rtl_tcp on Windows | Install the driver with Zadig, download the RTL-SDR tools and run rtl_tcp. -->
+<h1>Install rtl_tcp on Windows</h1>
+<p class="lede">Windows needs one extra step: a generic driver for the receiver. About ten minutes.</p>
+
+<ol class="steps">
+<li><strong>Plug in the receiver and install the driver with Zadig</strong>
+<p>Windows takes it for a TV tuner by default. It needs the WinUSB driver instead, installed with a small tool called Zadig:</p>
+<ul>
+<li>Download Zadig from <a href="https://zadig.akeo.ie">zadig.akeo.ie</a> and run it.</li>
+<li>In the <b>Options</b> menu, tick <b>List All Devices</b>.</li>
+<li>In the list choose <b>Bulk-In, Interface (Interface 0)</b>. Some models show as <b>RTL2838UHIDIR</b> or <b>RTL2832U</b>.</li>
+<li>Choose <b>WinUSB</b> as the driver, click <b>Replace Driver</b> (or Install Driver) and wait a minute or two.</li>
+</ul>
+<div class="bad"><p><b>Do not pick the wrong device.</b> Choosing a mouse, keyboard or camera in that list stops it working. Change only the entry named above.</p></div></li>
+
+<li><strong>Download the RTL-SDR tools</strong>
+<p>From <a href="https://github.com/rtlsdrblog/rtl-sdr-blog/releases">the RTL-SDR Blog releases page</a>, download the latest <code>Release.zip</code> and unzip it somewhere easy to find, such as <code>C:\rtl-sdr</code>. Its <code>x64</code> folder holds <code>rtl_tcp.exe</code> and <code>rtl_test.exe</code>.</p></li>
+
+<li><strong>Check the receiver is seen</strong>
+<p>In the <code>x64</code> folder, hold <kbd>Shift</kbd>, right-click an empty area and choose "Open in Terminal" (or "Open PowerShell window here"), then:</p>
+<pre><code>.\rtl_test.exe -t</code></pre>
+<p><code>Found 1 device(s)</code> and the model name mean it is working. If no device is found, go back and install the driver again.</p></li>
+
+<li><strong>Run rtl_tcp</strong>
+<pre><code>.\rtl_tcp.exe -a 0.0.0.0</code></pre>
+<p><code>listening...</code> means it is waiting for the phone. Leave the window open.</p>
+<div class="warn"><p><b>Allow it through the firewall.</b> The first time, Windows asks whether to allow network access: tick "Private networks" and allow. If you cancelled, the phone cannot connect; go to Windows Security → Firewall → Allow an app through firewall and tick rtl_tcp.</p></div></li>
+
+<li><strong>Find this computer's address</strong>
+<p>In another terminal window:</p>
+<pre><code>ipconfig</code></pre>
+<p>Under the network in use (Wi-Fi or Ethernet), note the <b>IPv4 Address</b>, something like <code>192.168.1.20</code>.</p></li>
+</ol>
+
+<div class="ok"><p>The computer is ready. Next: <a href="connect.html">Connect in the app →</a></p></div>
+
+<h2>Common questions</h2>
+<h3>It is not seen after moving to another USB port</h3>
+<p>Windows remembers the driver per USB port. Run Zadig again for the new port, or go back to the old one.</p>
+<h3>An RTL-SDR Blog V4 or V4L receives nothing</h3>
+<p>Use the tools from the RTL-SDR Blog releases page above. Older builds from elsewhere do not know these two models.</p>

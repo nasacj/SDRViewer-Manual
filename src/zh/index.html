@@ -1,0 +1,63 @@
+<!-- 首页 | SDRViewer 使用手册：把一只 RTL-SDR 变成 iPhone 上的收音机、航空和船舶接收机。 -->
+<section class="hero">
+  <div>
+    <h1>把一只 RTL-SDR<br>变成口袋里的接收机</h1>
+    <p class="lede">SDRViewer 是一个 iPhone / iPad 上的软件无线电接收机。RTL-SDR 插在电脑或树莓派上，手机通过 Wi-Fi 连过去，所有的解调和解码都在手机上完成。</p>
+    <a class="btn" href="start.html">从这里开始</a>
+    <a class="btn ghost" href="connect.html">我已经装好 rtl_tcp</a>
+  </div>
+  <figure class="phone" style="margin:0 auto"><img class="shot" src="img/home-adsb-lax.png" alt="ADS-B 页面的雷达显示：飞机、航路和进离场程序"></figure>
+</section>
+
+<h2>它是怎么连起来的</h2>
+<div class="diagram">
+    <svg viewBox="0 0 620 250" role="img" aria-label="连接示意：天线接 RTL-SDR，RTL-SDR 插在电脑上，电脑通过 Wi-Fi 把数据送给手机">
+      <g font-family="-apple-system,PingFang SC,sans-serif" font-size="14" fill="currentColor">
+        <path d="M70 40 L70 120 M52 58 L70 40 L88 58 M44 76 L70 50 L96 76" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="70" y="146" text-anchor="middle">天线</text>
+        <rect x="150" y="70" width="96" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <text x="198" y="97" text-anchor="middle" font-weight="700">RTL-SDR</text>
+        <rect x="320" y="52" width="130" height="84" rx="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <text x="385" y="88" text-anchor="middle" font-weight="700">电脑 / 树莓派</text>
+        <text x="385" y="112" text-anchor="middle" font-size="13" opacity=".75">运行 rtl_tcp</text>
+        <rect x="528" y="36" width="64" height="116" rx="12" fill="none" stroke="#0a7cff" stroke-width="3"/>
+        <text x="560" y="98" text-anchor="middle" font-weight="700" fill="#0a7cff">iPhone</text>
+        <g stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
+          <path d="M92 92 H146"/><path d="M250 92 H316"/>
+          <path d="M456 92 H522" stroke="#0a7cff" stroke-dasharray="3 7"/>
+        </g>
+        <text x="120" y="82" text-anchor="middle" font-size="12" opacity=".75">馈线</text>
+        <text x="283" y="82" text-anchor="middle" font-size="12" opacity=".75">USB</text>
+        <text x="489" y="82" text-anchor="middle" font-size="12" fill="#0a7cff">Wi-Fi</text>
+        <text x="310" y="196" text-anchor="middle" font-size="13" opacity=".8">iPhone 不能直接驱动 USB 接收机，所以需要一台机器把数据转到网络上。</text>
+        <text x="310" y="218" text-anchor="middle" font-size="13" opacity=".8">这台机器上只跑一个很小的程序：rtl_tcp。</text>
+      </g>
+    </svg>
+</div>
+
+<h2>三步开始</h2>
+<ol class="steps">
+  <li><strong>准备硬件</strong>一只 RTL-SDR、一根天线，和一台能插 USB 的电脑或树莓派。<a href="start.html">看看需要什么 →</a></li>
+  <li><strong>在电脑上运行 rtl_tcp</strong>它把接收机的数据通过网络送出来。按你的系统选一篇：
+    <div class="cards">
+      <a class="card" href="install-macos.html"><div class="ico">🍎</div><b>macOS</b><span>用 Homebrew 一行装好</span></a>
+      <a class="card" href="install-windows.html"><div class="ico">🪟</div><b>Windows</b><span>装驱动，再解压运行</span></a>
+      <a class="card" href="install-linux.html"><div class="ico">🐧</div><b>Linux</b><span>包管理器安装</span></a>
+      <a class="card" href="install-pi.html"><div class="ico">🍓</div><b>树莓派</b><span>开机自动运行，随身带着走</span></a>
+    </div>
+  </li>
+  <li><strong>在 App 里填上地址</strong>手机和电脑连同一个 Wi-Fi，把电脑的地址填进去，点播放。<a href="connect.html">在 App 里连接 →</a></li>
+</ol>
+
+<h2>它能收什么</h2>
+<div class="cards">
+  <a class="card" href="page-radio.html"><div class="ico">📻</div><b>Radio</b><span>FM 广播，自动搜台、立体声</span></a>
+  <a class="card" href="page-receiver.html"><div class="ico">🎚️</div><b>Receiver</b><span>频谱和瀑布图，FM / AM / SSB，D-STAR 数字语音</span></a>
+  <a class="card" href="page-aviation.html"><div class="ico">✈️</div><b>Aviation</b><span>ACARS 航空数据链报文</span></a>
+  <a class="card" href="page-atc.html"><div class="ico">🗼</div><b>ATC</b><span>塔台、进近、ATIS 的航空通话</span></a>
+  <a class="card" href="pages.html"><div class="ico">📍</div><b>APRS</b><span>业余无线电位置和消息</span></a>
+  <a class="card" href="pages.html"><div class="ico">🚢</div><b>AIS</b><span>船舶位置，画在地图上</span></a>
+  <a class="card" href="page-adsb.html"><div class="ico">🛩️</div><b>ADS-B</b><span>飞机位置，地图和雷达两种显示</span></a>
+</div>
+
+<div class="note"><p><b>正在公开测试。</b>App 通过 TestFlight 分发：先在 iPhone 上安装 Apple 的 TestFlight，再打开邀请链接 <a href="https://testflight.apple.com/join/AQxQcY5q">testflight.apple.com/join/AQxQcY5q</a>。</p></div>

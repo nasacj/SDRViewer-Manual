@@ -1,0 +1,43 @@
+<!-- Radio 收音机 | 自动搜索 FM 广播电台，点一下就听，带立体声和电台改名。 -->
+<h1>Radio 收音机</h1>
+<p class="lede">像车载收音机一样用：搜一次台，之后点哪个听哪个。这也是检验整套设备是否正常的最快办法。</p>
+
+<figure class="phone"><img class="shot" src="img/radio.png" alt="Radio 页面：电台列表、当前频率、立体声指示和频谱"></figure>
+
+<h2>第一次使用：搜台</h2>
+<ol class="steps">
+<li><strong>刚打开时是空的</strong>第一次进入 Radio 页面，电台列表里什么都没有，写着 <b>No stations yet</b>。点右上角的 <b>Scan</b> 开始搜台。
+<figure><img class="shot" src="img/radio-scan-1-empty.png" alt="还没有电台的 Radio 页面，右上角是 Scan 按钮"></figure></li>
+<li><strong>先扫一遍整个波段</strong>左上角显示 <code>sweeping 2/50</code> 这样的进度，App 正在把整个 FM 广播波段分段看一遍，找出所有可能有电台的频率。右上角的按钮变成 <b>Stop</b>，随时可以中止。
+<figure><img class="shot" src="img/radio-scan-2-sweeping.png" alt="正在扫描波段，显示 sweeping 进度"></figure></li>
+<li><strong>再逐个确认</strong>进度变成 <code>confirming 90.9 MHz 4/19</code>：App 对每个候选频率实际解调听一下，确认真的是广播才放进列表，所以列表里不会出现点了没声音的“假电台”。确认一个，列表里就多一个。
+<figure><img class="shot" src="img/radio-scan-3-confirming.png" alt="正在逐个确认候选电台，列表中已经出现几个"></figure></li>
+<li><strong>搜完了，点一个开始听</strong>按钮变回 <b>Rescan</b> 就是搜完了。整个过程根据采样率不同大约半分钟到一分钟。列表可以左右滑动，点一下电台就播放。
+<figure><img class="shot" src="img/radio-scan-4-done.png" alt="搜台完成后的电台列表"></figure></li>
+</ol>
+<div class="note"><p>搬到另一个城市，或者换了天线之后，点 <b>Rescan</b> 重新搜一次。</p></div>
+
+<h2>页面上的东西</h2>
+<div class="parts">
+<div class="part"><img src="img/radio-part-stations.png" alt="电台卡片"><div><b class="name">电台卡片</b><p>搜到的电台，左右滑动查看。<b>ST</b> 是立体声台，<b>MONO</b> 是单声道台，旁边的小格子是信号强弱。点一下播放，长按可以改名。</p></div></div>
+<div class="part"><img src="img/radio-part-frequency.png" alt="频率和播放按钮"><div><b class="name">频率和播放按钮</b><p>大号数字是当前频率，下面的小字是电台名（没有名字时显示频率）。左边的圆形按钮是播放 / 停止。</p></div></div>
+<div class="part"><img src="img/radio-part-stereo.png" alt="立体声按钮、左右声道电平"><div><b class="name">立体声和电平</b><p>左边的按钮点一下在 <b>AUTO / STEREO / MONO</b> 之间切换，下面的百分比是实际的立体声分离程度；信号弱、有沙沙声时切到 MONO 会干净很多。<b>L / R</b> 是左右声道的音量，<b>L−R</b> 是两个声道的差异（数值越接近 0 立体声感越强），<b>BUF</b> 是音频缓冲的占用，稳定在一个数值附近说明网络顺畅。</p></div></div>
+<div class="part"><img src="img/radio-part-spectrum.png" alt="频谱和瀑布图"><div><b class="name">频谱和瀑布图</b><p>当前频率附近的信号。上半部分是此刻的频谱，下半部分是随时间向下滚动的瀑布图，亮的竖条就是电台，中间的竖线是正在收听的频率。左上角的 <b>AUTO</b> 和 <b>CAL</b> 控制瀑布图的明暗：AUTO 自动调整，CAL 按当前的底噪重新校准一次。</p></div></div>
+<div class="part"><img src="img/radio-part-tuning.png" alt="调谐按钮和刻度盘"><div><b class="name">手动调台</b><p><b>‹ ›</b> 移动一个步进，<b>« »</b> 一次移动十个步进；中间的 <b>Step</b> 可以改步进大小（FM 广播用 100k）；拖动最下面的刻度盘可以连续调节。</p></div></div>
+</div>
+
+<h2>给电台改名</h2>
+<p>电台默认显示频率。<b>长按</b>一个电台卡片，选 <b>Rename</b>，就可以写上它的名字，比如“音乐之声”。想恢复时长按选 <b>Use the original name</b>。</p>
+<p>在有 RDS 广播的国家和地区，电台会自己播发名称，App 会自动显示；国内的电台大多不播发 RDS，所以需要自己起名。</p>
+
+<h2>顺便校准了接收机</h2>
+<p>每听一个立体声电台几秒钟，App 就会悄悄量一次接收机的频率误差。听过三个以上的立体声台之后，校准会自动生效，之后收航空、APRS、AIS 这些对频率要求高的信号就准了。详见<a href="connect.html">频率校准</a>。</p>
+
+<h2>常见情况</h2>
+<table>
+<tr><th>现象</th><th>原因和办法</th></tr>
+<tr><td>搜不到台，或者只有一两个</td><td>天线太短或位置不好。把拉杆每边拉到约 75 厘米，放到窗边再搜一次。</td></tr>
+<tr><td>有的台显示 MONO</td><td>正常。新闻、谈话类电台常常用单声道播出。</td></tr>
+<tr><td>立体声台有明显的沙沙声</td><td>立体声对信号强度要求更高。切到 MONO，或者改善天线。</td></tr>
+<tr><td>切到别的页面，广播还在响</td><td>这是设计如此：声音在后台继续播放。回到 Radio 页面点停止，或者在使用同一只接收机的其它页面点播放，它会自动让出。</td></tr>
+</table>

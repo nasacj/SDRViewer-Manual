@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>在 App 里连接 · SDRViewer 使用手册</title>
+<meta name="description" content="把运行 rtl_tcp 的电脑地址填进 SDRViewer，点播放，并校准接收机的频率。">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="en/connect.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<h4>连接</h4>
+<a class="on" href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>在 App 里连接</h1>
+<p class="lede">电脑上的 <code>rtl_tcp</code> 已经在运行，剩下的就是告诉 App 它在哪里。</p>
+
+<div class="note"><p><b>开始之前</b>确认两件事：电脑上的 <code>rtl_tcp</code> 窗口显示 <code>listening...</code>；手机和电脑连的是<b>同一个 Wi-Fi</b>。</p></div>
+
+<ol class="steps">
+<li><strong>打开设置</strong>
+<p>进入 <b>Receiver</b> 页面（底部第二个标签），点左上角的齿轮图标。</p></li>
+
+<li><strong>编辑接收机</strong>
+<p>设置页最上面一行是 <b>Receiver</b>，右边是当前接收机的名字。点它，在弹出的菜单里选 <b>Edit…</b>。</p>
+<figure class="phone"><img class="shot" src="img/settings-receiver.png" alt="设置页顶部的 Receiver 一行"><figcaption>设置页顶部。下面一行小字是当前的地址、端口和连接方式。</figcaption></figure></li>
+
+<li><strong>填写地址</strong>
+<table>
+<tr><th>项目</th><th>填什么</th></tr>
+<tr><td><b>Name</b></td><td>随便起个名字，方便自己认，比如“书房的 RTL-SDR”。</td></tr>
+<tr><td><b>TCP / UDP</b></td><td>选 <b>TCP</b>。普通的 <code>rtl_tcp</code> 都是 TCP。</td></tr>
+<tr><td><b>Host</b></td><td>电脑的地址，就是安装那一步查到的，例如 <code>192.168.1.20</code>。树莓派也可以填 <code>raspberrypi.local</code> 这样的名字。</td></tr>
+<tr><td><b>Port</b></td><td><code>1234</code>，除非你启动 rtl_tcp 时用 <code>-p</code> 改过。</td></tr>
+</table>
+<figure class="phone"><img class="shot" src="img/receiver-editor.png" alt="接收机编辑页：名称、TCP/UDP、地址、端口和频率校准"><figcaption>接收机的编辑页。填完点右上角 Done。</figcaption></figure></li>
+
+<li><strong>点播放</strong>
+<p>回到页面，点频率左边的播放按钮。几秒钟内瀑布图开始滚动，就连上了。最容易验证的是先去 <b>Radio</b> 页面搜一下 FM 广播，见 <a href="page-radio.html">Radio 收音机</a>。</p></li>
+</ol>
+
+<div class="warn"><p><b>连上了但没有任何信号？</b>最常见的原因是 <code>rtl_tcp</code> 同一时间只能服务一个客户端：如果电脑上还开着别的 SDR 软件连着它，或者另一台手机正连着，后来的会连上却收不到数据。其它情况见 <a href="troubleshoot.html">连不上怎么办</a>。</p></div>
+
+<h2>频率校准（Crystal error）</h2>
+<p>便宜的接收机里的晶振有误差，调到 100.000 MHz 时实际可能偏了十几千赫。听 FM 广播感觉不出来，但收航空通话、APRS、AIS 这些窄信号时，偏这么多就完全收不到了。App 会帮你量出这个误差并自动修正。</p>
+<table>
+<tr><th>模式</th><th>怎么用</th></tr>
+<tr><td><b>Automatic</b>（推荐）</td><td>什么都不用设。在 Radio 页面多听几个<b>立体声</b> FM 电台，每个听几秒，App 会从电台的导频信号里量出误差，三个电台结果一致后自动应用。</td></tr>
+<tr><td><b>Manual</b></td><td>如果你已经知道这只接收机的误差（单位 ppm），直接填。</td></tr>
+</table>
+<ul>
+<li><b>RTL-SDR Blog V3 / V4 / V4L</b> 用的是高精度晶振，误差通常在 1–2 ppm 以内，保持默认就可以。</li>
+<li><b>普通电视棒</b>的误差可能有几十到一百多 ppm，一定要校准一次。</li>
+<li><b>换了一只接收机</b>之后，点 <b>Measure again</b> 重新测量。每只接收机的误差都不一样。</li>
+<li>校准值在<b>下一次连接时</b>生效：改完之后停止再重新播放。</li>
+</ul>
+
+<h2>有多只接收机</h2>
+<p>设置页的 Receiver 菜单里可以 <b>Add receiver…</b> 再加一项。每个页面（Radio / Receiver / ATC 算一组，Aviation、APRS、AIS、ADS-B 各自一个）都可以在自己的设置里选用哪一只：</p>
+<ul>
+<li>选了<b>同一只</b>接收机的页面轮流使用：启动一个，另一个会自动停下。</li>
+<li>选了<b>不同</b>接收机的页面可以同时运行，例如一边听航空通话，一边在 ADS-B 页面看飞机。</li>
+</ul>
+<p>修改某一项的地址，所有选用它的页面会一起改变。</p>
+
+<div class="pager">
+<a href="install-pi.html"><small>上一篇</small>在树莓派上安装 rtl_tcp</a>
+<a class="next" href="troubleshoot.html"><small>下一篇</small>连不上怎么办</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

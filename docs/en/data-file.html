@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Airspace data file · SDRViewer Manual</title>
+<meta name="description" content="The chart data behind the ATC and ADS-B pages is one JSON file: its format, section by section.">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="soon">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../data-file.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a class="on" href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
+</nav>
+<main>
+<h1>Airspace data file</h1>
+<p class="lede">The airport frequencies on the ATC page, and the airways, navaids and procedures on the ADS-B page, come from one JSON file that you import. The app carries no country's chart data of its own. This page describes that file and gives a Los Angeles example to download and try.</p>
+
+<figure class="pair">
+  <img class="shot" src="../img/data-lax-radar.png" alt="Los Angeles on the ADS-B radar scope: airways and procedures">
+  <img class="shot" src="../img/data-lax-map.png" alt="Los Angeles on the ADS-B map: airways, procedures and airports">
+  <figcaption>The ADS-B page with data for the Los Angeles area imported, as a radar scope and as a map: green is airways, orange and the other colours are departures and arrivals, circles are airports.</figcaption>
+</figure>
+
+<h2>Try the example first</h2>
+<ol class="steps">
+<li><strong>Download the example</strong><a href="data/atc-lax.json">atc-lax.json</a> (about 600 kB): the 20 towered airports within 90 km of Los Angeles International, 152 frequencies, 51 navaids, 84 airways and 698 departure and arrival procedures. It is made from the NASR data the United States Federal Aviation Administration publishes, effective 2026-10-29.</li>
+<li><strong>Get the file onto the iPhone</strong>AirDrop, iCloud Drive or the Files app: anything that lets the iPhone see it.</li>
+<li><strong>Import it in the app</strong>Open the <b>ATC</b> page. On first use it shows a button for choosing a file (选择文件); tap it and pick the JSON. Or, in Files, touch and hold the file, choose Share, then SDRViewer.</li>
+<li><strong>Look at the ADS-B page</strong>Move the map or the scope to Los Angeles and you have the pictures above. The layers button at the top right switches airways, waypoints, navaids, airports and each kind of procedure.</li>
+</ol>
+
+<div class="warn"><p><b>Not for navigation.</b> This is background for a receiver's display. It goes out of date and may be wrong. For any flying, use the current official publications.</p></div>
+
+<h2>Why you import it yourself</h2>
+<p>Aeronautical information is published by each country's aviation authority under its own terms: some, the United States among them, publish it for anyone to use; others can be read for free and may not be redistributed. So the app ships no data and defines a file format instead, for data you are entitled to use.</p>
+
+<h2>The file as a whole</h2>
+<p>The file is one JSON object: a few lines about itself, then five lists. Any list may be empty, <code>[]</code>: a file with only airport frequencies is useful.</p>
+<pre><code>{
+  "format": "sdrviewer-atc",
+  "version": 1,
+  "region": "us-klax",
+  "updated": "2026-10-29",
+  "source": "FAA NASR 28-day subscription, effective 2026-10-29 …",
+  "airports":   [ … ],
+  "navaids":    [ … ],
+  "routes":     [ … ],
+  "procedures": [ … ],
+  "sectors":    [ … ]
+}</code></pre>
+<table>
+<tr><th>Field</th><th>Meaning</th></tr>
+<tr><td><code>format</code></td><td>Always <code>"sdrviewer-atc"</code>: how the app knows what the file is.</td></tr>
+<tr><td><code>version</code></td><td>The format's version, <code>1</code> at present.</td></tr>
+<tr><td><code>region</code></td><td>A short name of your own for this data.</td></tr>
+<tr><td><code>updated</code></td><td>The data's date. Aeronautical information changes every 28 days, and the date says how old yours is.</td></tr>
+<tr><td><code>source</code></td><td>Where the data came from; the app shows it.</td></tr>
+</table>
+<div class="note"><p>Every coordinate is in <b>decimal degrees</b>, WGS-84: north and east positive, south and west negative. Los Angeles is at longitude <code>-118.408</code>. Frequencies are in MHz.</p></div>
+
+<h2>airports: airports and their frequencies</h2>
+<p>One entry per airport, with its frequencies in <code>channels</code>. The <b>ATC page</b> lists what can be listened to from these; the ADS-B page draws the airport's circle and name.</p>
+<pre><code>{
+  "icao": "KLAX",
+  "iata": "LAX",
+  "name": "Los Angeles Intl",
+  "nameEnglish": "Los Angeles Intl",
+  "position": {"lat": 33.9425, "lon": -118.40805, "elevationMetres": 39.0},
+  "channels": [
+    {"role": "atis", "label": "ATIS · Arr", "mhz": 133.8, "callsignEnglish": "Los Angeles ATIS", "hours": "H24"},
+    {"role": "delivery", "label": "Clearance", "mhz": 120.35, "callsignEnglish": "Los Angeles Clearance", "hours": "H24"},
+    {"role": "ground", "label": "Ground · South Cmplx", "mhz": 121.75, "callsignEnglish": "Los Angeles Ground", "hours": "H24"},
+    {"role": "tower", "label": "Tower · North Cmplx", "mhz": 133.9, "callsignEnglish": "Los Angeles Tower", "hours": "H24"}
+  ]
+}</code></pre>
+<table>
+<tr><th>Field</th><th>Required</th><th>Meaning</th></tr>
+<tr><td><code>icao</code></td><td>yes</td><td>The four-letter code, which is the airport's identity: procedures and sectors refer to it.</td></tr>
+<tr><td><code>iata</code></td><td></td><td>The three-letter code, for display only.</td></tr>
+<tr><td><code>name</code> / <code>nameEnglish</code></td><td>yes</td><td>The name in the local language and in English. With only one, write it twice.</td></tr>
+<tr><td><code>position</code></td><td>yes</td><td>Latitude, longitude and elevation in metres of the airport reference point.</td></tr>
+<tr><td><code>channels[].role</code></td><td>yes</td><td>What the frequency is for; see the table below.</td></tr>
+<tr><td><code>channels[].mhz</code></td><td>yes</td><td>The frequency.</td></tr>
+<tr><td><code>channels[].label</code></td><td></td><td>The short name on the button: a sector, or "north runways".</td></tr>
+<tr><td><code>channels[].callsign</code> / <code>callsignEnglish</code></td><td></td><td>The radio callsign, such as "Los Angeles Tower".</td></tr>
+<tr><td><code>channels[].backup</code></td><td></td><td>A standby frequency.</td></tr>
+<tr><td><code>channels[].hours</code></td><td></td><td>Hours of operation; <code>H24</code> is always.</td></tr>
+<tr><td><code>channels[].note</code></td><td></td><td>Anything else worth saying.</td></tr>
+</table>
+<p>Values for <code>role</code>:</p>
+<table>
+<tr><th>role</th><th>Meaning</th></tr>
+<tr><td><code>atis</code></td><td>The recorded airport information broadcast. It never stops, which makes it the best test signal.</td></tr>
+<tr><td><code>delivery</code></td><td>Clearance delivery</td></tr>
+<tr><td><code>ground</code></td><td>Ground control</td></tr>
+<tr><td><code>apron</code></td><td>Apron or ramp control</td></tr>
+<tr><td><code>tower</code></td><td>Tower</td></tr>
+<tr><td><code>approach</code></td><td>Approach and departure</td></tr>
+<tr><td><code>emergency</code></td><td>The emergency frequency, 121.5</td></tr>
+<tr><td><code>ops</code></td><td>Airline or airport operations</td></tr>
+</table>
+<p>A <code>role</code> the app does not know does not reject the file; that entry is filed under "other".</p>
+
+<h2>navaids: radio navigation aids</h2>
+<p>Ground stations: VORs and NDBs. The ADS-B page draws them with chart symbols and, zoomed in, a compass rose round each VOR.</p>
+<pre><code>{"ident": "LAX", "type": "VOR/DME", "name": "Los Angeles", "lat": 33.93315, "lon": -118.43201, "frequency": "113.6 MHz"}</code></pre>
+<table>
+<tr><th>Field</th><th>Required</th><th>Meaning</th></tr>
+<tr><td><code>ident</code></td><td>yes</td><td>The station's identifier, two or three letters.</td></tr>
+<tr><td><code>type</code></td><td>yes</td><td><code>VOR/DME</code> or <code>NDB</code>, which decides the symbol.</td></tr>
+<tr><td><code>lat</code> / <code>lon</code></td><td>yes</td><td>Position.</td></tr>
+<tr><td><code>frequency</code></td><td></td><td>The frequency as text with its unit: <code>"113.6 MHz"</code>, <code>"362 kHz"</code>.</td></tr>
+<tr><td><code>name</code> / <code>nameChinese</code></td><td></td><td>Name.</td></tr>
+</table>
+
+<h2>routes: airways</h2>
+<p>An airway is a list of points in order. The ADS-B page joins each to the next and writes the designator along the line.</p>
+<pre><code>{
+  "designator": "V23",
+  "section": "NASR AWY",
+  "points": [
+    {"name": "OCN", "lat": 33.24063, "lon": -117.41772, "compulsory": false},
+    {"name": "KELPS", "lat": 33.3242, "lon": -117.51505, "compulsory": false},
+    {"name": "DANAH", "lat": 33.48101, "lon": -117.69837, "compulsory": false},
+    {"name": "SLI", "lat": 33.7833, "lon": -118.05476, "compulsory": false}
+  ]
+}</code></pre>
+<table>
+<tr><th>Field</th><th>Required</th><th>Meaning</th></tr>
+<tr><td><code>designator</code></td><td>yes</td><td>The airway's name: V23, J5, A593.</td></tr>
+<tr><td><code>points[].name</code></td><td>yes</td><td>The waypoint's or navaid's name.</td></tr>
+<tr><td><code>points[].lat</code> / <code>lon</code></td><td>yes</td><td>Its position. Every point carries its own coordinates; there is no separate table of waypoints.</td></tr>
+<tr><td><code>points[].compulsory</code></td><td></td><td>Whether it is a compulsory reporting point, which decides a filled or an open symbol.</td></tr>
+<tr><td><code>section</code></td><td></td><td>Where in the source it came from; a note only.</td></tr>
+</table>
+<p>A long airway need not be given whole: the example keeps the part of each that comes within 280 km of Los Angeles.</p>
+
+<h2>procedures: departures, arrivals and approaches</h2>
+<p>A procedure is a list of <b>legs</b> from one point to the next. The ADS-B page draws each kind in its own colour, with arrows along the line for the direction flown.</p>
+<pre><code>{
+  "kind": "sid",
+  "name": "ORCKA5",
+  "airport": "KLAX",
+  "runways": ["24L"],
+  "byATC": false,
+  "legs": [
+    {"type": "DER", "fix": "", "lat": 33.94682, "lon": -118.43467},
+    {"type": "TF", "fix": "DLREY", "lat": 33.94368, "lon": -118.46515},
+    {"type": "TF", "fix": "KLIPR", "lat": 33.92951, "lon": -118.43878},
+    {"type": "TF", "fix": "KEGGS", "lat": 34.00845, "lon": -118.29959},
+    {"type": "TF", "fix": "COOPP", "lat": 34.12113, "lon": -118.10053},
+    {"type": "TF", "fix": "ORCKA", "lat": 34.34973, "lon": -117.69314}
+  ]
+}</code></pre>
+<table>
+<tr><th>Field</th><th>Required</th><th>Meaning</th></tr>
+<tr><td><code>kind</code></td><td>yes</td><td><code>sid</code> departure, <code>star</code> arrival, <code>approach</code>, <code>missed</code> missed approach, <code>hold</code>.</td></tr>
+<tr><td><code>name</code></td><td>yes</td><td>The procedure's name, such as ORCKA5.</td></tr>
+<tr><td><code>airport</code></td><td>yes</td><td>The airport's four-letter code, as written in <code>airports</code>.</td></tr>
+<tr><td><code>runways</code></td><td>yes</td><td>The runways it applies to; may be an empty list. With a runway direction chosen in the app, only that runway's procedures are drawn.</td></tr>
+<tr><td><code>transition</code></td><td></td><td>The name of a transition. One procedure is often a common part and several transitions to different directions, each written as an entry.</td></tr>
+<tr><td><code>byATC</code></td><td></td><td>Whether it is flown only as assigned by a controller.</td></tr>
+<tr><td><code>legs</code></td><td>yes</td><td>The legs. At least two with coordinates, or there is nothing to draw.</td></tr>
+</table>
+<p>The fields of a leg:</p>
+<table>
+<tr><th>Field</th><th>Meaning</th></tr>
+<tr><td><code>type</code></td><td>The kind of leg; see below. If unsure, <code>IF</code> for the first point and <code>TF</code> for the rest.</td></tr>
+<tr><td><code>fix</code></td><td>The name of the waypoint the leg ends at, or an empty string.</td></tr>
+<tr><td><code>lat</code> / <code>lon</code></td><td>Where it ends.</td></tr>
+<tr><td><code>altitude</code></td><td>An altitude limit as text: <code>"1200"</code> at, <code>"≥1500"</code> at or above, <code>"≤1800"</code> at or below, <code>"≤1800/≥1200"</code> between. Shown beside the waypoint when zoomed in.</td></tr>
+<tr><td><code>speed</code></td><td>A speed limit, such as <code>"MAX250"</code>.</td></tr>
+<tr><td><code>course</code></td><td>Course in degrees.</td></tr>
+<tr><td><code>turn</code></td><td>Turn direction, <code>"L"</code> or <code>"R"</code>.</td></tr>
+<tr><td><code>flyOver</code></td><td>Whether the point must be overflown.</td></tr>
+</table>
+<table>
+<tr><th>type</th><th>Meaning</th></tr>
+<tr><td><code>IF</code></td><td>Initial fix</td></tr>
+<tr><td><code>TF</code></td><td>Straight from the previous point to this one. The usual leg.</td></tr>
+<tr><td><code>DF</code></td><td>Direct to this point from wherever the aircraft is</td></tr>
+<tr><td><code>CF</code></td><td>On a given course to this point</td></tr>
+<tr><td><code>DER</code></td><td>The departure end of the runway, where a departure starts</td></tr>
+<tr><td><code>VA</code> / <code>CA</code></td><td>A heading or course held to an altitude, with no fixed end</td></tr>
+<tr><td><code>HM</code></td><td>A holding pattern, with <code>course</code> and <code>turn</code></td></tr>
+</table>
+<div class="note"><p>The Los Angeles example is made from the FAA's NASR data, which says which points a procedure passes and <b>nothing about altitude or speed, and holds no approaches</b>. So its procedures are lines and names only; <code>altitude</code>, <code>speed</code> and the rest are there for data of your own that has them.</p></div>
+
+<h2>sectors: controllers' sectors</h2>
+<p>A sector is a piece of airspace with a floor and a ceiling, worked by one controller position on its own frequency. The <b>ATC page</b> uses sectors to answer "who has the airspace where I am, and which frequency is that"; the ADS-B page draws their boundaries.</p>
+<p>The Los Angeles example has none (<code>sectors</code> is empty): this FAA data holds no sector shapes. Here is an invented approach sector, to show the format:</p>
+<pre><code>{
+  "id": "ZZZZAP01",
+  "name": "AP01",
+  "kind": "approach",
+  "callsignEnglish": "Example Approach",
+  "mhz": 119.3,
+  "backup": 124.5,
+  "hours": "H24",
+  "serves": ["ZZZZ"],
+  "volumes": [
+    {
+      "ring": [[30.98925, -140.0], [30.9492, -141.1122], [29.99507, -141.14225], [29.04163, -141.09102], [29.01075, -140.0]],
+      "lower": {"metres": 0, "surface": true},
+      "upper": {"metres": 6000, "datum": "STD"}
+    }
+  ]
+}</code></pre>
+<table>
+<tr><th>Field</th><th>Required</th><th>Meaning</th></tr>
+<tr><td><code>id</code></td><td>yes</td><td>The sector's unique identifier.</td></tr>
+<tr><td><code>name</code></td><td>yes</td><td>Its name.</td></tr>
+<tr><td><code>kind</code></td><td>yes</td><td><code>area</code> en-route control, <code>approach</code>, or <code>terminal</code>. The layers menu switches them by kind.</td></tr>
+<tr><td><code>mhz</code></td><td>yes</td><td>The main frequency.</td></tr>
+<tr><td><code>callsign</code> / <code>callsignEnglish</code></td><td></td><td>The radio callsign.</td></tr>
+<tr><td><code>backup</code>, <code>hours</code></td><td></td><td>Standby frequency, hours of operation.</td></tr>
+<tr><td><code>serves</code></td><td></td><td>The codes of the airports the sector serves.</td></tr>
+<tr><td><code>volumes</code></td><td>yes</td><td>One or more pieces of airspace, each a boundary <code>ring</code> with a floor and a ceiling.</td></tr>
+<tr><td><code>volumes[].ring</code></td><td>yes</td><td>The boundary's corners in order, each <code>[latitude, longitude]</code>; the first need not be repeated at the end.</td></tr>
+<tr><td><code>volumes[].lower</code> / <code>upper</code></td><td>yes</td><td>Floor and ceiling in metres. <code>"surface": true</code> is from the ground; <code>"datum": "STD"</code> is on the standard pressure setting (a flight level).</td></tr>
+</table>
+
+<h2>Making your own</h2>
+<table>
+<tr><th>What you want</th><th>How</th></tr>
+<tr><td>A few airports' frequencies</td><td>Download the example above, edit its <code>airports</code> and leave the other lists empty. Typing it by hand is enough.</td></tr>
+<tr><td>A whole country or region</td><td>From that country's aeronautical information publication (AIP). Read its terms first: much of it can be read for free and may not be redistributed, in which case the file you make is for your own use.</td></tr>
+</table>
+
+<h2>If importing goes wrong</h2>
+<table>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>The file cannot be read</td><td>It is not valid JSON, usually a comma too many or too few, or an unmatched quote. Any JSON validator will find it.</td></tr>
+<tr><td>Imported, but nothing is drawn on ADS-B</td><td>The view is not over the area the data covers (move the map there), or the Chart switch at the top of the layers menu is off.</td></tr>
+<tr><td>Procedures are drawn in plainly the wrong place</td><td>Latitude and longitude swapped, or a west longitude or south latitude without its minus sign.</td></tr>
+<tr><td>"Loading chart…" for a few seconds when the map opens</td><td>Normal. The larger the file the longer it takes; a whole country takes several seconds.</td></tr>
+<tr><td>The ATC page says the position is outside published airspace (已发布空域之外)</td><td>No sector in the file covers where you are. A file with airport frequencies and no sectors does this; the frequencies are still in the airport list.</td></tr>
+</table>
+
+<div class="pager">
+<a href="troubleshoot.html"><small>Previous</small>If it will not connect</a>
+<a class="next" href="pages.html"><small>Next</small>All pages</a>
+</div>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
+</main>
+</div>
+</body>
+</html>

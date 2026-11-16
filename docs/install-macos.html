@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>在 macOS 上安装 rtl_tcp · SDRViewer 使用手册</title>
+<meta name="description" content="用 Homebrew 安装 librtlsdr，运行 rtl_tcp，并查到这台 Mac 的地址。">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="en/install-macos.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a class="on" href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>在 macOS 上安装 rtl_tcp</h1>
+<p class="lede">大约五分钟。需要在“终端”里输入三四条命令，照着复制即可。</p>
+
+<ol class="steps">
+<li><strong>安装 Homebrew（已经装过的跳过）</strong>
+Homebrew 是 Mac 上常用的软件安装工具。打开“终端”（在“启动台”里搜索“终端”），粘贴下面这一行并回车，按提示输入开机密码：
+<pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+不确定有没有装过？输入 <code>brew --version</code>，能显示版本号就是装过了。</li>
+
+<li><strong>安装 RTL-SDR 的工具</strong>
+<pre><code>brew install librtlsdr</code></pre>
+这会装好 <code>rtl_tcp</code>、<code>rtl_test</code> 等几个小程序。</li>
+
+<li><strong>插上接收机，检查能不能认到</strong>
+<pre><code>rtl_test -t</code></pre>
+看到类似下面的输出就对了（型号不同文字会不一样）：
+<pre><code>Found 1 device(s):
+  0:  RTLSDRBlog, Blog V4L, SN: 00000001
+Found Rafael Micro R820T tuner</code></pre>
+<div class="warn"><p>如果显示 <code>No supported devices found</code>：换一个 USB 口，或者去掉中间的 USB 集线器再试。</p></div></li>
+
+<li><strong>运行 rtl_tcp</strong>
+<pre><code>rtl_tcp -a 0.0.0.0</code></pre>
+看到 <code>listening...</code> 就是在等手机连接了。这个终端窗口要一直开着，关掉窗口服务就停了；想停止时按 <kbd>Control</kbd> + <kbd>C</kbd>。
+<div class="note"><p><code>-a 0.0.0.0</code> 的意思是“允许别的设备连进来”。不加的话只有这台 Mac 自己能连，手机会连不上。</p></div>
+第一次运行时如果 macOS 弹窗问“是否允许接受传入网络连接”，选<b>允许</b>。</li>
+
+<li><strong>查到这台 Mac 的地址</strong>
+另开一个终端窗口，输入：
+<pre><code>ipconfig getifaddr en0</code></pre>
+会显示一个类似 <code>192.168.1.20</code> 的地址，记下来，下一步要填进 App。（用网线的 Mac 如果没有输出，把 <code>en0</code> 换成 <code>en1</code> 试试；也可以在“系统设置 → 网络”里查看。）</li>
+</ol>
+
+<div class="ok"><p>做到这里，电脑这边就准备好了。接下来：<a href="connect.html">在 App 里连接 →</a></p></div>
+
+<h2>常见问题</h2>
+<h3>RTL-SDR Blog V4 / V4L 没有信号</h3>
+<p>这两个型号需要较新的驱动。输入 <code>brew upgrade librtlsdr</code> 升级到最新版，再运行 <code>rtl_test -t</code>，应该能看到 <code>RTL-SDR Blog V4 Detected</code> 或 <code>RTL-SDR Blog V4 Lite Detected</code>。</p>
+<h3>提示 usb_claim_interface error</h3>
+<p>说明接收机正被另一个程序占用。常见的是已经有一个 <code>rtl_tcp</code> 在运行，或者开着别的 SDR 软件。关掉它们再试。</p>
+<h3>想让它开机自动运行</h3>
+<p>最简单的办法是把上面那条命令存成一个脚本，加到“系统设置 → 通用 → 登录项”里。长期使用的话更推荐<a href="install-pi.html">树莓派</a>，不用一直开着电脑。</p>
+
+<div class="pager">
+<a href="start.html"><small>上一篇</small>需要准备什么</a>
+<a class="next" href="install-windows.html"><small>下一篇</small>在 Windows 上安装 rtl_tcp</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

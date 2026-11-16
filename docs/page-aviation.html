@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aviation 航空数据链 · SDRViewer 使用手册</title>
+<meta name="description" content="接收飞机和地面之间的文字报文（ACARS / VDL2），按飞机和航班整理，并把通播、放行许可、起降时刻翻译成看得懂的内容。">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="en/page-aviation.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a class="on" href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>Aviation 航空数据链</h1>
+<p class="lede">飞机和地面之间除了说话，还一直在互发文字：要通播、要放行许可、报告推出和起飞时刻、收天气。这些报文走的是 ACARS 和 VDL2 数据链。这一页把它们收下来，按飞机和航班排好，并把常见的报文解读成一张看得懂的表。</p>
+
+<figure class="phone"><img class="shot" src="img/aviation.png" alt="一架飞机的报文时间线"><figcaption>一架飞机起飞前的报文，按时间排列。</figcaption></figure>
+
+<div class="note"><p><b>关于截图。</b>本页的报文是为手册编写的演示数据：飞机 .NDEMO1、航班 XD0101 都不存在，内容仿照真实报文的格式，背景设在洛杉矶。你收到的真实报文样子相同。收到的内容请只用于自己学习，并遵守当地的法规。</p></div>
+
+<h2>开始接收</h2>
+<ol class="steps">
+<li><strong>选对地区</strong>点右上角的 <b>…</b> → <b>Settings</b>，在 <b>Region</b> 里选你所在的地区。各地用的频率不同：中国是 131.450 MHz，北美是 131.550 MHz，欧洲又是另一组。选错了就是在听一段空的频率。</li>
+<li><strong>点播放键</strong>接收机会同时监听这个地区的几个频率。<b>Listen around</b> 可以换一组频率，或者改收 <b>VDL2</b>（136.975 MHz 一带，更新的一种数据链）。</li>
+<li><strong>等一会儿</strong>数据链是一阵一阵的短促发射，不像广播一直有信号。在机场附近几十秒就有一条，离机场远的地方可能要等几分钟。顶上的 <b>msgs</b> 是已经收到的报文数。</li>
+</ol>
+<div class="note"><p>天线用收航空波段的那一种（和 <a href="page-atc.html">ATC</a> 页一样），并且要做过<a href="connect.html">频率校准</a>：这里的信道很窄，偏一点就完全收不到。</p></div>
+
+<h2>三层：飞机 → 航班 → 报文</h2>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/aviation-list.png" alt="收到过报文的飞机列表"><figcaption>第一层：收到过的每一架飞机。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-out.png" alt="一条报文的详情"><figcaption>第三层：一条报文的详情。</figcaption></figure>
+</div>
+<ul>
+<li><b>飞机</b>：按注册号（相当于飞机的车牌）列出，下面的小字是它执飞的航班号，右边是报文数量（8/13 表示 13 条里有 8 条是有内容的）和最后一次收到的时间。</li>
+<li><b>航班</b>：点进一架飞机，报文按航班分组、按时间排列（就是本页第一张图）。</li>
+<li><b>报文</b>：点任意一条，看完整解读。<b>WHAT IT SAYS</b> 是解读出来的内容，<b>AS RECEIVED</b> 是收到的原文，一个字都不改。</li>
+</ul>
+<div class="parts">
+<div class="part"><img src="img/aviation-part-row.png" alt="时间线上的一条报文"><div><b class="name">一条报文上的标记</b><p><b>TX</b> 是飞机发出的，<b>RX</b> 是地面发给飞机的。<b>LBL</b> 后面是报文的类型代码（B9、A9、B3…）。右边是收到它的频率。<b>inferred</b> 表示这条报文本身没写航班号，是根据同一架飞机前后的报文归到这个航班的。标题那一行是报文的类型，下面是解读出来的各项内容。</p></div></div>
+</div>
+<p>右上角的<b>中文</b>按钮把解读切换成中文：字段名变成中文，机场代码后面会带上机场名。</p>
+<figure class="phone"><img class="shot" src="img/aviation-clearance-zh.png" alt="放行许可的中文解读"><figcaption>同一条放行许可，中文显示。</figcaption></figure>
+
+<h2>跟着一架飞机看一次离场</h2>
+<p>把一架飞机起飞前的报文连起来看，就是一次完整的离场准备。演示里的 XD0101 从洛杉矶飞往旧金山：</p>
+<table>
+<tr><th>顺序</th><th>方向</th><th>报文</th><th>在做什么</th></tr>
+<tr><td>1</td><td>飞机 → 地面</td><td>Request ATIS Report</td><td>机组索取洛杉矶的离场通播。</td></tr>
+<tr><td>2</td><td>地面 → 飞机</td><td>Deliver ATIS Information</td><td>通播发到驾驶舱：编号 K，离场跑道 25R，气压 1015。</td></tr>
+<tr><td>3</td><td>飞机 → 地面</td><td>Departure Clearance Request</td><td>申请放行：我在 41 号登机口，去旧金山，已收到通播 K。</td></tr>
+<tr><td>4</td><td>地面 → 飞机</td><td>Flight System Message</td><td>“申请已收到，正在处理，请等待。”</td></tr>
+<tr><td>5</td><td>地面 → 飞机</td><td><b>Departure Clearance Message</b></td><td>放行许可：跑道 25R，离场程序 ORCKA5，应答机 4301，初始高度 5000 英尺，下一个频率 121.750。</td></tr>
+<tr><td>6</td><td>飞机 → 地面</td><td>Departure Clearance Read Back</td><td>机组把许可原样复诵回去，表示确认。</td></tr>
+<tr><td>7</td><td>飞机 → 地面</td><td>Departure（OUT）</td><td>18:26 推出登机口，机上燃油 9800。</td></tr>
+<tr><td>8</td><td>飞机 → 地面</td><td>Departure（OFF）</td><td>18:34 离地。</td></tr>
+</table>
+<p>这些内容在语音频率里是听不到的。大机场的放行许可现在多数走数据链，而不是在放行频率上念。</p>
+
+<h3>放行许可里写了什么</h3>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/aviation-clearance.png" alt="放行许可报文的解读"><figcaption>放行许可：每一项都拆开列出。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-atis.png" alt="数字通播报文的解读"><figcaption>数字通播：跑道、气压、放行频率。</figcaption></figure>
+</div>
+<table>
+<tr><th>字段</th><th>含义</th></tr>
+<tr><td>CLRD TO</td><td>许可飞往的目的地机场。</td></tr>
+<tr><td>RUNWAY</td><td>起飞跑道。</td></tr>
+<tr><td>SID</td><td>离场程序的名字：起飞后沿哪条固定路线离开机场。</td></tr>
+<tr><td>SQUAWK</td><td>应答机编码。在 <a href="page-adsb.html">ADS-B</a> 页的标牌第一行能看到同一个数字。</td></tr>
+<tr><td>ADT</td><td>批准的起飞时刻。</td></tr>
+<tr><td>INITIAL ALT</td><td>起飞后先爬到的高度。</td></tr>
+<tr><td>NEXT FREQ</td><td>下一个要联系的频率（这里是地面）。</td></tr>
+<tr><td>APP FREQ</td><td>起飞后联系的进近 / 离场频率。</td></tr>
+<tr><td>ATIS</td><td>机组已经收到的通播编号。</td></tr>
+</table>
+
+<h3>把离场程序画到地图上</h3>
+<p>放行许可里的 <b>ORCKA5</b> 只是一个名字。如果你导入了<a href="data-file.html">航图数据文件</a>，报文下面会出现一个按钮 <b>Show departure ORCKA5 · 25R on the map</b>，点一下：</p>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/aviation-departure-map.png" alt="卫星图上画出的 ORCKA5 离场程序"><figcaption>许可里的那条离场程序，画在卫星图上。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-map-sid.png" alt="ADS-B 页面里的同一条离场程序和飞机"><figcaption>ADS-B 页面里的同一条程序，上面有正在飞的飞机。</figcaption></figure>
+</div>
+<p>这架飞机接下来要飞的路线就在眼前：从 25R 跑道起飞，经 DOCKR、KLIPR、KEGGS、COOPP，到 ORCKA。地图下面列出了每一个航路点。</p>
+<p>三个页面在这里连了起来：</p>
+<ul>
+<li><b>Aviation</b> 告诉你这架飞机被许可飞哪条程序、用哪个应答机编码。</li>
+<li><b><a href="page-adsb.html">ADS-B</a></b> 里打开同一条离场程序，几分钟后就能看到它起飞、沿着这条线飞出去，标牌上是同一个编码。</li>
+<li><b><a href="page-atc.html">ATC</a></b> 里切到许可中写的下一个频率，听它和地面、塔台的通话。</li>
+</ul>
+<div class="note"><p>只有当许可里的程序名、机场和跑道在你的数据文件里能唯一对上时，按钮才会出现。对不上时页面会直接说明原因，不会画一条“差不多”的路线。</p></div>
+
+<h2>还能收到哪些报文</h2>
+<table>
+<tr><th>类型</th><th>内容</th></tr>
+<tr><td>数字通播（D-ATIS）</td><td>机场的使用跑道、天气、气压。和语音通播内容相同，但是文字。</td></tr>
+<tr><td>放行许可（DCL）</td><td>申请、受理、许可、复诵，就是上面那一串。</td></tr>
+<tr><td>推出、起飞、落地、到位</td><td>航空公司用来统计准点的四个时刻，通常带起降机场和燃油量。</td></tr>
+<tr><td>天气</td><td>发给机组的 METAR 实况和 TAF 预报，切到中文显示时会解读成风、能见度、云、温度。</td></tr>
+<tr><td>位置报告</td><td>飞机报告自己的坐标、高度、预计到达时间。</td></tr>
+<tr><td>机务报告</td><td>发动机参数、故障代码。能认出是哪个系统，更细的含义属于厂家的手册。</td></tr>
+<tr><td>链路测试和确认</td><td>Link test、Ack：飞机和地面互相确认链路通畅，没有内容。数量最多。</td></tr>
+<tr><td>频率切换</td><td>地面通知飞机改用另一个数据链频率。页面会提示有哪些频率是你现在没在听的。</td></tr>
+<tr><td>未解读</td><td>各家航空公司自定义的格式很多。认不出的报文标为未解码，只显示原文。</td></tr>
+</table>
+<p>设置里的 <b>Content only</b> 默认打开：飞机列表只按有内容的报文来排，只发过链路测试和确认的飞机不占位置。</p>
+
+<h2>常见情况</h2>
+<table>
+<tr><th>现象</th><th>原因和办法</th></tr>
+<tr><td>一直是 0 条</td><td>先看 Region 选得对不对；再确认做过频率校准；然后多等几分钟。离机场远、天线在室内时，可能确实收不到。</td></tr>
+<tr><td>syncs 在涨，msgs 不涨</td><td>收到了信号的开头，但内容校验没通过，说明信号偏弱。改善天线位置。少量这样的情况是正常的。</td></tr>
+<tr><td>只有 Link test 和 Ack</td><td>正常，这两种本来就最多。有内容的报文集中在飞机起飞前和落地后，在机场附近更容易收到。</td></tr>
+<tr><td>飞机下面没有航班号</td><td>只有飞机发出的报文带航班号。如果只收到了地面发给它的，就只能按注册号显示。</td></tr>
+<tr><td>提示有别的频率没在听</td><td>接收机一次只能覆盖约 1 MHz。有些机场的流量在另一组频率上，在 Listen around 里换过去试试。</td></tr>
+<tr><td>放行许可下面没有地图按钮</td><td>没有导入航图数据文件，或者文件里没有这条程序。按钮位置会有一行说明。</td></tr>
+<tr><td>很多报文是未解码</td><td>正常。航空公司自定义的格式没有公开的说明，App 不会去猜。</td></tr>
+</table>
+
+<div class="pager">
+<a href="page-dstar.html"><small>上一篇</small>D-STAR 数字语音</a>
+<a class="next" href="page-atc.html"><small>下一篇</small>ATC 航空管制</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

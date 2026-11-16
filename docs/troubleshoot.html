@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>连不上怎么办 · SDRViewer 使用手册</title>
+<meta name="description" content="按现象排查：连接失败、连上没数据、声音断续、频率不准。">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="en/troubleshoot.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a class="on" href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>连不上怎么办</h1>
+<p class="lede">按你看到的现象找到对应的一条。大多数问题出在网络和地址上，而不是接收机。</p>
+
+<h2>先做这个快速检查</h2>
+<ol class="steps">
+<li><strong>rtl_tcp 在运行吗</strong>电脑上的窗口应该显示 <code>listening...</code>；有手机连上时会显示 <code>client accepted!</code>。</li>
+<li><strong>是同一个网络吗</strong>手机和电脑连的 Wi-Fi 名字要一样。访客网络、公司网络常常不允许设备之间互相访问。</li>
+<li><strong>地址对吗</strong>电脑的地址可能会变（路由器重新分配）。重新查一次，和 App 里填的对比。</li>
+</ol>
+
+<h2>按现象排查</h2>
+<table>
+<tr><th>现象</th><th>最可能的原因</th><th>怎么办</th></tr>
+<tr><td>点了播放，一直连接不上或提示失败</td><td>地址或端口不对；防火墙拦住了；启动 rtl_tcp 时没有加 <code>-a 0.0.0.0</code></td><td>核对地址和端口 1234；Windows 检查防火墙是否允许 rtl_tcp；确认启动命令里有 <code>-a 0.0.0.0</code></td></tr>
+<tr><td>连上了，但瀑布图不动、没有声音</td><td>rtl_tcp 已经被另一个程序或另一台设备占用</td><td>关掉电脑上其它 SDR 软件，或者重启 rtl_tcp</td></tr>
+<tr><td>拔插过接收机之后收不到了</td><td>rtl_tcp 不会自己发现接收机被拔掉，仍在使用失效的连接</td><td>关掉 rtl_tcp 再重新运行</td></tr>
+<tr><td>瀑布图在动，但全是噪声，一个电台都没有</td><td>天线没接好；增益不合适；V4 / V4L 的驱动太旧</td><td>检查天线接头；在电脑上运行 <code>rtl_test -t</code> 看型号是否被正确识别</td></tr>
+<tr><td>FM 能听，航空通话或 APRS 完全收不到</td><td>接收机频率没校准</td><td>见 <a href="connect.html">频率校准</a>，先听几个立体声 FM 电台</td></tr>
+<tr><td>声音断断续续，页面上 drop 计数在涨</td><td>Wi-Fi 信号弱或网络拥挤，样本在路上丢了</td><td>靠近路由器；电脑改用网线；把采样率调低到 1.024 MSPS</td></tr>
+<tr><td>声音发闷、失真</td><td>校准值是给另一只接收机的</td><td>在接收机编辑页点 Measure again 重新测量</td></tr>
+<tr><td>填的是 <code>xxx.local</code> 这样的名字，连不上</td><td>所在网络不支持按名字查找</td><td>改填数字地址，例如 <code>192.168.1.20</code></td></tr>
+<tr><td>切到别的 App 再回来，不出数据的页面停了</td><td>iOS 会暂停后台的 App；只有在出声的页面能在后台继续</td><td>回到 App 后它会自动重新连接，页面上会提示暂停的时间段</td></tr>
+</table>
+
+<h2>页面上的几个数字是什么意思</h2>
+<p>Receiver 页面频谱上方有一行小字，出问题时很有用：</p>
+<table>
+<tr><th>名称</th><th>含义</th><th>正常时</th></tr>
+<tr><td><b>link</b></td><td>实际收到的采样率</td><td>接近你设定的采样率</td></tr>
+<tr><td><b>iqdrop</b></td><td>手机来不及处理而丢掉的样本数</td><td>0</td></tr>
+<tr><td><b>under</b></td><td>扬声器等不到声音的次数</td><td>0 或很少</td></tr>
+<tr><td><b>ring</b></td><td>音频缓冲的占用</td><td>在 25% 附近小幅波动</td></tr>
+</table>
+<div class="note"><p>如果 <b>link</b> 明显低于设定值，问题在网络或电脑那一侧；如果 <b>iqdrop</b> 在涨，说明手机忙不过来，把采样率调低即可。</p></div>
+
+<h2>还是不行</h2>
+<p>把下面三样告诉作者，能最快定位问题：电脑的系统和接收机型号；<code>rtl_test -t</code> 的输出；App 页面的截图（包含上面那一行数字）。</p>
+
+<div class="pager">
+<a href="connect.html"><small>上一篇</small>在 App 里连接</a>
+<a class="next" href="data-file.html"><small>下一篇</small>航图数据文件</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

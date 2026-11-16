@@ -1,0 +1,106 @@
+<!-- Aviation | Receives the text messages between aircraft and the ground (ACARS / VDL2), files them by aircraft and flight, and reads ATIS, clearances and movement times into plain fields. -->
+<h1>Aviation data link</h1>
+<p class="lede">Besides talking, aircraft and the ground exchange text all the time: asking for the ATIS, asking for a clearance, reporting pushback and take-off times, receiving weather. Those messages travel over ACARS and VDL2. This page receives them, files them by aircraft and flight, and reads the common ones into a table anyone can follow.</p>
+
+<figure class="phone"><img class="shot" src="img/aviation.png" alt="One aircraft's messages in order"><figcaption>One aircraft's messages before departure, in order.</figcaption></figure>
+
+<div class="note"><p><b>About the pictures.</b> The messages here were written for this manual: the aircraft .NDEMO1 and flight XD0101 do not exist, the text follows the format of real messages, and the setting is Los Angeles. What you receive looks the same. Keep what you receive for your own study, and follow your local law.</p></div>
+
+<h2>Starting</h2>
+<ol class="steps">
+<li><strong>Choose the right region</strong>Tap <b>…</b> at the top right → <b>Settings</b>, and pick where you are under <b>Region</b>. The frequencies differ: 131.450 MHz in China, 131.550 MHz in North America, another set in Europe. The wrong one is empty air.</li>
+<li><strong>Tap play</strong>The receiver listens to several of the region's frequencies at once. <b>Listen around</b> moves to another group, or to <b>VDL2</b> (round 136.975 MHz, a newer link).</li>
+<li><strong>Wait</strong>A data link is short bursts, not a continuous signal like a broadcast. Near an airport there is one every few tens of seconds; far from one it can be minutes. <b>msgs</b> at the top is how many have arrived.</li>
+</ol>
+<div class="note"><p>Use the antenna you use for the air band (as on the <a href="page-atc.html">ATC</a> page), and make sure the receiver's <a href="connect.html">frequency calibration</a> is done: the channels are narrow, and a little off is nothing at all.</p></div>
+
+<h2>Three levels: aircraft → flight → message</h2>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/aviation-list.png" alt="The aircraft heard"><figcaption>First: every aircraft heard.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-out.png" alt="One message in full"><figcaption>Third: one message in full.</figcaption></figure>
+</div>
+<ul>
+<li><b>Aircraft</b>: listed by registration (the aircraft's number plate), with the flight it is operating in small type, the message count on the right (8/13 means 8 of 13 carry content) and when it was last heard.</li>
+<li><b>Flight</b>: inside an aircraft, messages are grouped by flight and run in time order, as in the first picture.</li>
+<li><b>Message</b>: tap one for the whole reading. <b>WHAT IT SAYS</b> is what was read out of it, and <b>AS RECEIVED</b> is the text exactly as it arrived.</li>
+</ul>
+<div class="parts">
+<div class="part"><img src="img/aviation-part-row.png" alt="One message in the list"><div><b class="name">The marks on a message</b><p><b>TX</b> was sent by the aircraft and <b>RX</b> was sent to it by the ground. After <b>LBL</b> is the message's type code (B9, A9, B3…). On the right is the frequency it arrived on. <b>inferred</b> means the message itself named no flight, and was filed under this one from the same aircraft's other messages. The title line is the kind of message, with its fields below.</p></div></div>
+</div>
+<p>The <b>中文</b> button at the top right changes the reading to Chinese: the field names, and airport names after their codes.</p>
+<figure class="phone"><img class="shot" src="img/aviation-clearance-zh.png" alt="A clearance read in Chinese"><figcaption>The same clearance in Chinese.</figcaption></figure>
+
+<h2>Following one departure</h2>
+<p>Read together, an aircraft's messages before take-off are the whole preparation for a departure. In the demonstration, XD0101 is going from Los Angeles to San Francisco:</p>
+<table>
+<tr><th>#</th><th>Direction</th><th>Message</th><th>What is happening</th></tr>
+<tr><td>1</td><td>aircraft → ground</td><td>Request ATIS Report</td><td>The crew ask for the Los Angeles departure ATIS.</td></tr>
+<tr><td>2</td><td>ground → aircraft</td><td>Deliver ATIS Information</td><td>It arrives on the flight deck: information K, departures from 25R, pressure 1015.</td></tr>
+<tr><td>3</td><td>aircraft → ground</td><td>Departure Clearance Request</td><td>The request: at gate 41, for San Francisco, with information K.</td></tr>
+<tr><td>4</td><td>ground → aircraft</td><td>Flight System Message</td><td>"Request received, being processed, stand by."</td></tr>
+<tr><td>5</td><td>ground → aircraft</td><td><b>Departure Clearance Message</b></td><td>The clearance: runway 25R, the ORCKA5 departure, squawk 4301, initially 5,000 ft, next frequency 121.750.</td></tr>
+<tr><td>6</td><td>aircraft → ground</td><td>Departure Clearance Read Back</td><td>The crew send it back as received, to confirm it.</td></tr>
+<tr><td>7</td><td>aircraft → ground</td><td>Departure (OUT)</td><td>Off the gate at 18:26, fuel on board 9800.</td></tr>
+<tr><td>8</td><td>aircraft → ground</td><td>Departure (OFF)</td><td>Airborne at 18:34.</td></tr>
+</table>
+<p>None of this is heard on a voice frequency. At large airports most clearances now go by data link instead of being read out.</p>
+
+<h3>What a clearance says</h3>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/aviation-clearance.png" alt="A departure clearance read into fields"><figcaption>The clearance, one field at a time.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aviation-atis.png" alt="A digital ATIS read into fields"><figcaption>The digital ATIS: runway, pressure, clearance frequency.</figcaption></figure>
+</div>
+<table>
+<tr><th>Field</th><th>Meaning</th></tr>
+<tr><td>CLRD TO</td><td>The destination the flight is cleared to.</td></tr>
+<tr><td>RUNWAY</td><td>The departure runway.</td></tr>
+<tr><td>SID</td><td>The departure procedure: the fixed route out of the airport after take-off.</td></tr>
+<tr><td>SQUAWK</td><td>The transponder code. The same number is the first line of the aircraft's label on the <a href="page-adsb.html">ADS-B</a> page.</td></tr>
+<tr><td>ADT</td><td>The approved departure time.</td></tr>
+<tr><td>INITIAL ALT</td><td>The first altitude to climb to.</td></tr>
+<tr><td>NEXT FREQ</td><td>The next frequency to call (here, ground).</td></tr>
+<tr><td>APP FREQ</td><td>The approach / departure frequency after take-off.</td></tr>
+<tr><td>ATIS</td><td>The ATIS information the crew already have.</td></tr>
+</table>
+
+<h3>The departure, drawn on the map</h3>
+<p><b>ORCKA5</b> in the clearance is only a name. With an <a href="data-file.html">airspace data file</a> imported, a button appears under the message, <b>Show departure ORCKA5 · 25R on the map</b>. Tap it:</p>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/aviation-departure-map.png" alt="The ORCKA5 departure drawn over satellite imagery"><figcaption>The departure in the clearance, over satellite imagery.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-map-sid.png" alt="The same departure on the ADS-B page, with aircraft"><figcaption>The same procedure on the ADS-B page, with the traffic on it.</figcaption></figure>
+</div>
+<p>There is the route this aircraft is about to fly: off runway 25R, by DOCKR, KLIPR, KEGGS and COOPP to ORCKA. Every fix is listed under the map.</p>
+<p>Three pages meet here:</p>
+<ul>
+<li><b>Aviation</b> says which departure the aircraft was cleared for, and its transponder code.</li>
+<li>On <b><a href="page-adsb.html">ADS-B</a></b>, turn on the same departure, and minutes later watch it take off and fly out along that line, with the same code on its label.</li>
+<li>On <b><a href="page-atc.html">ATC</a></b>, go to the next frequency the clearance gave and hear it talk to ground and tower.</li>
+</ul>
+<div class="note"><p>The button appears only when the procedure name, airport and runway in the clearance match exactly one procedure in your file. When they do not, the page says why in its place; it never draws a route that is merely close.</p></div>
+
+<h2>What else arrives</h2>
+<table>
+<tr><th>Kind</th><th>What it carries</th></tr>
+<tr><td>Digital ATIS (D-ATIS)</td><td>Runways in use, weather, pressure. The voice ATIS, as text.</td></tr>
+<tr><td>Departure clearance (DCL)</td><td>Request, acknowledgement, clearance, read-back: the sequence above.</td></tr>
+<tr><td>Out, off, on, in</td><td>The four times an airline measures punctuality by, usually with both airports and the fuel on board.</td></tr>
+<tr><td>Weather</td><td>METAR observations and TAF forecasts sent to the crew; the Chinese display reads them out as wind, visibility, cloud and temperature.</td></tr>
+<tr><td>Position reports</td><td>The aircraft's coordinates, altitude and estimates.</td></tr>
+<tr><td>Maintenance reports</td><td>Engine figures and fault codes. The system concerned is named; the detail belongs to the manufacturer's manuals.</td></tr>
+<tr><td>Link tests and acknowledgements</td><td>Link test, Ack: the aircraft and the ground confirming the link, with no content. The most numerous.</td></tr>
+<tr><td>Frequency changes</td><td>The ground moving an aircraft to another data-link frequency. The page tells you which of those you are not listening to.</td></tr>
+<tr><td>Not decoded</td><td>Airlines define many formats of their own. A message that is not recognised is marked so and shown as received.</td></tr>
+</table>
+<p><b>Content only</b> in the settings is on by default: the aircraft list goes by messages with content, and an aircraft that only ever sent link tests and acknowledgements takes no room.</p>
+
+<h2>Common situations</h2>
+<table>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>Nothing arrives</td><td>Check Region first, then the frequency calibration, then wait a few minutes more. Far from an airport, with an antenna indoors, there may truly be nothing to hear.</td></tr>
+<tr><td>syncs rises, msgs does not</td><td>The start of a transmission was heard and its contents failed their check: the signal is weak. Improve the antenna's position. A few of these are normal.</td></tr>
+<tr><td>Only Link test and Ack</td><td>Normal; those are the commonest. Messages with content come mostly before departure and after landing, and are easier to hear near an airport.</td></tr>
+<tr><td>An aircraft with no flight number</td><td>Only messages sent by the aircraft carry one. If only the ground's messages to it were heard, it is listed by registration alone.</td></tr>
+<tr><td>A note about frequencies not being heard</td><td>The receiver covers about 1 MHz at a time. Some airports' traffic is in another group; try it under Listen around.</td></tr>
+<tr><td>No map button under a clearance</td><td>No data file is imported, or the file does not have that procedure. A line where the button would be says which.</td></tr>
+<tr><td>Many messages not decoded</td><td>Normal. Airline formats are not published, and the app does not guess.</td></tr>
+</table>

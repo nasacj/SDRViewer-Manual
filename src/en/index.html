@@ -1,0 +1,63 @@
+<!-- Home | The SDRViewer manual: turn an RTL-SDR into a radio, aviation and ship receiver on your iPhone. -->
+<section class="hero">
+  <div>
+    <h1>Turn an RTL-SDR into<br>a receiver in your pocket</h1>
+    <p class="lede">SDRViewer is a software-defined radio receiver for iPhone and iPad. The RTL-SDR plugs into a computer or a Raspberry Pi, the phone connects to it over Wi-Fi, and all the demodulating and decoding happens on the phone.</p>
+    <a class="btn" href="start.html">Start here</a>
+    <a class="btn ghost" href="connect.html">I already run rtl_tcp</a>
+  </div>
+  <figure class="phone" style="margin:0 auto"><img class="shot" src="img/home-adsb-lax.png" alt="The ADS-B radar scope: aircraft, airways and the arrival and departure procedures"></figure>
+</section>
+
+<h2>How it fits together</h2>
+<div class="diagram">
+    <svg viewBox="0 0 620 250" role="img" aria-label="An antenna feeds the RTL-SDR, which plugs into a computer that sends the samples to the phone over Wi-Fi">
+      <g font-family="-apple-system,Segoe UI,sans-serif" font-size="14" fill="currentColor">
+        <path d="M70 40 L70 120 M52 58 L70 40 L88 58 M44 76 L70 50 L96 76" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="70" y="146" text-anchor="middle">Antenna</text>
+        <rect x="150" y="70" width="96" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <text x="198" y="97" text-anchor="middle" font-weight="700">RTL-SDR</text>
+        <rect x="320" y="52" width="130" height="84" rx="10" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <text x="385" y="88" text-anchor="middle" font-weight="700">Computer / Pi</text>
+        <text x="385" y="112" text-anchor="middle" font-size="13" opacity=".75">running rtl_tcp</text>
+        <rect x="528" y="36" width="64" height="116" rx="12" fill="none" stroke="#0a7cff" stroke-width="3"/>
+        <text x="560" y="98" text-anchor="middle" font-weight="700" fill="#0a7cff">iPhone</text>
+        <g stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round">
+          <path d="M92 92 H146"/><path d="M250 92 H316"/>
+          <path d="M456 92 H522" stroke="#0a7cff" stroke-dasharray="3 7"/>
+        </g>
+        <text x="120" y="82" text-anchor="middle" font-size="12" opacity=".75">coax</text>
+        <text x="283" y="82" text-anchor="middle" font-size="12" opacity=".75">USB</text>
+        <text x="489" y="82" text-anchor="middle" font-size="12" fill="#0a7cff">Wi-Fi</text>
+        <text x="310" y="196" text-anchor="middle" font-size="13" opacity=".8">An iPhone cannot drive a USB receiver itself, so one machine puts the samples on the network.</text>
+        <text x="310" y="218" text-anchor="middle" font-size="13" opacity=".8">That machine runs one small program: rtl_tcp.</text>
+      </g>
+    </svg>
+</div>
+
+<h2>Three steps</h2>
+<ol class="steps">
+  <li><strong>Get the hardware</strong>An RTL-SDR, an antenna, and a computer or Raspberry Pi with a USB port. <a href="start.html">What you need →</a></li>
+  <li><strong>Run rtl_tcp on the computer</strong>It sends the receiver's samples out over the network. Pick your system:
+    <div class="cards">
+      <a class="card" href="install-macos.html"><div class="ico">🍎</div><b>macOS</b><span>One line with Homebrew</span></a>
+      <a class="card" href="install-windows.html"><div class="ico">🪟</div><b>Windows</b><span>A driver, then unzip and run</span></a>
+      <a class="card" href="install-linux.html"><div class="ico">🐧</div><b>Linux</b><span>From the package manager</span></a>
+      <a class="card" href="install-pi.html"><div class="ico">🍓</div><b>Raspberry Pi</b><span>Starts at boot, goes anywhere</span></a>
+    </div>
+  </li>
+  <li><strong>Give the app the address</strong>Phone and computer on the same Wi-Fi, the computer's address in the app, press play. <a href="connect.html">Connect in the app →</a></li>
+</ol>
+
+<h2>What it receives</h2>
+<div class="cards">
+  <a class="card" href="page-radio.html"><div class="ico">📻</div><b>Radio</b><span>FM broadcast, with a band scan and stereo</span></a>
+  <a class="card" href="page-receiver.html"><div class="ico">🎚️</div><b>Receiver</b><span>Spectrum and waterfall, FM / AM / SSB, D-STAR digital voice</span></a>
+  <a class="card" href="page-aviation.html"><div class="ico">✈️</div><b>Aviation</b><span>ACARS data-link messages</span></a>
+  <a class="card" href="page-atc.html"><div class="ico">🗼</div><b>ATC</b><span>Tower, approach and ATIS voice</span></a>
+  <a class="card" href="pages.html"><div class="ico">📍</div><b>APRS</b><span>Amateur radio positions and messages</span></a>
+  <a class="card" href="pages.html"><div class="ico">🚢</div><b>AIS</b><span>Ships on a map</span></a>
+  <a class="card" href="page-adsb.html"><div class="ico">🛩️</div><b>ADS-B</b><span>Aircraft, on a map or a radar scope</span></a>
+</div>
+
+<div class="note"><p><b>In public beta.</b> The app is distributed through TestFlight: install Apple's TestFlight on the iPhone, then open <a href="https://testflight.apple.com/join/AQxQcY5q">testflight.apple.com/join/AQxQcY5q</a>.</p></div>

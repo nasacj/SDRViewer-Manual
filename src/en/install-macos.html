@@ -1,0 +1,43 @@
+<!-- Install rtl_tcp on macOS | Install librtlsdr with Homebrew, run rtl_tcp, and find the Mac's address. -->
+<h1>Install rtl_tcp on macOS</h1>
+<p class="lede">About five minutes, and three or four commands in Terminal that you can copy as they are.</p>
+
+<ol class="steps">
+<li><strong>Install Homebrew (skip if you have it)</strong>
+Homebrew is the usual way to install command-line software on a Mac. Open Terminal, paste this line, press Return and type your login password when asked:
+<pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+Not sure whether you have it? Type <code>brew --version</code>; a version number means you do.</li>
+
+<li><strong>Install the RTL-SDR tools</strong>
+<pre><code>brew install librtlsdr</code></pre>
+This installs <code>rtl_tcp</code>, <code>rtl_test</code> and a few others.</li>
+
+<li><strong>Plug in the receiver and check it is seen</strong>
+<pre><code>rtl_test -t</code></pre>
+Output like this means it is working (the wording differs by model):
+<pre><code>Found 1 device(s):
+  0:  RTLSDRBlog, Blog V4L, SN: 00000001
+Found Rafael Micro R820T tuner</code></pre>
+<div class="warn"><p>If it says <code>No supported devices found</code>, try another USB port, or take a USB hub out of the way.</p></div></li>
+
+<li><strong>Run rtl_tcp</strong>
+<pre><code>rtl_tcp -a 0.0.0.0</code></pre>
+<code>listening...</code> means it is waiting for the phone. Leave this Terminal window open: closing it stops the server. Press <kbd>Control</kbd> + <kbd>C</kbd> to stop it.
+<div class="note"><p><code>-a 0.0.0.0</code> means "let other devices connect". Without it only this Mac can, and the phone cannot.</p></div>
+If macOS asks whether to accept incoming network connections, choose <b>Allow</b>.</li>
+
+<li><strong>Find this Mac's address</strong>
+In a second Terminal window:
+<pre><code>ipconfig getifaddr en0</code></pre>
+It prints an address like <code>192.168.1.20</code>. Note it down for the app. (On a wired Mac with no output, try <code>en1</code>; or look in System Settings → Network.)</li>
+</ol>
+
+<div class="ok"><p>The computer is ready. Next: <a href="connect.html">Connect in the app →</a></p></div>
+
+<h2>Common questions</h2>
+<h3>An RTL-SDR Blog V4 or V4L receives nothing</h3>
+<p>These two need a recent driver. Run <code>brew upgrade librtlsdr</code>, then <code>rtl_test -t</code>, which should say <code>RTL-SDR Blog V4 Detected</code> or <code>RTL-SDR Blog V4 Lite Detected</code>.</p>
+<h3>usb_claim_interface error</h3>
+<p>Another program is holding the receiver, usually an <code>rtl_tcp</code> already running or another SDR application. Close it and try again.</p>
+<h3>Starting it automatically</h3>
+<p>The simplest way is to save the command above as a script and add it to System Settings → General → Login Items. For everyday use a <a href="install-pi.html">Raspberry Pi</a> is the better home for it: the computer need not stay on.</p>

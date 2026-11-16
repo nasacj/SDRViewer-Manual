@@ -1,0 +1,75 @@
+<!-- ATC | Lists the tower, ground, approach and ATIS frequencies of the airport you are at, plays one at a tap, and shows which are active. -->
+<h1>ATC</h1>
+<p class="lede">The page for listening to air traffic control. Rather than leave you to remember frequencies, it takes the airport you are at and lists its ATIS, clearance, ground, tower and approach frequencies, each a tap away.</p>
+
+<figure class="phone"><img class="shot" src="img/atc.png" alt="The ATC page placed at Los Angeles International, with the airport's frequencies listed"><figcaption>The ATC page placed at Los Angeles International (as it looks with no receiver connected).</figcaption></figure>
+
+<div class="note"><p><b>This page needs airspace data.</b> The frequencies come from a data file you import; the app has none of its own. If you have not imported one, see <a href="data-file.html">Airspace data file</a>, which offers a Los Angeles example. The pictures here use it.</p></div>
+
+<h2>Three steps</h2>
+<ol class="steps">
+<li><strong>Import a data file</strong>The first time, the page says <b>No airspace data</b>. Tap <b>Choose a file</b> and pick your JSON. Once is enough.</li>
+<li><strong>Say where you are</strong>Tap the <b>location arrow</b> at the top right and choose one of the ways on the Position sheet:
+<figure><img class="shot" src="img/atc-position.png" alt="The Position sheet: use my location, typed coordinates, or choose an airport"></figure>
+<ul>
+<li><b>Use my location</b>: the phone's own fix.</li>
+<li><b>Typed coordinates</b>: latitude, longitude and altitude in metres. West and south are negative.</li>
+<li><b>Choose an airport</b>: pick one from the list, nearest first, or search by code or name. Location often does not work in a cabin, and this is the least trouble.</li>
+</ul></li>
+<li><strong>Tap a frequency</strong>Back on the page is that airport's list. Tap a frequency on the right to listen. Start with <b>ATIS</b>: a recording on a loop, always on the air, and the best proof that everything works.</li>
+</ol>
+
+<h2>One flight, and every frequency along it</h2>
+<p>From the gate to the cruise an aircraft talks to a string of positions in turn. You used to have to look each one up; here, once an airport is chosen, they are all in one list, and tapping down it in this order follows a flight the whole way:</p>
+<table>
+<tr><th>#</th><th>Position</th><th>What is said</th><th>At Los Angeles</th></tr>
+<tr><td>1</td><td><b>ATIS</b></td><td>A recording on a loop: weather, runways in use, pressure. Pilots hear it before starting.</td><td>133.800 (arrivals)<br>135.650 (departures)</td></tr>
+<tr><td>2</td><td><b>Clearance</b></td><td>The route clearance: which departure, the first altitude, the transponder code.</td><td>120.350</td></tr>
+<tr><td>3</td><td><b>Ramp</b></td><td>Pushback and engine start near the gates, split by terminal.</td><td>129.325 – 131.450</td></tr>
+<tr><td>4</td><td><b>Ground</b></td><td>The taxi route: which taxiways, and where to hold short.</td><td>121.650 (north)<br>121.750 (south)</td></tr>
+<tr><td>5</td><td><b>Tower</b></td><td>Take-off and landing clearances. The easiest to hear and the most vivid.</td><td>133.900 (north)<br>120.950 (south)</td></tr>
+<tr><td>6</td><td><b>Approach</b> / departure</td><td>The tens of kilometres round the airport: climbs and turns for departures, and arrivals put in line for the final.</td><td>124.300, 124.500, 124.900 …</td></tr>
+<tr><td>7</td><td><b>Center</b></td><td>En-route control in the cruise, one sector covering hundreds of kilometres.</td><td>Needs a file with sectors; see below</td></tr>
+</table>
+<p>An arrival runs the other way: center, approach, tower, ground, ramp. It is better still beside the <a href="page-adsb.html">ADS-B</a> page: see an aircraft on final on the radar, switch to the tower, and hear it cleared to land.</p>
+
+<h2>What is on the page</h2>
+<div class="parts">
+<div class="part"><img src="img/atc-part-where.png" alt="Where you are"><div><b class="name">Where you are</b><p>The heading is the airport recognised (or the sector that covers your position). The line beneath gives where the position came from, the coordinates and the altitude. An old position says <b>locate again</b>; with no altitude it says <b>altitude unknown</b> and every frequency is listed.</p></div></div>
+<div class="part"><img src="img/atc-part-player.png" alt="Player and waterfall"><div><b class="name">Player and waterfall</b><p>Play and stop on the left, with the frequency being heard. The small waterfall shows about 1 MHz round it: air traffic speech comes and goes, and a short bright streak is somebody talking. The <b>Watching … inside · outside</b> line says how many of the listed frequencies this one tuning can see at once.</p></div></div>
+<div class="part"><img src="img/atc-part-filters.png" alt="Squelch, notch, noise reduction and the threshold slider"><div><b class="name">Squelch, Notch, NR</b><p><b>Squelch</b> silences the gaps; the slider sets its threshold, shown with the measured level. <b>Notch</b> removes the steady tones the receiver makes itself. <b>NR</b> lowers the hiss and leaves the voice a little hollow. The line below says how many tunings it would take to hear every frequency in the list.</p></div></div>
+<div class="part"><img src="img/atc-part-list.png" alt="The airport's frequencies"><div><b class="name">The frequency list</b><p>One row per position: its name on the left and its frequency on the right, with a standby frequency beside it where there is one. <b>Blue</b> is the one being heard. A <b>green lamp</b> beside a frequency means somebody is talking there now: tap it and you hear them. Rows dimmed and marked <b>not at this altitude</b> are not in use at your height, such as ground and tower from the cruise.</p></div></div>
+</div>
+
+<h2>The lamps: which frequency is active</h2>
+<p>The receiver sees about 1 MHz at a time, and every listed frequency inside that is watched together, with no need to try them one by one:</p>
+<table>
+<tr><th>State</th><th>Meaning</th></tr>
+<tr><td><b>listening</b> (blue)</td><td>The frequency you are hearing.</td></tr>
+<tr><td><b>signal</b> (green)</td><td>There is a signal there now.</td></tr>
+<tr><td><b>quiet</b> (grey)</td><td>Watched, and nobody is talking.</td></tr>
+<tr><td><b>not watched</b></td><td>Outside what is being watched; unknown. Tap it and the receiver tunes there.</td></tr>
+</table>
+<div class="note"><p>No lamp does not mean no traffic. A controller may speak a few times a minute; watch a while before deciding.</p></div>
+
+<h2>With sector data: by position and altitude</h2>
+<figure class="phone"><img class="shot" src="img/atc-sectors.png" alt="The ATC page at altitude, listing the en-route sector that covers the position"><figcaption>A file with sectors, at 7500 m (an invented file made for demonstration).</figcaption></figure>
+<p>If your data file has sectors, the page also answers "who has me now":</p>
+<ul>
+<li>The heading becomes the sector covering your position and altitude, an en-route or approach sector.</li>
+<li><b>Candidate sectors</b> lists every one that fits, with its frequency, standby frequency and vertical extent.</li>
+<li><b>Covers the place, not the altitude</b> counts sectors over your position at another height. They come into play as you climb or descend.</li>
+<li>Useful as a passenger: en-route control in the cruise, then approach and tower on the way down.</li>
+</ul>
+<p>The Los Angeles example has no sectors, so it lists by airport only, which is all most listening needs.</p>
+
+<h2>Common situations</h2>
+<table>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>No airspace data</td><td>No data file has been imported; see <a href="data-file.html">Airspace data file</a>.</td></tr>
+<tr><td>Outside published airspace, and no frequencies</td><td>Your position is more than 30 km from every airport in the data and inside no sector. Tap the arrow at the top right and choose an airport.</td></tr>
+<tr><td>A frequency plays nothing</td><td>Traffic is intermittent: wait, or tap ATIS first to prove reception. And check the receiver's <a href="connect.html">frequency calibration</a>: an air band channel is narrow, and a little off is nothing at all.</td></tr>
+<tr><td>Tower and approach are heard, ground is not</td><td>Ground uses a low antenna and little power, and is rarely heard more than a few kilometres from the field.</td></tr>
+<tr><td>The controller is heard and the pilots are not, or the reverse</td><td>Normal. The ground station and the aircraft are in different places and your antenna may not reach both; aircraft, being high, are often the easier.</td></tr>
+<tr><td>A whistle under the speech</td><td>Turn on Notch.</td></tr>
+</table>

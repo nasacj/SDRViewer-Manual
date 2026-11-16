@@ -1,0 +1,71 @@
+<!-- Receiver 接收机 | 通用接收机：任意频率、七种解调方式、频谱和瀑布图，还能解码 D-STAR 数字语音。 -->
+<h1>Receiver 接收机</h1>
+<p class="lede">这是 App 里的“万能”页面：想听哪个频率就调到哪个频率，用瀑布图找信号。其它页面都是为某一类信号专门做的，这一页什么都能收。</p>
+
+<figure class="phone"><img class="shot" src="img/receiver.png" alt="Receiver 页面：频率、电平表、静噪和增益滑块、解调方式、频谱和瀑布图"></figure>
+
+<h2>三步上手</h2>
+<ol class="steps">
+<li><strong>输入频率</strong>点一下大号的频率数字，在弹出的 Tune 页面里输入以 MHz 为单位的频率，比如 <code>101.7</code>，点 Go。</li>
+<li><strong>选解调方式</strong>点左边蓝色的方式名（WFM、NFM、AM…），在菜单里选一个。不知道选什么时看下面的<a href="#modes">对照表</a>。</li>
+<li><strong>点播放</strong>频率左边的圆形按钮。瀑布图开始滚动后，看到亮的竖条就是信号，<b>直接点它</b>就会调过去。</li>
+</ol>
+
+<h2>页面上的东西</h2>
+<div class="parts">
+<div class="part"><img src="img/receiver-part-frequency.png" alt="频率和播放按钮"><div><b class="name">频率和播放按钮</b><p>大号数字是正在收听的频率，点它可以直接输入。下面一行小字：<b>hw</b> 是接收机硬件实际停在的频率（App 会故意让它偏开一点，避开接收机中心的杂散），后面是解调方式和通带宽度。</p></div></div>
+<div class="part"><img src="img/receiver-part-meter.png" alt="信号电平表"><div><b class="name">电平表</b><p>当前接收到的信号强弱，单位 dBFS（0 是满刻度）。右边的 <b>gain 15/28</b> 是接收机当前的增益档位，App 会自动调节：信号太强时降低，太弱时升高，不用手动管。</p></div></div>
+<div class="part"><img src="img/receiver-part-sliders.png" alt="静噪和 AGC 滑块"><div><b class="name">SQL 静噪和 AGC 音量</b><p><b>SQL</b>：没人说话时把沙沙声关掉。滑块上的小竖线是当前实测的噪声水平，把滑块拖到它右边一点就行；右边显示 <b>OPEN</b>（有信号，出声）或 <b>shut</b>（没信号，静音）。<b>AGC</b>：自动把声音放大到滑块设定的响度，右边的数字是实际加了多少增益。</p></div></div>
+<div class="part"><img src="img/receiver-part-chips.png" alt="解调方式和功能按钮"><div><b class="name">解调方式和功能按钮</b><p>左边选解调方式。按钮亮着表示开启：<b>SQL</b> 静噪开关；<b>FIL1 / 2 / 3</b> 通带宽度（窄 / 标准 / 宽），点一下轮换；<b>MONI</b> 强制打开静噪，听一下弱信号；<b>NCH</b> 滤掉接收机自身产生的固定啸叫；<b>NR</b> 降噪，能压低底噪，但声音会略微发空。后两个在 WFM 下不显示，因为它们是为语音设计的。</p></div></div>
+<div class="part"><img src="img/receiver-part-span.png" alt="显示范围和步进按钮"><div><b class="name">显示范围和步进</b><p>左边 <b>− +</b> 缩放瀑布图的显示范围，中间的数字是当前能看到的宽度。右边 <b>‹ ›</b> 移动一个步进，<b>« »</b> 移动十个步进，中间的数字是步进大小，点它可以改（航空用 25k，FM 广播用 100k）。</p></div></div>
+<div class="part"><img src="img/receiver-part-stats.png" alt="状态数字"><div><b class="name">状态数字</b><p>出问题时看这里。<b>link</b> 实际收到的采样率；<b>iqdrop</b> 手机来不及处理而丢掉的样本，应为 0；<b>under</b> 扬声器等不到声音的次数；<b>ring</b> 音频缓冲占用。详见<a href="troubleshoot.html">连不上怎么办</a>。</p></div></div>
+<div class="part"><img src="img/receiver-part-waterfall.png" alt="频谱和瀑布图"><div><b class="name">频谱和瀑布图</b><p>上面是此刻的频谱，下面的瀑布图记录了过去十几秒，越往下越早。中间的竖线和灰色区域是正在收听的频率和通带。这一块可以直接用手指操作，见下一节。</p></div></div>
+</div>
+
+<h2>在瀑布图上操作</h2>
+<table>
+<tr><th>手势</th><th>效果</th></tr>
+<tr><td><b>点一下</b></td><td>调到点的那个频率。看到哪里有信号就点哪里，这是最快的调谐方式。</td></tr>
+<tr><td><b>左右拖动</b></td><td>连续调谐，画面跟着手指走。</td></tr>
+<tr><td><b>上下拖动</b></td><td>调整瀑布图的明暗。信号都挤在一种颜色里看不清时，拖一下让底噪变暗、信号变亮。</td></tr>
+<tr><td>左上角 <b>AUTO</b></td><td>让 App 自动调整明暗。</td></tr>
+<tr><td>左上角 <b>CAL</b></td><td>按当前的底噪重新定一次明暗，然后保持不变。</td></tr>
+</table>
+<div class="note"><p>瀑布图比耳朵快。找一个不知道在哪的信号时，先把显示范围调宽，看哪里间歇地出现亮条，再点过去听。</p></div>
+
+<h2 id="modes">解调方式怎么选</h2>
+<table>
+<tr><th>方式</th><th>用来收什么</th><th>典型频率</th></tr>
+<tr><td><b>WFM</b></td><td>FM 广播</td><td>87.5–108 MHz</td></tr>
+<tr><td><b>NFM</b></td><td>对讲机、业余无线电、海事、铁路等窄带调频通话</td><td>136–174 MHz、400–470 MHz</td></tr>
+<tr><td><b>AM</b></td><td>航空管制通话</td><td>118–137 MHz</td></tr>
+<tr><td><b>USB / LSB</b></td><td>业余无线电和短波的单边带语音</td><td>144 MHz 附近的弱信号段等</td></tr>
+<tr><td><b>CW</b></td><td>莫尔斯电码</td><td>各业余波段的低端</td></tr>
+<tr><td><b>DV</b></td><td>D-STAR 数字语音</td><td>业余波段的 D-STAR 频率和中继</td></tr>
+</table>
+<p>选错了方式不会损坏任何东西，只是听起来不对：调频信号用 AM 听是很小的失真声，AM 信号用 NFM 听是沙沙声。换一个试试就知道了。</p>
+
+<h2>D-STAR 数字语音</h2>
+<p>把方式选成 <b>DV</b> 并调到 D-STAR 的频率，就能听到数字语音，看到对方的呼号、留言、位置，还能收图片；收到的通联都记在右上角时钟图标的 <b>RX History</b> 里。这部分内容比较多，单独写了一篇：<a href="page-dstar.html">D-STAR 数字语音 →</a></p>
+
+<h2>设置里和这一页有关的项</h2>
+<table>
+<tr><th>设置项</th><th>作用</th></tr>
+<tr><td><b>Sample rate</b></td><td>采样率，决定瀑布图一次能看到多宽。1.024 MSPS 对网络要求低，适合日常用；2.4 MSPS 能看到 2.4 MHz 宽，适合找信号，但需要更好的 Wi-Fi。</td></tr>
+<tr><td><b>Waterfall</b></td><td><b>Station</b>：正在听的频率始终在画面中间。<b>Whole band</b>：画面固定显示接收机收到的整段频谱，标记在上面移动。</td></tr>
+<tr><td><b>Crystal error</b></td><td>频率校准，在接收机的编辑页里，见<a href="connect.html">在 App 里连接</a>。</td></tr>
+</table>
+
+<h2>这一页还是“监视器”</h2>
+<p>当别的页面（比如 ADS-B 或 AIS）正在使用接收机时，切到 Receiver 页面可以看到它们那个频段的瀑布图，例如 ADS-B 运行时这里显示 1090 MHz。这时页面顶部会写明是哪个页面在用。想自己用，直接点播放，另一个页面会自动停下。</p>
+
+<h2>常见情况</h2>
+<table>
+<tr><th>现象</th><th>原因和办法</th></tr>
+<tr><td>有信号的亮条，但没有声音</td><td>静噪关着：把 SQL 滑块往左拖，或者点 MONI 强制打开。</td></tr>
+<tr><td>一直有沙沙声</td><td>静噪开得太低：把 SQL 滑块拖到那条小竖线的右边。</td></tr>
+<tr><td>语音里有持续的尖锐啸叫</td><td>接收机自身的杂散落在了通带里：确认 NCH 是亮的。</td></tr>
+<tr><td>声音太小</td><td>把 AGC 滑块往右拖。它只放大不压缩，本身已经很响的广播不会再变响。</td></tr>
+<tr><td>电台在瀑布图上，但偏离中线</td><td>频率没校准，见<a href="connect.html">频率校准</a>。</td></tr>
+<tr><td>调到 24 MHz 以下没有信号</td><td>RTL-SDR 的调谐范围大约是 24–1766 MHz，中波和短波需要另外的上变频器或支持直采的型号。</td></tr>
+</table>

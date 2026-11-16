@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>在 Windows 上安装 rtl_tcp · SDRViewer 使用手册</title>
+<meta name="description" content="用 Zadig 安装驱动，下载 RTL-SDR 工具包并运行 rtl_tcp。">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="en/install-windows.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a class="on" href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>在 Windows 上安装 rtl_tcp</h1>
+<p class="lede">Windows 需要多一步：先给接收机换一个通用驱动。大约十分钟。</p>
+
+<ol class="steps">
+<li><strong>插上接收机，用 Zadig 安装驱动</strong>
+<p>Windows 默认会把它当成电视棒，需要换成 WinUSB 驱动，这一步用一个叫 Zadig 的小工具完成：</p>
+<ul>
+<li>从 <a href="https://zadig.akeo.ie">zadig.akeo.ie</a> 下载 Zadig 并运行。</li>
+<li>菜单 <b>Options</b> 里勾选 <b>List All Devices</b>。</li>
+<li>下拉列表里选择 <b>Bulk-In, Interface (Interface 0)</b>。有的型号显示为 <b>RTL2838UHIDIR</b> 或 <b>RTL2832U</b>。</li>
+<li>右边的驱动选 <b>WinUSB</b>，点 <b>Replace Driver</b>（或 Install Driver），等待一两分钟。</li>
+</ul>
+<div class="bad"><p><b>不要选错设备。</b>如果列表里选成了鼠标、键盘或摄像头，它们会失灵。只对上面写的那一项操作。</p></div></li>
+
+<li><strong>下载 RTL-SDR 工具包</strong>
+<p>到 <a href="https://github.com/rtlsdrblog/rtl-sdr-blog/releases">RTL-SDR Blog 的发布页</a>下载最新的 <code>Release.zip</code>，解压到一个容易找到的地方，比如 <code>C:\rtl-sdr</code>。里面的 <code>x64</code> 文件夹中有 <code>rtl_tcp.exe</code> 和 <code>rtl_test.exe</code>。</p></li>
+
+<li><strong>检查能不能认到接收机</strong>
+<p>在 <code>x64</code> 文件夹的空白处，按住 <kbd>Shift</kbd> 点右键，选“在此处打开终端”（或“打开 PowerShell 窗口”），输入：</p>
+<pre><code>.\rtl_test.exe -t</code></pre>
+<p>能看到 <code>Found 1 device(s)</code> 和接收机的型号就对了。如果显示找不到设备，回到第一步重新装一次驱动。</p></li>
+
+<li><strong>运行 rtl_tcp</strong>
+<pre><code>.\rtl_tcp.exe -a 0.0.0.0</code></pre>
+<p>看到 <code>listening...</code> 就是在等手机连接了。这个窗口要一直开着。</p>
+<div class="warn"><p><b>防火墙提示一定要点“允许”。</b>第一次运行时 Windows 会弹窗问是否允许访问网络，请勾选“专用网络”并允许。点了取消的话手机会连不上，需要到“Windows 安全中心 → 防火墙 → 允许应用通过防火墙”里把 rtl_tcp 重新勾上。</p></div></li>
+
+<li><strong>查到这台电脑的地址</strong>
+<p>再开一个终端窗口，输入：</p>
+<pre><code>ipconfig</code></pre>
+<p>找到正在使用的网络（WLAN 或以太网）下面的 <b>IPv4 地址</b>，类似 <code>192.168.1.20</code>，记下来。</p></li>
+</ol>
+
+<div class="ok"><p>电脑这边准备好了。接下来：<a href="connect.html">在 App 里连接 →</a></p></div>
+
+<h2>常见问题</h2>
+<h3>换了 USB 口之后认不到了</h3>
+<p>Windows 的驱动是按 USB 口记的。换了口需要用 Zadig 再装一次，或者插回原来的口。</p>
+<h3>RTL-SDR Blog V4 / V4L 没有信号</h3>
+<p>一定要用上面 RTL-SDR Blog 发布页里的工具包，其它来源的旧版本不认识这两个型号。</p>
+
+<div class="pager">
+<a href="install-macos.html"><small>上一篇</small>在 macOS 上安装 rtl_tcp</a>
+<a class="next" href="install-linux.html"><small>下一篇</small>在 Linux 上安装 rtl_tcp</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!-- ADS-B | Draws the aircraft you receive on a radar scope and a map, with departures, arrivals, airways and navaids over them, down to taxiways and gates. -->
+<h1>ADS-B</h1>
+<p class="lede">Every second, aircraft broadcast their position, altitude, speed and callsign on 1090 MHz. This page receives them and draws a radar picture, then lays the chart over it: not just "an aircraft up there", but which arrival it is flying, which runway it is lined up for, and which gate it taxis to afterwards.</p>
+
+<figure class="phone"><img class="shot" src="img/adsb-all.png" alt="The ADS-B scope over Los Angeles with every chart layer on"><figcaption>Los Angeles with every layer on. That is a lot at once; the rest of this page takes it one layer at a time.</figcaption></figure>
+
+<div class="note"><p><b>About the pictures.</b> This page uses Los Angeles International (LAX), with the chart from the <a href="data-file.html">example data file</a>. The aircraft are demonstration data and the callsigns DEMO01–DEMO10 are invented, which is why a PREVIEW line shows at the top left; it is not there when you receive for yourself.</p></div>
+
+<h2>Starting</h2>
+<ol class="steps">
+<li><strong>Use a suitable antenna</strong>1090 MHz is a short wavelength and a broadcast whip does poorly. Shorten each element to about 6.5 cm, stand it upright by a window, or use an antenna made for 1090 MHz. The more sky it sees, the more aircraft you get.</li>
+<li><strong>Tap play at the top left</strong>The receiver tunes to 1090 MHz and aircraft appear within seconds. The count is under the title.</li>
+<li><strong>Choose the scope or the map</strong>In the second row at the top right, the <b>map button</b> switches between the radar scope and the map, and the <b>layers button</b> beside it manages the chart layers.</li>
+</ol>
+<div class="parts">
+<div class="part"><img src="img/adsb-part-top.png" alt="The buttons at the top"><div><b class="name">The buttons at the top</b><p><b>CN / ICAO</b> switches units: CN is metres and km/h (as Chinese controllers use), ICAO is feet and knots (as most of the world does). The <b>magnifier</b> searches and filters by callsign, registration or type. The <b>gear</b> is the settings. Below them are the layers menu and the scope / map switch.</p></div></div>
+</div>
+
+<h2>The radar scope</h2>
+<figure class="phone"><img class="shot" src="img/adsb-scope.png" alt="The scope with no chart: range rings, bearing marks and aircraft"><figcaption>The scope with the chart off: ten aircraft within 50 km.</figcaption></figure>
+<p>The centre is where your receiver is; the rings are distance in kilometres and the outer marks are bearings. Each aircraft is a small circle, the dots behind it are where it has just been, and the line ahead is where it will be in a minute at its present speed.</p>
+<div class="parts">
+<div class="part"><img src="img/adsb-part-label.png" alt="An aircraft's label"><div><b class="name">Reading a label</b><p>The same layout as a real controller's display. From the top:<br><b>A4301</b>&nbsp; transponder code 4301<br><b>DEMO01</b>&nbsp; callsign (the flight)<br><b>023↓08 145</b>&nbsp; 2,300 ft, descending at about 800 ft/min; ground speed 145 kt<br><b>A321 M</b>&nbsp; an Airbus A321, wake category medium (H is heavy)</p></div></div>
+<div class="part"><img src="img/adsb-part-legend.png" alt="The legend at the bottom left"><div><b class="name">Colours and the legend</b><p>Colour follows the phase of flight: <b>En route</b> (above 6,000 m), <b>Approach</b> (arriving and departing), <b>Tower</b> (taking off and landing, below 900 m) and <b>Ground</b>. The number is how many of each. <b>Tap a row of the legend to hide that kind</b>, leaving, say, only the aircraft landing and taking off.</p></div></div>
+<div class="part"><img src="img/adsb-part-buttons.png" alt="The buttons at the bottom right"><div><b class="name">Moving and zooming</b><p>Drag and pinch as on a map, or use <b>+ / −</b>. The rings stay centred on your receiver. The <b>arrow</b> returns to your own position; <b>auto range</b> picks a range that holds every aircraft. The figure at the bottom right is the range, and how many aircraft are off the screen.</p></div></div>
+</div>
+
+<h2>Tapping an aircraft</h2>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-card.png" alt="The card that appears when an aircraft is selected"><figcaption>Tap an aircraft: a card at the bottom.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-page.png" alt="The aircraft's full detail"><figcaption>Pull the card up: everything.</figcaption></figure>
+</div>
+<p>The card has what is looked at most: how far and which way from you, altitude, speed, type. Pulled open it adds pressure and satellite altitude, vertical rate, track, position, the 24-bit address and how many messages were received. With a network connection it also looks up the <b>registration, the airline, the origin and destination</b>, and a photograph of the aircraft (the demonstration aircraft are invented, so there are none here).</p>
+
+<h2>The chart over the scope</h2>
+<p>Once an <a href="data-file.html">airspace data file</a> is imported, the <b>layers button</b> at the top right puts the chart over the scope a layer at a time. Everything at once is crowded, as the first picture shows; <b>turn on what you want to look at</b>. Each picture below has one layer on.</p>
+
+<h3>Departures (SID)</h3>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-sid-one.png" alt="One departure, ORCKA5, drawn alone"><figcaption>One alone: the ORCKA5 departure.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-sid-all.png" alt="Every Los Angeles departure for the runways in use"><figcaption>Every departure for the runways in use.</figcaption></figure>
+</div>
+<p>The green lines are departures and the arrowheads show the direction flown. An aircraft does not go where it likes after take-off: it climbs, turns and joins the airways along these fixed routes. With this layer on you see one departure after another on the same line.</p>
+<ul>
+<li>Layers menu → <b>Procedures</b> → turn on <b>Departures (SID)</b>.</li>
+<li><b>Airport</b>: draw one airport's procedures only. There are twenty airports round Los Angeles, and all of them together is a tangle.</li>
+<li><b>Runways</b>: the direction in use. The default is <b>Auto</b>: the app judges it from the aircraft landing and taking off and draws only that direction.</li>
+<li><b>Procedure</b>: draw just the one chosen, to see exactly what a particular aircraft is flying.</li>
+</ul>
+
+<h3>Arrivals (STAR)</h3>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-star-one.png" alt="One arrival, IRNMN2, drawn alone"><figcaption>One alone: the IRNMN2 arrival from the north-west.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-star-all.png" alt="Every Los Angeles arrival"><figcaption>All of them, converging from every side.</figcaption></figure>
+</div>
+<p>The orange lines are arrivals: aircraft leaving the cruise descend and slow along them and form a single file near the airport. A range of 150 km shows it best, with distant aircraft joining the same line one by one.</p>
+
+<h3>Approaches and holds</h3>
+<p>The menu also has <b>Approaches and missed</b> and <b>Holds</b>: the approach is the last part, lined up with the runway; the missed approach is the way out when a landing is abandoned; a hold is the racetrack an aircraft flies while it waits. They are drawn only when your data file has them. The Los Angeles example has departures and arrivals only, so there is no picture here.</p>
+
+<h3>Airways</h3>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-airways.png" alt="Airways within 100 km"><figcaption>100 km: the airway network.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-airways-near.png" alt="Airways and waypoints within 40 km"><figcaption>Closer, with waypoints on: each triangle is one.</figcaption></figure>
+</div>
+<p>The thin grey lines are airways, the motorways of the sky, each with its designator beside it (V25, J5). The <b>Waypoints</b> layer names the five-letter points along them. Aircraft passing overhead without landing here are nearly all on one airway or another.</p>
+<ul><li>Layers menu → <b>Layers</b> → <b>Airways</b>, <b>Waypoints</b>.</li></ul>
+
+<h3>Radio navigation aids</h3>
+<figure class="phone"><img class="shot" src="img/adsb-navaids.png" alt="Navaids and their compass roses"><figcaption>Navaids: a graduated circle is a VOR, with its identifier and frequency.</figcaption></figure>
+<p>The <b>Navaids</b> layer draws the radio beacons on the ground. One with a ring of marks is a VOR, by which an aircraft finds its bearing from the station; beside it are a three-letter identifier and a frequency (LAX 113.600). Many airways and procedures run from one navaid to the next. The <b>Airports</b> layer marks the other airports in range.</p>
+
+<h2>The map</h2>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-map-satellite.png" alt="Aircraft over satellite imagery"><figcaption>Satellite imagery.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-map-street.png" alt="Aircraft over the street map"><figcaption>The street map.</figcaption></figure>
+</div>
+<p>The map button at the top right puts the same aircraft on a map: each symbol points the way the aircraft is heading, with its callsign beside it. The map and the scope share their position and zoom, so switching shows the same place. The buttons at the bottom right change between <b>satellite</b> and <b>street map</b>, and roads can be laid over the imagery. The map needs a network connection.</p>
+<figure class="phone"><img class="shot" src="img/adsb-map-star.png" alt="One arrival over satellite imagery"><figcaption>The chart goes on the map too: an arrival following the coast into Los Angeles.</figcaption></figure>
+<p>Every layer the scope has, the map has. A procedure over imagery explains itself: which ridge it crosses, where it reaches the sea, and how it turns to line up.</p>
+
+<p>The same two procedures over satellite imagery, at the same place:</p>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-map-sid.png" alt="ORCKA5"><figcaption>The same departure over imagery: ORCKA5.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-map-star-one.png" alt="IRNMN2"><figcaption>The same arrival over imagery: IRNMN2.</figcaption></figure>
+</div>
+
+<h2>On the ground: runways, taxiways and gates</h2>
+<p>Zoom the map in to an airport and another layer appears: runways, taxiways and gates.</p>
+<figure class="phone"><img class="shot" src="img/adsb-map-airport.png" alt="Los Angeles airport over satellite imagery"><figcaption>Zoomed to the airport: yellow lines are taxiways, white labels are runways.</figcaption></figure>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-map-gates.png" alt="Gate numbers and taxiway names over imagery"><figcaption>Closer: gate numbers and taxiway names.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-map-taxiways.png" alt="Taxiways and gates on the street map"><figcaption>Plainer still on the street map.</figcaption></figure>
+</div>
+<ul>
+<li><b>Yellow lines</b> are taxiways, and the letters beside them (C, B, D10) are their names, the ones ground control says on the frequency.</li>
+<li><b>Wide grey bands</b> are runways, numbered at each end (06R/24L, 07L/25R).</li>
+<li><b>Blue numbers</b> are gates and stands (41, 130, 148…).</li>
+<li>Aircraft on the ground have positions too: you can see which gate one is parked at, or which taxiway it is following to the runway.</li>
+</ul>
+<p>The scope has the same, once zoomed to within a few kilometres:</p>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-scope-ground.png" alt="The airport on the scope at 3 km"><figcaption>The scope at 3 km: the whole airport.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-scope-gates.png" alt="Gates and taxiway names on the scope at 1 km"><figcaption>The scope at 1 km: gates and taxiway names.</figcaption></figure>
+</div>
+<ul>
+<li>Layers menu → <b>Airport ground</b> has three switches: <b>Runways and taxiways</b>, <b>Taxiway names</b>, <b>Gates</b>.</li>
+<li>This layer comes from OpenStreetMap and <b>needs no data file</b>. Most airports in the world are covered, and the first look at an airport needs a network connection.</li>
+</ul>
+
+<h2>Things to watch</h2>
+<ul>
+<li><b>An arrival, start to finish.</b> Turn on arrivals, set the range to 150 km, pick an aircraft descending, and watch it come down the procedure point by point and line up with the runway.</li>
+<li><b>Which way the airport is working today.</b> The runway direction follows the wind. Leave Runways on Auto and the procedures change to the set in use.</li>
+<li><b>Watch and listen.</b> When an aircraft is on final, go to the tower frequency on the <a href="page-atc.html">ATC</a> page and hear it cleared to land; then the ground frequency, and follow it by the taxiway names on the map to its gate.</li>
+<li><b>Spotting.</b> Open the card for the type and registration. A large airport sees unusual types and liveries every day.</li>
+<li><b>Overflights.</b> Turn on airways and see which one a cruising aircraft is on, and where it is going.</li>
+</ul>
+
+<h2>Common situations</h2>
+<table>
+<tr><th>What you see</th><th>Why, and what to do</th></tr>
+<tr><td>No aircraft at all</td><td>Most often the antenna. 1090 MHz wants a short antenna with a view of the sky, and deep indoors almost nothing arrives. Check too that the receiver is connected (see <a href="connect.html">Connecting a receiver</a>).</td></tr>
+<tr><td>Only very near aircraft</td><td>Put the antenna outside the window or higher. Range is mostly how far the antenna can see to the horizon.</td></tr>
+<tr><td>A label but no position</td><td>Some aircraft send altitude and code but no position; or it has only just been heard and the position has not arrived yet.</td></tr>
+<tr><td>A chart layer is on and nothing is drawn</td><td>No data file has been imported; see <a href="data-file.html">Airspace data file</a>. The airport ground layer does not depend on it.</td></tr>
+<tr><td>Procedures are on and nothing is drawn</td><td>Check that Airport is the one you mean. With Runways set to one direction only that direction is drawn; try All.</td></tr>
+<tr><td>No taxiways or gates</td><td>Zoom to the airport (within about 6 km on the scope); the first look needs a network connection; check the switches under Airport ground.</td></tr>
+<tr><td>On the map, the chart arrives a moment late</td><td>Normal. The base map comes first and the chart follows, under a Loading chart… notice.</td></tr>
+<tr><td>No registration or route</td><td>Those come from public databases on the internet, not from the aircraft, and not every aircraft is in them.</td></tr>
+</table>

@@ -1,0 +1,41 @@
+<!-- What you need | An RTL-SDR, an antenna, a computer or Raspberry Pi running rtl_tcp, and one Wi-Fi network. -->
+<h1>What you need</h1>
+<p class="lede">Four things: a receiver, an antenna, a small computer and a Wi-Fi network. Most people already have the last two.</p>
+
+<h2>The list</h2>
+<table>
+<tr><th>Item</th><th>What it is</th><th>Notes</th></tr>
+<tr><td><b>RTL-SDR receiver</b></td><td>A USB software-defined radio receiver, inexpensive.</td><td>An RTL-SDR Blog V3, V4 or V4L is recommended: accurate and well made. A generic "TV dongle" works too.</td></tr>
+<tr><td><b>Antenna</b></td><td>Most receivers come with a telescopic dipole, enough for FM broadcast.</td><td>For aircraft, ships and ADS-B, higher and nearer a window is better; see the tips below.</td></tr>
+<tr><td><b>Computer or Raspberry Pi</b></td><td>Mac, Windows or Linux. It only passes the receiver's samples to the network.</td><td>To carry it around, a Raspberry Pi with a power bank is the easiest.</td></tr>
+<tr><td><b>Wi-Fi</b></td><td>The phone and that computer must be on the same network.</td><td>A home router, or the phone's own Personal Hotspot.</td></tr>
+<tr><td><b>iPhone or iPad</b></td><td>With SDRViewer installed.</td><td>In public beta through TestFlight for now.</td></tr>
+</table>
+
+<div class="note"><p><b>Why not plug the receiver into the iPhone?</b> iOS does not let an app drive this kind of USB device. It is a limit of the system, and every app of this kind connects over the network. So one machine in between runs <code>rtl_tcp</code>, a small program that comes with the RTL-SDR tools.</p></div>
+
+<h2>Sample rate and the network</h2>
+<p>The receiver sends one or two million samples a second, which asks a little of the network:</p>
+<table>
+<tr><th>Use</th><th>Sample rate</th><th>Network traffic</th></tr>
+<tr><td>FM broadcast, air band voice, APRS, AIS</td><td>about 1 MSPS</td><td>about 16 Mbit/s</td></tr>
+<tr><td>ADS-B</td><td>2 MSPS</td><td>about 32 Mbit/s</td></tr>
+</table>
+<p>Ordinary home Wi-Fi is plenty. If the audio breaks up or the app reports dropped samples, the Wi-Fi signal is usually weak: move the computer and the phone closer to the router, or put the computer on a cable.</p>
+
+<h2>Antenna tips</h2>
+<ul>
+<li><b>FM broadcast</b>: extend each side of the dipole to about 75 cm and put it by a window.</li>
+<li><b>Air band (118–137 MHz)</b>: about 58 cm a side, vertical, with a view of the sky or the airport.</li>
+<li><b>ADS-B (1090 MHz)</b>: about 6.9 cm a side. This frequency travels in straight lines only; outdoors or on a window sill makes a very large difference.</li>
+<li><b>Interference</b>: keep the antenna away from the computer, chargers and monitors. A USB extension cable that moves the receiver away often helps.</li>
+</ul>
+
+<h2>Next</h2>
+<p>Install and run <code>rtl_tcp</code> on the computer. Pick your system:</p>
+<div class="cards">
+  <a class="card" href="install-macos.html"><div class="ico">🍎</div><b>macOS</b><span>One line with Homebrew</span></a>
+  <a class="card" href="install-windows.html"><div class="ico">🪟</div><b>Windows</b><span>A driver, then unzip and run</span></a>
+  <a class="card" href="install-linux.html"><div class="ico">🐧</div><b>Linux</b><span>From the package manager</span></a>
+  <a class="card" href="install-pi.html"><div class="ico">🍓</div><b>Raspberry Pi</b><span>Starts at boot</span></a>
+</div>

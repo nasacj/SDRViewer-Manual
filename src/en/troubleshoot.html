@@ -1,0 +1,38 @@
+<!-- If it will not connect | By symptom: cannot connect, connected with no samples, broken audio, wrong frequency. -->
+<h1>If it will not connect</h1>
+<p class="lede">Find the line that matches what you see. Most problems are in the network and the address, not in the receiver.</p>
+
+<h2>A quick check first</h2>
+<ol class="steps">
+<li><strong>Is rtl_tcp running?</strong>Its window should say <code>listening...</code>, and <code>client accepted!</code> once the phone connects.</li>
+<li><strong>Is it the same network?</strong>The phone and the computer must be on the same Wi-Fi. Guest and office networks often stop devices from reaching each other.</li>
+<li><strong>Is the address right?</strong>A computer's address can change when the router hands out a new one. Look it up again and compare it with the app.</li>
+</ol>
+
+<h2>By symptom</h2>
+<table>
+<tr><th>What you see</th><th>Most likely</th><th>What to do</th></tr>
+<tr><td>Play never connects, or reports a failure</td><td>Wrong address or port; a firewall; rtl_tcp started without <code>-a 0.0.0.0</code></td><td>Check the address and port 1234; on Windows check the firewall allows rtl_tcp; make sure the command has <code>-a 0.0.0.0</code></td></tr>
+<tr><td>Connected, but the waterfall is still and there is no sound</td><td>rtl_tcp is already serving another program or device</td><td>Close other SDR software on the computer, or restart rtl_tcp</td></tr>
+<tr><td>Nothing arrives after the receiver was unplugged and plugged back</td><td>rtl_tcp does not notice its receiver going and keeps using a dead handle</td><td>Stop rtl_tcp and run it again</td></tr>
+<tr><td>The waterfall moves but shows only noise, no stations</td><td>The antenna is not connected; unsuitable gain; an old driver for a V4 or V4L</td><td>Check the antenna connector; run <code>rtl_test -t</code> on the computer and see the model is recognised</td></tr>
+<tr><td>FM plays, air traffic or APRS not at all</td><td>The receiver's frequency is not calibrated</td><td>See <a href="connect.html">Frequency calibration</a>: listen to a few stereo FM stations first</td></tr>
+<tr><td>Audio breaks up and the drop count on the page rises</td><td>Weak or busy Wi-Fi: samples are lost on the way</td><td>Move closer to the router; put the computer on a cable; lower the sample rate to 1.024 MSPS</td></tr>
+<tr><td>Audio is dull or distorted</td><td>The calibration belongs to a different receiver</td><td>Tap Measure again in the receiver's editor</td></tr>
+<tr><td>A name such as <code>xxx.local</code> does not connect</td><td>The network does not resolve names</td><td>Use the numeric address, for example <code>192.168.1.20</code></td></tr>
+<tr><td>After switching to another app and back, a page that makes no sound has stopped</td><td>iOS suspends apps in the background; only a page playing audio keeps running</td><td>It reconnects by itself on return, and the page says for how long it was paused</td></tr>
+</table>
+
+<h2>What the numbers on the page mean</h2>
+<p>The Receiver page has a line of small figures above the spectrum, which is useful when something is wrong:</p>
+<table>
+<tr><th>Name</th><th>Meaning</th><th>When all is well</th></tr>
+<tr><td><b>link</b></td><td>The sample rate actually arriving</td><td>Close to the rate you set</td></tr>
+<tr><td><b>iqdrop</b></td><td>Samples the phone could not process in time</td><td>0</td></tr>
+<tr><td><b>under</b></td><td>Times the speaker ran out of audio</td><td>0 or a few</td></tr>
+<tr><td><b>ring</b></td><td>How full the audio buffer is</td><td>Moving a little around 25%</td></tr>
+</table>
+<div class="note"><p>If <b>link</b> is well below the rate you set, the problem is in the network or on the computer. If <b>iqdrop</b> rises, the phone is too busy: lower the sample rate.</p></div>
+
+<h2>Still stuck</h2>
+<p>Three things let the author find the problem fastest: the computer's system and the receiver's model; the output of <code>rtl_test -t</code>; and a screenshot of the page with the line of figures above.</p>
