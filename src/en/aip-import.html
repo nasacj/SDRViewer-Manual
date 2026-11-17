@@ -1,0 +1,95 @@
+<!-- Importing an AIP directly | Hand the app a civil aviation authority's own download and let it do the reading: which files it takes, where to get them, how to import. -->
+<h1>Importing an AIP directly</h1>
+<p class="lede">Besides <a href="data-file.html">a JSON file you prepare yourself</a>, the app reads the archives civil aviation authorities publish, exactly as they are downloaded: nothing to unzip and nothing to convert on a computer first. This page lists the files it takes today, where to get them, and how to import one.</p>
+
+<figure class="pair">
+  <img class="shot" src="img/aip-page.png" alt="The AIP data page: imported publications and the Import a file button">
+  <img class="shot" src="img/aip-map.png" alt="Airways, sectors and procedures on the ADS-B map after an import">
+  <figcaption>Left: the AIP data page, listing what has been imported and when each took effect. Right: the ADS-B map afterwards.</figcaption>
+</figure>
+
+<div class="warn"><p><b>Not for navigation.</b> This is a backdrop for a receiver's screen. Each publication comes from its authority without warranty and is reissued every 28 days; for any flying, use the current official material.</p></div>
+
+<h2>What it reads today</h2>
+<table>
+<tr><th>Publication</th><th>The file to hand over</th><th>Size</th><th>What you get</th></tr>
+<tr><td>FAA <b>NASR</b> (United States)</td><td><code>28DaySubscription_Effective_<i>date</i>.zip</code>, or the CSV zip inside it</td><td>about 260 MB (the CSV zip, about 22 MB)</td><td>Airports and their frequencies, navaids, airways, each centre's boundary and the frequencies of its remote sites</td></tr>
+<tr><td>FAA <b>CIFP</b> (United States)</td><td><code>CIFP_<i>date</i>.zip</code></td><td>about 9 MB</td><td>Departures, arrivals, approaches and missed approaches, with altitude and speed limits</td></tr>
+<tr><td><b>AIP China</b> (eAIP)</td><td><code>EAIP<i>edition</i>_Web.zip</code></td><td>about 1.9 GB</td><td>Airports and their frequencies, control sectors (boundary, limits, frequency, callsign), routes, navaids, departures, arrivals and approaches</td></tr>
+</table>
+<div class="note"><p><b>Recognised by what is inside, not by its name.</b> A renamed download is fine: the app opens the archive and tells what it is from its contents. A file it does not recognise is refused with a message, and nothing already imported is touched.</p></div>
+<p>Japan and Korea are being worked on. When they arrive they will appear in the <b>Reads</b> list at the foot of the app's AIP data page, which always states what the installed version takes.</p>
+
+<h2>Where to get them</h2>
+<h3>United States: FAA NASR and CIFP</h3>
+<p>The FAA's aeronautical data is public and needs no account. The two files cover different things; import either, or both.</p>
+<ol class="steps">
+<li><strong>NASR</strong>Open the FAA's <a href="https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/">28 Day NASR Subscription page</a>, choose the edition marked Current, and download the whole subscription, <code>28DaySubscription_Effective_<i>date</i>.zip</code>. To save data, the CSV section of the same page offers the CSV zip alone, which the app takes as well.</li>
+<li><strong>CIFP</strong>Open the FAA's <a href="https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/cifp/download/">CIFP download page</a> and download the current <code>CIFP_<i>date</i>.zip</code>.</li>
+</ol>
+<p>With NASR alone, a departure or arrival is only its fixes in order, with no altitude or speed limits, and there are no approaches. Importing CIFP as well replaces them with the fully coded procedures.</p>
+
+<h3>China: the eAIP</h3>
+<p>The electronic AIP of China is downloaded with your own account: register at <a href="https://www.eaipchina.cn/e-AIP">https://www.eaipchina.cn/e-AIP</a>, sign in, and download the complete web package (a file named like <code>EAIP2026-11.V1.5_Web.zip</code>).</p>
+<div class="note"><p>AIP China is the copyright of the Civil Aviation Administration of China: free to consult and not to be redistributed. So the app does not carry it and this manual does not offer it. You download it with your own account, the app reads it on your device, and the data goes nowhere else.</p></div>
+
+<h2>Importing in the app</h2>
+<ol class="steps">
+<li><strong>Put the archive on the iPhone or iPad</strong>AirDrop, iCloud Drive, or the Files app with a computer attached: anywhere Files can see. Leave it zipped.</li>
+<li><strong>Open the AIP data page</strong>On the <b>ATC</b> or the <b>ADS-B</b> page, tap the gear at the top right for settings, then the <b>AIP data</b> row.</li>
+<li><strong>Tap Import a file and choose the archive</strong>The import starts as soon as it is chosen.</li>
+</ol>
+<figure><img class="shot" src="img/aip-settings.png" alt="The AIP data row in settings"><figcaption>The <b>AIP data</b> row in settings, with the data in use named under it.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aip-page.png" alt="Import a file on the AIP data page"><figcaption>The page it opens: what has been imported, the <b>Import a file</b> button, and the list of files this version reads directly (Reads).</figcaption></figure>
+
+<h2>While it imports</h2>
+<figure class="phone"><img class="shot" src="img/aip-progress.png" alt="An import in progress: a spinner and a line of progress"><figcaption>An import in progress. The line says which step it is on and how far through.</figcaption></figure>
+<p>A spinner turns and a line says what is being done, such as <b>Airports 12/82</b> (the twelfth airport of eighty-two) <b>Waypoints 37/78</b> (the waypoint list of the thirty-seventh airport) or <b>Procedures 30/78 · ZSPD</b> (reading Pudong's procedures). Roughly how long:</p>
+<table>
+<tr><th>File</th><th>Time</th><th>Why</th></tr>
+<tr><td>FAA NASR</td><td>seconds to a quarter of a minute</td><td>a dozen tables are read out of it</td></tr>
+<tr><td>FAA CIFP</td><td>a quarter of a minute</td><td>about 400,000 records</td></tr>
+<tr><td>AIP China</td><td>one to a few minutes</td><td>the procedures' coding tables are in more than 700 PDFs, read one at a time</td></tr>
+</table>
+<div class="note"><p><b>Keep the app open until it finishes.</b> After switching to another app or the home screen, the system allows about half a minute more; past that the import pauses and carries on when you return. Either way the data already there is not touched until the new edition is complete: if the system ends the app, all that is lost is this import.</p></div>
+<p>The archive is not unpacked onto the device: the app reads the parts it needs straight out of it. The one exception is the small CSV zip nested inside the full NASR subscription, which is taken out for the length of the import and removed when it ends.</p>
+
+<h2>When it has finished</h2>
+<figure class="pair">
+  <img class="shot" src="img/aip-result.png" alt="An import finished: how many of each kind were read">
+  <img class="shot" src="img/aip-changes.png" alt="What changed when a newer edition was imported">
+  <figcaption>Left: a first import, with the number of airports, sectors, airways, navaids and procedures read. Right: a newer edition, with what was added, removed and changed since the last.</figcaption>
+</figure>
+<ul>
+<li><b>A first import</b> lists how many of each kind were read, and anything that could not be read with the reason.</li>
+<li><b>A newer edition</b> replaces the older one whole, and the two are then compared entry by entry: each kind shows how many were <b>added</b> (+), <b>removed</b> (−) and <b>changed</b> (~), and opens to show which. Two identical editions are reported as such.</li>
+<li><b>Deleting the download</b>: once read, the archive is no longer needed. A <b>Delete …</b> button under the result removes it; the app does not delete a file of yours without being asked.</li>
+<li><b>Dropping a publication</b>: swipe its row left and tap <b>Remove</b>.</li>
+</ul>
+
+<h2>Where the data is used</h2>
+<ul>
+<li><b>ATC</b>: the frequencies of the airport you are at, and of the control sectors over you.</li>
+<li><b>ADS-B</b>: airways, navaids, airports, control sectors and procedures on the map and the radar.</li>
+</ul>
+<p>A country's data is large, so the app does not read it all at once: it reads the part being looked at. Move the map and that region is read. Far out, only control boundaries and airways are drawn; airports and procedures appear as you come in.</p>
+<p>Your own <a href="data-file.html">JSON file</a> and imported publications work together. Where both know the same airport or sector, your file's version is the one used.</p>
+
+<h2>Other countries: a JSON file</h2>
+<p>The app cannot yet read the AIP of a country outside the table above. That does not stop you using its data: the app defines an open <a href="data-file.html">JSON file format</a>, and any country's data put into that shape imports and is drawn on the ATC and ADS-B pages just as a directly imported publication is.</p>
+<ul>
+<li><b>Part of it is enough.</b> Any of the file's five lists (airports and frequencies, navaids, routes, procedures, sectors) may be empty. A few airports' frequencies are enough for the ATC page, a dozen lines an airport.</li>
+<li><b>Where the data comes from</b>: most countries' AIPs can be consulted free on their authority's website. An airport's frequencies are in its AD 2.18, routes in ENR 3, navaids in ENR 4. Whether it may be passed on differs by country; using it yourself is usually fine, and the country's terms are worth reading before you share a file.</li>
+<li><b>How</b>: the <a href="data-file.html">airspace data file</a> page goes through the format section by section and offers a Los Angeles example to download and alter. Coordinates may be written in decimal degrees or as a chart prints them, in degrees, minutes and seconds.</li>
+<li><b>Mistakes are reported</b>: on import the app names each thing it could not read. One wrong entry costs that entry, not the file.</li>
+</ul>
+<p>A JSON file and imported publications can be used together: import AIP China directly, say, and add Hong Kong from a JSON file of your own.</p>
+
+<h2>What each publication does not give</h2>
+<table>
+<tr><th>Publication</th><th>Missing</th><th>Why</th></tr>
+<tr><td>FAA NASR / CIFP</td><td>Sector boundaries below a centre</td><td>The United States does not publish them. A centre's frequencies are given by remote site, and the ATC page lists the sites within 150 km of you.</td></tr>
+<tr><td>FAA NASR</td><td>The shapes of Class B, C and D airspace</td><td>They are in a file of another format, not read yet.</td></tr>
+<tr><td>FAA NASR</td><td>Private strips and heliports</td><td>Only airports with an ICAO code or open to the public are taken, about 5,000.</td></tr>
+<tr><td>AIP China</td><td>Hong Kong, Macau, Taiwan</td><td>Each has an AIP of its own, not part of this publication.</td></tr>
+</table>

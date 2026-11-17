@@ -1,0 +1,95 @@
+<!-- 直接导入各国 AIP | 把民航部门发布的原始文件交给 App，由它自己解析：支持哪些文件、去哪里下载、怎么导入。 -->
+<h1>直接导入各国 AIP</h1>
+<p class="lede">除了<a href="data-file.html">自己准备 JSON 文件</a>，App 还能直接读取民航部门发布的原始压缩包：你下载下来是什么样，就原样交给它，不用解压，也不用在电脑上转换。这一页说明目前支持哪些文件、去哪里下载、在 App 里怎么导入。</p>
+
+<figure class="pair">
+  <img class="shot" src="img/aip-page.png" alt="AIP data 页：已导入的出版物和 Import a file 按钮">
+  <img class="shot" src="img/aip-map.png" alt="导入后 ADS-B 地图上的航路、扇区和程序">
+  <figcaption>左：AIP data 页，列出已经导入的出版物和各自的生效日期。右：导入之后的 ADS-B 地图。</figcaption>
+</figure>
+
+<div class="warn"><p><b>不可用于导航。</b>这些数据只是接收机屏幕上的背景图。各出版物由其发布机构提供，不附带任何保证，并且每 28 天更新一次；任何飞行用途请使用官方发布的现行资料。</p></div>
+
+<h2>目前支持的文件</h2>
+<table>
+<tr><th>出版物</th><th>交给 App 的文件</th><th>大小</th><th>得到什么</th></tr>
+<tr><td>美国 FAA <b>NASR</b></td><td><code>28DaySubscription_Effective_<i>日期</i>.zip</code>，或其中的 CSV 压缩包</td><td>约 260 MB（CSV 包约 22 MB）</td><td>机场和频率、导航台、航路、各管制中心的边界和遥控台站频率</td></tr>
+<tr><td>美国 FAA <b>CIFP</b></td><td><code>CIFP_<i>日期</i>.zip</code></td><td>约 9 MB</td><td>离场、进场、进近和复飞程序，带高度和速度限制</td></tr>
+<tr><td><b>中国 AIP</b>（eAIP）</td><td><code>EAIP<i>版本</i>_Web.zip</code></td><td>约 1.9 GB</td><td>机场和频率、管制扇区（边界、高度、频率、呼号）、航路、导航台、进离场和进近程序</td></tr>
+</table>
+<div class="note"><p><b>靠内容识别，不看文件名。</b>下载后改过名字也没关系：App 打开压缩包，看里面有什么来判断它是哪一种。认不出来的文件会直接告诉你，不会改动已有的数据。</p></div>
+<p>日本和韩国的 AIP 正在做，做好后会出现在 App 里 AIP data 页底部的“Reads”清单里，那份清单始终是当前版本实际支持的全部。</p>
+
+<h2>去哪里下载</h2>
+<h3>美国：FAA NASR 和 CIFP</h3>
+<p>美国联邦航空局（FAA）的航行数据是公开的，不需要注册。两份数据各管一部分，可以只导入其中一份，也可以都导入。</p>
+<ol class="steps">
+<li><strong>NASR</strong>打开 <a href="https://www.faa.gov/air_traffic/flight_info/aeronav/aero_data/NASR_Subscription/">FAA 的 28 Day NASR Subscription 页面</a>，选当前生效的那一期（Current），在页面上下载完整的订阅压缩包 <code>28DaySubscription_Effective_<i>日期</i>.zip</code>。如果想省流量，同一页的 CSV 一节里有单独的 CSV 压缩包，App 同样认得。</li>
+<li><strong>CIFP</strong>打开 <a href="https://www.faa.gov/air_traffic/flight_info/aeronav/digital_products/cifp/download/">FAA 的 CIFP 下载页面</a>，下载当前这一期的 <code>CIFP_<i>日期</i>.zip</code>。</li>
+</ol>
+<p>只导入 NASR 时，进离场程序只有定位点的先后顺序，没有高度和速度限制，也没有进近程序；再导入 CIFP 后，程序会换成带限制的完整版本。</p>
+
+<h3>中国：eAIP</h3>
+<p>中国民航的电子版 AIP 需要注册后自行下载：到 <a href="https://www.eaipchina.cn/e-AIP">https://www.eaipchina.cn/e-AIP</a> 注册账号，登录后下载网页版的完整压缩包（文件名形如 <code>EAIP2026-11.V1.5_Web.zip</code>）。</p>
+<div class="note"><p>中国 AIP 的版权归中国民用航空局所有，可以免费查阅，但不能再分发。所以 App 不附带它，本手册也不提供下载：由你用自己的账号下载，App 在你的设备上读取，数据不会离开这台设备。</p></div>
+
+<h2>在 App 里导入</h2>
+<ol class="steps">
+<li><strong>把压缩包放到 iPhone 或 iPad 上</strong>用隔空投送、iCloud 云盘，或者连上电脑后通过“文件”App，放到任何“文件”App 能看到的位置。不用解压。</li>
+<li><strong>打开 AIP data 页</strong>在 <b>ATC</b> 页或 <b>ADS-B</b> 页点右上角的齿轮进入设置，点 <b>AIP data</b> 这一行。</li>
+<li><strong>点 Import a file，选中压缩包</strong>选好之后导入就开始了。</li>
+</ol>
+<figure><img class="shot" src="img/aip-settings.png" alt="设置里的 AIP data 一行"><figcaption>设置里的 <b>AIP data</b> 一行，下面写着当前用的是哪些数据。</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/aip-page.png" alt="AIP data 页上的 Import a file"><figcaption>点进去之后的页面：已导入的出版物、<b>Import a file</b> 按钮，以及当前版本能直接读取的文件清单（Reads）。</figcaption></figure>
+
+<h2>导入过程中</h2>
+<figure class="phone"><img class="shot" src="img/aip-progress.png" alt="导入进行中：转圈和进度文字"><figcaption>导入进行中。进度文字说明正在做哪一步、做到第几个。</figcaption></figure>
+<p>导入时页面上会转圈，并显示正在做的步骤，比如 <b>Airports 12/82</b>（第 12 个机场，共 82 个）、<b>Waypoints 37/78</b>（正在读第 37 个机场的航路点表）、<b>Procedures 30/78 · ZSPD</b>（正在读浦东的程序）。大致用时：</p>
+<table>
+<tr><th>文件</th><th>大致用时</th><th>为什么</th></tr>
+<tr><td>FAA NASR</td><td>几秒到十几秒</td><td>只读其中十几张表</td></tr>
+<tr><td>FAA CIFP</td><td>十几秒</td><td>约 40 万行记录</td></tr>
+<tr><td>中国 eAIP</td><td>一到几分钟</td><td>程序的编码表在 700 多份 PDF 里，要逐份读</td></tr>
+</table>
+<div class="note"><p><b>请保持 App 开着，直到导入完成。</b>切到别的 App 或回到桌面后，系统只再给它半分钟左右；超过之后导入会暂停，回到 App 时接着做。不管怎样，旧的数据在新的一版完整建好之前都不会被动到：中途被系统结束，损失的只是这一次导入。</p></div>
+<p>压缩包不会被解压到设备上：App 直接从里面读它需要的那部分。唯一的例外是 NASR 完整包里嵌着的 CSV 小压缩包，会临时取出来，导入结束时删掉。</p>
+
+<h2>导入完成后</h2>
+<figure class="pair">
+  <img class="shot" src="img/aip-result.png" alt="导入完成：各类数据的数量">
+  <img class="shot" src="img/aip-changes.png" alt="再次导入新一期时列出的变化">
+  <figcaption>左：第一次导入，列出读到了多少机场、扇区、航路、导航台和程序。右：导入新的一期时，列出相对上一期新增、删除和改动了什么。</figcaption>
+</figure>
+<ul>
+<li><b>第一次导入</b>：列出各类数据的数量，以及有哪些内容没能读出来和原因。</li>
+<li><b>导入新的一期</b>：新的一期整体替换旧的一期，然后逐条比较，列出每一类<b>新增</b>（+）、<b>删除</b>（−）、<b>改动</b>（~）了多少，点开可以看具体是哪些。两期完全一样时会直接告诉你没有变化。</li>
+<li><b>删除下载的压缩包</b>：读完之后压缩包就用不着了。结果下面有一个 <b>Delete …</b> 按钮可以把它删掉，App 不会不问就删你自己文件夹里的东西。</li>
+<li><b>不想要某份出版物了</b>：在列表里把那一行向左滑，点 <b>Remove</b>。</li>
+</ul>
+
+<h2>导入的数据用在哪</h2>
+<ul>
+<li><b>ATC 页</b>：按你的位置列出机场的各个频率，以及覆盖这里的管制扇区的频率。</li>
+<li><b>ADS-B 页</b>：地图和雷达上的航路、导航台、机场、管制扇区和进离场程序。</li>
+</ul>
+<p>一个国家的数据很大，App 不会一次全部读进来，而是看到哪里读到哪里：地图移到哪个区域，就读那个区域的数据。地图拉得很远时只画管制区边界和航路，拉近后才出现机场和程序。</p>
+<p>你自己的 <a href="data-file.html">JSON 文件</a>和导入的出版物可以同时使用；同一个机场或扇区两边都有时，以你自己的文件为准。</p>
+
+<h2>其他国家：用 JSON 文件</h2>
+<p>上面那张表以外的国家，App 目前不能直接读它们的 AIP。这不妨碍使用：App 另外规定了一种公开的 <a href="data-file.html">JSON 文件格式</a>，任何国家的数据只要整理成这个格式就能导入，和直接导入的出版物同样显示在 ATC 页和 ADS-B 页上。</p>
+<ul>
+<li><b>可以只做一部分。</b>文件里的五类内容（机场和频率、导航台、航路、程序、扇区）哪一类都可以留空。只写几个机场的频率就能在 ATC 页用起来，一个机场十几行。</li>
+<li><b>数据从哪来</b>：各国的 AIP 一般都能在其民航部门的网站上免费查阅，机场频率在每个机场的 AD 2.18 一节，航路在 ENR 3，导航台在 ENR 4。是否允许再分发因国家而异，自己用通常没有问题，分享给别人之前请先看该国的使用条款。</li>
+<li><b>怎么做</b>：<a href="data-file.html">航图数据文件</a>一页逐节说明了格式，并附有一份可以直接下载的洛杉矶示例，照着改最快。坐标既可以写十进制度，也可以照航图上的写法写成度分秒。</li>
+<li><b>写错了会告诉你</b>：导入时 App 会逐条指出读不懂的地方，一处写错只损失那一处，不会整份文件作废。</li>
+</ul>
+<p>JSON 文件和直接导入的出版物可以同时存在。比如直接导入中国的 eAIP，再用一份自己整理的 JSON 补上香港。</p>
+
+<h2>各出版物目前读不到的内容</h2>
+<table>
+<tr><th>出版物</th><th>没有的内容</th><th>原因</th></tr>
+<tr><td>FAA NASR / CIFP</td><td>管制中心以下的扇区边界</td><td>美国不公布这一层的边界。中心的频率按遥控台站给出，ATC 页列出离你 150 公里以内的台站。</td></tr>
+<tr><td>FAA NASR</td><td>B、C、D 类空域的形状</td><td>在另一种格式的文件里，还没有读。</td></tr>
+<tr><td>FAA NASR</td><td>私人起降场和直升机场</td><td>只收有 ICAO 代码或对公众开放的机场，约 5000 个。</td></tr>
+<tr><td>中国 eAIP</td><td>香港、澳门、台湾</td><td>各有自己的 AIP，不在这份出版物里。</td></tr>
+</table>
