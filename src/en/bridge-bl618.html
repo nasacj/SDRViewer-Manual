@@ -1,0 +1,334 @@
+<!-- BL618 Wi-Fi board | A BL618 development board in place of a computer: the RTL-SDR plugs into it, it opens its own Wi-Fi, and the phone joins. -->
+<h1>BL618 Wi-Fi board</h1>
+<p class="lede">No computer to carry and no Raspberry Pi to set up: a development board costing a few dollars can be the <code>rtl_tcp</code> server. The RTL-SDR plugs into it, it opens its own Wi-Fi hotspot, and the phone joins that and receives. It runs from a power bank, works a few seconds after power-on, and goes in a pocket to the airport fence or up a hill.</p>
+
+<figure><div class="diagram-svg"><svg role="img" aria-label="An RTL-SDR on an Ai-M61-32S-Kit, which sends the samples over Wi-Fi to an iPhone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 330" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif">
+    <defs>
+    <marker id="bl618-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--d-ink)"/>
+    </marker>
+  </defs>
+
+  <!-- antenna + RTL-SDR -->
+  <line x1="70" y1="40" x2="70" y2="110" stroke="var(--d-ink)" stroke-width="3"/>
+  <path d="M55 40 L70 60 L85 40" fill="none" stroke="var(--d-ink)" stroke-width="3"/>
+  <rect x="20" y="110" width="110" height="80" rx="12" fill="var(--d-ink)"/>
+  <text x="75" y="147" text-anchor="middle" font-size="16" font-weight="700" fill="var(--d-on-ink)">RTL-SDR</text>
+  <text x="75" y="170" text-anchor="middle" font-size="12" fill="var(--d-on-ink-muted)">V3 / V4</text>
+
+  <line x1="130" y1="150" x2="228" y2="150" stroke="var(--d-ink)" stroke-width="2.5" marker-end="url(#bl618-arrow)"/>
+  <text x="180" y="138" text-anchor="middle" font-size="13" fill="var(--d-ink)">USB 2.0</text>
+  <text x="180" y="172" text-anchor="middle" font-size="12" fill="var(--d-muted)">4 jumper wires</text>
+
+  <!-- board -->
+  <rect x="230" y="40" width="380" height="220" rx="14" fill="var(--d-panel)" stroke="var(--d-ink)" stroke-width="2"/>
+  <text x="420" y="72" text-anchor="middle" font-size="17" font-weight="700" fill="var(--d-ink)">Ai-M61-32S-Kit (BL618)</text>
+  <g font-size="13" fill="var(--d-ink)">
+    <rect x="250" y="90" width="160" height="40" rx="6" fill="var(--d-surface)" stroke="var(--d-line)"/>
+    <text x="330" y="115" text-anchor="middle">USB host + librtlsdr</text>
+    <rect x="250" y="142" width="160" height="40" rx="6" fill="var(--d-surface)" stroke="var(--d-line)"/>
+    <text x="330" y="167" text-anchor="middle">1.75 MB PSRAM buffer</text>
+    <rect x="430" y="90" width="160" height="40" rx="6" fill="var(--d-surface)" stroke="var(--d-line)"/>
+    <text x="510" y="115" text-anchor="middle">rtl_tcp  port 1234</text>
+    <rect x="430" y="142" width="160" height="40" rx="6" fill="var(--d-surface)" stroke="var(--d-line)"/>
+    <text x="510" y="167" text-anchor="middle">rtl_udp  port 1235</text>
+  </g>
+  <text x="420" y="212" text-anchor="middle" font-size="12" fill="var(--d-muted)">Own hotspot SDR-Bridge-XXXX (192.168.7.1)</text>
+  <text x="420" y="232" text-anchor="middle" font-size="12" fill="var(--d-muted)">or joins your phone's hotspot · rtlsdr.local either way</text>
+
+  <!-- power -->
+  <rect x="345" y="285" width="150" height="34" rx="8" fill="var(--d-surface)" stroke="var(--d-muted)" stroke-dasharray="4 3"/>
+  <text x="420" y="307" text-anchor="middle" font-size="12" fill="var(--d-muted)">Power bank / charger ≥ 1 A</text>
+  <line x1="420" y1="285" x2="420" y2="262" stroke="var(--d-muted)" stroke-width="2" marker-end="url(#bl618-arrow)"/>
+  <text x="430" y="278" font-size="11" fill="var(--d-muted)">Type-C</text>
+
+  <!-- wifi -->
+  <line x1="610" y1="150" x2="768" y2="150" stroke="var(--d-ink)" stroke-width="2.5" stroke-dasharray="8 6" marker-end="url(#bl618-arrow)"/>
+  <text x="690" y="138" text-anchor="middle" font-size="13" fill="var(--d-ink)">Wi-Fi 2.4 GHz</text>
+  <text x="690" y="172" text-anchor="middle" font-size="12" fill="var(--d-muted)">no jailbreak, no MFi</text>
+
+  <!-- phone -->
+  <rect x="770" y="45" width="120" height="210" rx="22" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="3"/>
+  <rect x="808" y="55" width="44" height="10" rx="5" fill="var(--d-ink)"/>
+  <text x="830" y="140" text-anchor="middle" font-size="15" font-weight="700" fill="var(--d-ink)">iPhone</text>
+  <text x="830" y="165" text-anchor="middle" font-size="12" fill="var(--d-muted)">any rtl_tcp</text>
+  <text x="830" y="182" text-anchor="middle" font-size="12" fill="var(--d-muted)">SDR app</text>
+  <text x="945" y="140" text-anchor="middle" font-size="12" fill="var(--d-muted)">iPad, Mac,</text>
+  <text x="945" y="158" text-anchor="middle" font-size="12" fill="var(--d-muted)">or SDR++</text>
+  <text x="945" y="176" text-anchor="middle" font-size="12" fill="var(--d-muted)">on a PC</text>
+</svg></div></figure>
+
+<div class="note"><p>The firmware and its full instructions are on GitHub: <a href="https://github.com/nasacj/rtlsdr-iphone-bridge">nasacj/rtlsdr-iphone-bridge</a>. This page covers what to buy, how to wire it, how to set up the app and what the lights mean; for building and flashing the firmware, follow the steps there.</p></div>
+
+<h2>What you need</h2>
+<table>
+<tr><th>Item</th><th>Notes</th></tr>
+<tr><td><b>Ai-M61-32S-Kit</b></td><td>Ai-Thinker's development board, chip <b>BL618</b>, with 4 MB PSRAM, a few dollars. <b>Listings that say BL616 are the Ai-M62, which has no PSRAM and will not work.</b></td></tr>
+<tr><td><b>USB-A female to 4-pin jumper cable</b></td><td>A USB-A socket on one end and four separate 2.54 mm female jumper connectors on the other (sold for motherboard headers). <b>Not the 9-pin kind</b>, which is for a two-row header. Shorter is better.</td></tr>
+<tr><td><b>RTL-SDR</b></td><td>RTL-SDR Blog V3, V4, or any other RTL2832U receiver.</td></tr>
+<tr><td><b>Type-C cable and power</b></td><td>To a computer for flashing; otherwise to a power bank or charger, <b>at least 5 V 1 A</b> (about 500 mA for the board, 250–300 mA for the RTL-SDR).</td></tr>
+<tr><td>Antenna</td><td>The one that came with the RTL-SDR is fine to start.</td></tr>
+</table>
+<p>The board's Type-C port already has a USB-serial chip behind it, used for flashing and for the log, so <b>no separate serial adapter is needed</b>.</p>
+
+<h2>Wiring</h2>
+<p>Lay the board <b>front up, antenna at the top, Type-C at the bottom</b>. Four wires: the <b>bottom two pins of the left row</b> (5V, GND) and the <b>5th and 6th from the bottom of the right row</b> (USB_DP, USB_DM), to a USB-A socket; the RTL-SDR plugs into the socket.</p>
+<figure><div class="diagram-svg"><svg role="img" aria-label="Front of the board: left row second from the bottom, 5V, red wire to the socket's VBUS; left row bottom pin, GND, black wire to GND; right row sixth from the bottom, USB_DM, white wire to D−; right row fifth from the bottom, USB_DP, green wire to D+" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 840" font-family="'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif">
+<rect x="230" y="40" width="340" height="690" rx="16" fill="#17181a" stroke="#3a3d40" stroke-width="3"/>
+<rect x="330" y="20" width="140" height="30" rx="3" fill="#17181a" stroke="#3a3d40" stroke-width="2"/>
+<text x="400" y="40" text-anchor="middle" font-size="11" fill="#8b9196">Antenna</text>
+<rect x="335" y="58" width="130" height="190" rx="5" fill="#b9c0c4" stroke="#3a3d40" stroke-width="2"/>
+<text x="400" y="140" text-anchor="middle" font-size="15" font-weight="700" fill="#22272a">Ai-M61-32S</text>
+<text x="400" y="162" text-anchor="middle" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="#2f3539">BL618 module</text>
+<text x="400" y="380" text-anchor="middle" font-size="13" fill="#8b9196">Front</text>
+<rect x="238" y="616" width="96" height="24" rx="5" fill="#ffd84d"/>
+<rect x="238" y="644" width="96" height="24" rx="5" fill="#ffd84d"/>
+<rect x="466" y="504" width="96" height="24" rx="5" fill="#ffd84d"/>
+<rect x="466" y="532" width="96" height="24" rx="5" fill="#ffd84d"/>
+<circle cx="244" cy="88" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="92" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">3V3</text>
+<text x="226" y="92" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-1</text>
+<circle cx="244" cy="116" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="120" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">EN</text>
+<text x="226" y="120" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-2</text>
+<circle cx="244" cy="144" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="148" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO0</text>
+<text x="226" y="148" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-3</text>
+<circle cx="244" cy="172" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="176" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO12</text>
+<text x="226" y="176" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-4</text>
+<circle cx="244" cy="200" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="204" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO14</text>
+<text x="226" y="204" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-5</text>
+<circle cx="244" cy="228" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="232" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO15</text>
+<text x="226" y="232" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-6</text>
+<circle cx="244" cy="256" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="260" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO1</text>
+<text x="226" y="260" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-7</text>
+<circle cx="244" cy="284" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="288" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO16</text>
+<text x="226" y="288" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-8</text>
+<circle cx="244" cy="312" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="316" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO17</text>
+<text x="226" y="316" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-9</text>
+<circle cx="244" cy="340" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="344" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO18</text>
+<text x="226" y="344" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-10</text>
+<circle cx="244" cy="368" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="372" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO19</text>
+<text x="226" y="372" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-11</text>
+<circle cx="244" cy="396" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="400" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO10</text>
+<text x="226" y="400" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-12</text>
+<circle cx="244" cy="424" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="428" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO13</text>
+<text x="226" y="428" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-13</text>
+<circle cx="244" cy="452" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="456" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO11</text>
+<text x="226" y="456" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-14</text>
+<circle cx="244" cy="480" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="484" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196">IO3/NC</text>
+<text x="226" y="484" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-15</text>
+<circle cx="244" cy="508" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="512" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef">IO20</text>
+<text x="226" y="512" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-16</text>
+<circle cx="244" cy="536" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="540" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196">IO4/NC</text>
+<text x="226" y="540" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-17</text>
+<circle cx="244" cy="564" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="568" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196">IO5/NC</text>
+<text x="226" y="568" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-18</text>
+<circle cx="244" cy="592" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="258" y="596" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196">IO34/NC</text>
+<text x="226" y="596" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-19</text>
+<circle cx="244" cy="620" r="7" fill="#c9a64a" stroke="#5c4714" stroke-width="1.5"/>
+<text x="258" y="624" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#17181a" font-weight="700">5V</text>
+<text x="226" y="624" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-20</text>
+<circle cx="244" cy="648" r="7" fill="#c9a64a" stroke="#5c4714" stroke-width="1.5"/>
+<text x="258" y="652" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#17181a" font-weight="700">GND</text>
+<text x="226" y="652" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)" text-anchor="end">J1-21</text>
+<circle cx="556" cy="88" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="92" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">GND</text>
+<text x="574" y="92" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-1</text>
+<circle cx="556" cy="116" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="120" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO33</text>
+<text x="574" y="120" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-2</text>
+<circle cx="556" cy="144" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="148" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO32</text>
+<text x="574" y="148" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-3</text>
+<circle cx="556" cy="172" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="176" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">TXD</text>
+<text x="574" y="176" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-4</text>
+<circle cx="556" cy="200" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="204" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">RXD</text>
+<text x="574" y="204" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-5</text>
+<circle cx="556" cy="228" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="232" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO31</text>
+<text x="574" y="232" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-6</text>
+<circle cx="556" cy="256" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="260" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO30</text>
+<text x="574" y="260" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-7</text>
+<circle cx="556" cy="284" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="288" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO25</text>
+<text x="574" y="288" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-8</text>
+<circle cx="556" cy="312" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="316" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO27</text>
+<text x="574" y="316" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-9</text>
+<circle cx="556" cy="340" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="344" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO29</text>
+<text x="574" y="344" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-10</text>
+<circle cx="556" cy="368" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="372" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO26</text>
+<text x="574" y="372" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-11</text>
+<circle cx="556" cy="396" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="400" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO28</text>
+<text x="574" y="400" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-12</text>
+<circle cx="556" cy="424" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="428" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO24</text>
+<text x="574" y="428" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-13</text>
+<circle cx="556" cy="452" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="456" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196" text-anchor="end">IO2/NC</text>
+<text x="574" y="456" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-14</text>
+<circle cx="556" cy="480" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="484" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#e9ecef" text-anchor="end">IO23</text>
+<text x="574" y="484" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-15</text>
+<circle cx="556" cy="508" r="7" fill="#c9a64a" stroke="#5c4714" stroke-width="1.5"/>
+<text x="542" y="512" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#17181a" text-anchor="end" font-weight="700">USB_DM</text>
+<text x="574" y="512" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-16</text>
+<circle cx="556" cy="536" r="7" fill="#c9a64a" stroke="#5c4714" stroke-width="1.5"/>
+<text x="542" y="540" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#17181a" text-anchor="end" font-weight="700">USB_DP</text>
+<text x="574" y="540" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-17</text>
+<circle cx="556" cy="564" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="568" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196" text-anchor="end">IO9/NC</text>
+<text x="574" y="568" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-18</text>
+<circle cx="556" cy="592" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="596" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196" text-anchor="end">IO8/NC</text>
+<text x="574" y="596" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-19</text>
+<circle cx="556" cy="620" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="624" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196" text-anchor="end">IO7/NC</text>
+<text x="574" y="624" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-20</text>
+<circle cx="556" cy="648" r="5" fill="#3a3d40" stroke="#8b9196" stroke-width="1.5"/>
+<text x="542" y="652" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="#8b9196" text-anchor="end">IO6/NC</text>
+<text x="574" y="652" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="var(--d-muted)">J2-21</text>
+<rect x="290" y="688" width="34" height="26" rx="4" fill="#b9c0c4" stroke="#3a3d40" stroke-width="2"/>
+<text x="307" y="745" text-anchor="middle" font-size="12" fill="var(--d-muted)">EN button</text>
+<rect x="476" y="688" width="34" height="26" rx="4" fill="#b9c0c4" stroke="#3a3d40" stroke-width="2"/>
+<text x="493" y="745" text-anchor="middle" font-size="12" fill="var(--d-muted)">IO2 button</text>
+<rect x="370" y="700" width="60" height="34" rx="10" fill="#b9c0c4" stroke="#3a3d40" stroke-width="2"/>
+<text x="400" y="770" text-anchor="middle" font-size="13" fill="var(--d-muted)">Type-C: power, flashing, serial</text>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="7">
+<path d="M244 628 H 150 V 818 H 690 V 590 H 760" stroke="var(--d-red)"/>
+<path d="M244 656 H 175 V 803 H 670 V 690 H 760" stroke="#9aa1a5" stroke-width="9"/>
+<path d="M244 656 H 175 V 803 H 670 V 690 H 760" stroke="#23272a"/>
+<path d="M556 516 H 640 V 623 H 760" stroke="#7f8783" stroke-width="9"/>
+<path d="M556 516 H 640 V 623 H 760" stroke="#f4f4f1"/>
+<path d="M556 544 H 615 V 656 H 760" stroke="var(--d-green)"/>
+</g>
+<rect x="760" y="565" width="120" height="150" rx="8" fill="var(--d-surface)" stroke="var(--d-ink)" stroke-width="2"/>
+<text x="820" y="555" text-anchor="middle" font-size="15" font-weight="700" fill="var(--d-ink)">USB-A socket</text>
+<text x="772" y="595" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="var(--d-ink)">VBUS</text>
+<text x="772" y="628" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="var(--d-ink)">D−</text>
+<text x="772" y="661" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="var(--d-ink)">D+</text>
+<text x="772" y="695" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="13" fill="var(--d-ink)">GND</text>
+<rect x="880" y="590" width="30" height="100" rx="4" fill="#b9c0c4" stroke="var(--d-ink)" stroke-width="2"/>
+<rect x="910" y="575" width="80" height="130" rx="12" fill="var(--d-ink)"/>
+<text x="950" y="638" text-anchor="middle" fill="var(--d-on-ink)" font-size="14" font-weight="700">RTL</text>
+<text x="950" y="656" text-anchor="middle" fill="var(--d-on-ink)" font-size="14" font-weight="700">-SDR</text>
+<text x="20" y="618" font-size="13" fill="var(--d-ink)">Left row, 2nd from bottom</text>
+<text x="20" y="634" font-size="13" fill="var(--d-red)" font-weight="700">5V → red</text>
+<text x="20" y="664" font-size="13" fill="var(--d-ink)">Left row, bottom pin</text>
+<text x="20" y="680" font-size="13" fill="var(--d-ink)" font-weight="700">GND → black</text>
+<text x="650" y="470" font-size="13" fill="var(--d-ink)">Right row, 6th from bottom: USB_DM → white</text>
+<text x="650" y="490" font-size="13" fill="var(--d-ink)">Right row, 5th from bottom: USB_DP → green</text>
+</svg></div><figcaption>Pin names and order from Ai-Thinker's <i>Ai-M61-32S-Kit</i> datasheet V1.1.2, figure 6 and table 7; numbers from the board schematic V1.1 (J1 and J2 both counted from the antenna end).</figcaption></figure>
+
+<table>
+<tr><th>Where on the board (front, antenna up)</th><th>Silkscreen</th><th>Schematic</th><th>Usual colour</th><th>USB-A socket</th></tr>
+<tr><td>Left row, 2nd from the bottom</td><td><code>5V</code></td><td><code>J1&#8209;20</code></td><td>red</td><td>VBUS</td></tr>
+<tr><td>Left row, bottom pin</td><td><code>GND</code></td><td><code>J1&#8209;21</code></td><td>black</td><td>GND</td></tr>
+<tr><td>Right row, 6th from the bottom (the pin above is <code>IO23</code>)</td><td><code>USB_DM</code></td><td><code>J2&#8209;16</code></td><td>white</td><td>D−</td></tr>
+<tr><td>Right row, 5th from the bottom (the pin below is <code>IO9/NC</code>)</td><td><code>USB_DP</code></td><td><code>J2&#8209;17</code></td><td>green</td><td>D+</td></tr>
+</table>
+<p>The top pin of the right row is also <code>GND</code> (J2-1) and can be used instead of the one on the left.</p>
+
+<div class="warn"><p><b>Before and after wiring:</b></p>
+<ul>
+<li><b>Unplug the Type-C cable</b> while wiring, and plug it back in only when all four wires are on.</li>
+<li><b>Do not swap 5V and GND</b>: that can destroy the RTL-SDR. Check again before powering up: the bottom pin of the left row is GND, the one above it 5V. Trust your own cable over any colour code; if in doubt, check the socket with a multimeter — the two outer contacts are VBUS and GND, the two inner ones data.</li>
+<li>Swapping <code>USB_DM</code> and <code>USB_DP</code> damages nothing; the RTL-SDR is simply not recognised. Swap them back.</li>
+<li>The data pair carries 480 Mbit/s USB. Keep the two wires <b>short and together</b>.</li>
+<li>The same names are printed on the back of the board, but seen from the back the two rows swap sides. Go by the front.</li>
+</ul></div>
+<p>The RTL-SDR is powered from the board's <code>5V</code> pin through a diode, so it gets a few tenths of a volt less than 5 V, which RTL-SDRs normally accept. If it is not recognised, or keeps disconnecting, suspect power first: a stronger charger, or measure the voltage on the <code>5V</code> pin.</p>
+
+<h2>Flashing the firmware</h2>
+<p>The full steps for building and flashing are in <a href="https://github.com/nasacj/rtlsdr-iphone-bridge">the project's README</a>. The main points:</p>
+<ul>
+<li>Building needs an <b>x86_64 Linux</b> machine (physical, virtual or cloud); flashing works from Linux or a Mac.</li>
+<li>Before every flash, put the board in download mode by hand: <b>hold IO2 → press and release EN → release IO2</b>. The two buttons are either side of the Type-C port, EN on the left, IO2 on the right.</li>
+<li>Press <b>EN</b> after flashing and the new firmware runs.</li>
+</ul>
+
+<h2>First boot: the Wi-Fi name and password</h2>
+<p>At power-on the board opens its own hotspot, named <code>SDR-Bridge-</code> plus four hex digits, for example <code>SDR-Bridge-3F2A</code>. <b>Every board has its own password</b>: twelve characters drawn at random on first boot and kept on the board, the same on every boot after that and across reflashing.</p>
+<p>The password is printed only on the serial log. Connect the board's Type-C to a computer, open the serial port at <b>2,000,000</b> baud, and press EN:</p>
+<pre><code>tio -b 2000000 /dev/ttyUSB0                  # Linux
+tio -b 2000000 /dev/tty.usbserial-XXXX       # Mac (brew install tio first)</code></pre>
+<p>The boot log has a line like this:</p>
+<pre><code>[wifi] network "SDR-Bridge-3F2A" up, password xxxxxxxxxxxx</code></pre>
+<p>Note the name and password, and you will not need a computer again.</p>
+<div class="note"><p>Why not a fixed password: <code>rtl_tcp</code> has no authentication at all, and anyone on the Wi-Fi can retune the receiver and read every sample, so the Wi-Fi password is the only lock. The board can also join your phone's Personal Hotspot instead, so the phone keeps its internet; see "Wi-Fi settings" in the project's README.</p></div>
+
+<h2>Setting up the app</h2>
+<p>The board's Wi-Fi carries about 30 Mbit/s, so three things differ from a computer: <b>use UDP</b>, <b>use a sample rate of 1.024 MSPS</b>, and <b>send ADS-B as magnitudes only</b>.</p>
+<ol class="steps">
+<li><strong>Join the board's hotspot</strong>
+<p>In the iPhone's Wi-Fi settings, choose <code>SDR-Bridge-XXXX</code> and enter the password. The hotspot has no internet; the iPhone keeps using mobile data for that, so other apps are unaffected.</p></li>
+
+<li><strong>Add the receiver</strong>
+<p>Open the receiver editor as in <a href="connect.html">Connect in the app</a> and fill it in like this:</p>
+<table>
+<tr><th>Field</th><th>Enter</th></tr>
+<tr><td><b>TCP / UDP</b></td><td><b>UDP</b></td></tr>
+<tr><td><b>Host</b></td><td><code>rtlsdr.local</code>, or <code>192.168.7.1</code> if that does not connect</td></tr>
+<tr><td><b>Port</b></td><td><code>1235</code></td></tr>
+</table>
+<p>Port 1234 is standard TCP <code>rtl_tcp</code> and works too, but over Wi-Fi UDP is faster, and when data is lost the app knows exactly where. The first time it connects, iOS asks whether the app may access the local network: choose <b>Allow</b>.</p></li>
+
+<li><strong>Set the sample rate to 1.024 MSPS</strong>
+<p>In the <b>Receiver</b> page's settings, under <b>Sample rate</b>, choose <b>1.024 MSPS</b>. It applies to the Receiver, Radio and ATC pages (stop playing before changing it).</p>
+<p>Why: a sample is two bytes, so 1.024 MSPS is 16.4 Mbit/s, which the Wi-Fi carries easily; 2.4 MSPS is 38.4 Mbit/s, more than the board's Wi-Fi can carry, and the losses sound like audio breaking up.</p></li>
+
+<li><strong>ADS-B: turn on magnitudes only</strong>
+<p>In the <b>ADS-B</b> page's settings, turn on <b>UDP: magnitude only (half the data)</b>. The switch can be turned on only when the receiver uses UDP, and it is on by default.</p>
+<p>ADS-B receives at 2 MSPS, and full I/Q is 32 Mbit/s, at the edge of the board's Wi-Fi. Decoding ADS-B needs only the signal's strength, so sending magnitudes halves the data and nothing is lost.</p></li>
+</ol>
+
+<div class="ok"><p>Then press play. Scanning for FM stations on the <a href="page-radio.html">Radio</a> page is the easiest way to see that everything works.</p></div>
+
+<h2>What the lights mean</h2>
+<p>Away from a computer, on a power bank, the board's lights tell you what it is doing. There is an RGB light and two single-colour lights: a yellow one marked <b>W</b> and a white one marked <b>C</b> on the silkscreen. All three speak the same language:</p>
+<p><b>slow blink = waiting, steady = ready, breathing = working, fast blink = trouble.</b></p>
+<table>
+<tr><th>Light</th><th>Answers</th><th>Slow blink</th><th>Steady</th><th>Breathing</th><th>Fast blink</th></tr>
+<tr><td><b>Yellow (W)</b></td><td>Is the RTL-SDR OK?</td><td>no RTL-SDR plugged in</td><td>RTL-SDR ready</td><td>—</td><td>plugged in but cannot be opened, or USB delivers nothing</td></tr>
+<tr><td><b>White (C)</b></td><td>How far have Wi-Fi and the phone got?</td><td>Wi-Fi up, waiting for a phone</td><td>phone connected, not playing</td><td>streaming</td><td>—</td></tr>
+<tr><td><b>RGB</b></td><td>Is the stream healthy?</td><td>—</td><td>red: Wi-Fi not up yet</td><td>blue: streaming, all well</td><td>red/blue: data lost on the USB side; purple/blue: Wi-Fi cannot keep up, data lost</td></tr>
+</table>
+<ul>
+<li>White <b>off</b>: Wi-Fi is not up yet.</li>
+<li>The RGB light is off when nothing is playing and nothing is wrong. When a stream ends by itself (the RTL-SDR pulled out, say) it shows <b>red for 3 seconds</b>.</li>
+<li>A fault keeps its pattern for a few seconds afterwards, so a glance shows that data was just lost.</li>
+<li>Walking around with the board, <b>where it starts flashing purple and blue is where the Wi-Fi is not enough</b>: move closer, or lower the sample rate.</li>
+</ul>
+
+<h2>If reception is poor</h2>
+<table>
+<tr><th>What you see</th><th>Check first</th></tr>
+<tr><td>Yellow keeps blinking slowly</td><td>The RTL-SDR is not recognised: check the four wires, especially that the two data wires are not one pin off or swapped</td></tr>
+<tr><td>Yellow blinks fast, or the RTL-SDR keeps disconnecting</td><td>Not enough power: a 5 V 1 A or stronger supply, or measure the <code>5V</code> pin</td></tr>
+<tr><td>RGB flashes purple and blue, audio breaks up</td><td>Not enough Wi-Fi: bring the phone closer; <b>turn off the phone's Bluetooth</b> (it shares 2.4 GHz with Wi-Fi and was measured to halve the throughput); keep jumper wires and hands off the board's antenna; do not go above 1.024 MSPS</td></tr>
+<tr><td>The app will not connect</td><td>Is the phone on the board's hotspot; try <code>192.168.7.1</code> as the address; has iOS allowed this app local network access</td></tr>
+</table>
+<p>More, including two boards on one phone and checking for lost samples yourself, is in <a href="https://github.com/nasacj/rtlsdr-iphone-bridge">the project's README</a>.</p>

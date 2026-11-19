@@ -21,7 +21,8 @@ SRC, OUT = os.path.join(ROOT, "src"), os.path.join(ROOT, "docs")
 NAV = [
     (("开始", "Start"), [("index", "首页", "Home"), ("start", "需要准备什么", "What you need")]),
     (("安装 rtl_tcp", "Install rtl_tcp"), [("install-macos", "macOS", "macOS"), ("install-windows", "Windows", "Windows"),
-                                         ("install-linux", "Linux", "Linux"), ("install-pi", "树莓派", "Raspberry Pi")]),
+                                         ("install-linux", "Linux", "Linux"), ("install-pi", "树莓派", "Raspberry Pi"),
+                                         ("bridge-bl618", "BL618 无线小板", "BL618 Wi-Fi board")]),
     (("连接", "Connect"), [("connect", "在 App 里连接", "Connect in the app"),
                          ("troubleshoot", "连不上怎么办", "If it will not connect")]),
     (("航图数据", "Airspace data"), [("aip-import", "直接导入各国 AIP", "Importing an AIP directly"),

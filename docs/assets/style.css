@@ -73,7 +73,8 @@ a.card:hover { border-color: var(--accent); text-decoration: none; transform: tr
 .btn { display: inline-block; background: var(--accent); color: #fff; border-radius: 10px; padding: 10px 18px; font-weight: 600; margin: 8px 8px 0 0; }
 .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); } .btn:hover { text-decoration: none; filter: brightness(1.08); }
 .shot { border-radius: 22px; border: 1px solid var(--line); box-shadow: var(--shadow); max-width: 100%; height: auto; display: block; }
-figure { margin: 18px 0; } figure.phone { max-width: 300px; } figure.pair { display: flex; gap: 16px; flex-wrap: wrap; }
+figure { margin: 18px 0; }
+img.diagram { display: block; width: 100%; height: auto; border-radius: 10px; } figure.phone { max-width: 300px; } figure.pair { display: flex; gap: 16px; flex-wrap: wrap; }
 figure.pair img { max-width: min(300px, 46%); }
 figcaption { color: var(--muted); font-size: 13.5px; margin-top: 8px; }
 .diagram { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); padding: 14px; margin: 18px 0; overflow-x: auto; }
@@ -103,3 +104,15 @@ figure.strip figcaption { grid-column: 1 / -1; }
 @media (max-width: 700px) { .part { grid-template-columns: 1fr; } }
 div.pair { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; margin: 18px 0; }
 div.pair figure.phone { margin: 0; flex: 1 1 240px; max-width: 300px; }
+
+/* Diagrams drawn inline, so they take the page's theme: the board stays a dark PCB in both. */
+:root { --d-ink: #1d2320; --d-muted: #5d6762; --d-line: #c9cfca; --d-surface: #ffffff; --d-panel: #f5f6f3;
+  --d-on-ink: #ffffff; --d-on-ink-muted: #c9cfca; --d-red: #d0342c; --d-green: #1f9a4c; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --d-ink: #e4e9e5; --d-muted: #98a4b3; --d-line: #2f3a47; --d-surface: #1a222d;
+    --d-panel: #141a22; --d-on-ink: #0d1117; --d-on-ink-muted: #3a4450; --d-red: #ef5a50; --d-green: #3cc272; }
+}
+:root[data-theme="dark"] { --d-ink: #e4e9e5; --d-muted: #98a4b3; --d-line: #2f3a47; --d-surface: #1a222d;
+  --d-panel: #141a22; --d-on-ink: #0d1117; --d-on-ink-muted: #3a4450; --d-red: #ef5a50; --d-green: #3cc272; }
+.diagram-svg { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.diagram-svg svg { display: block; width: 100%; height: auto; }
