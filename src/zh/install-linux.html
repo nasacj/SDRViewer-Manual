@@ -32,7 +32,7 @@ sudo modprobe -r dvb_usb_rtl28xxu</code></pre>
 <div class="ok"><p>电脑这边准备好了。接下来：<a href="connect.html">在 App 里连接 →</a></p></div>
 
 <h2>RTL-SDR Blog V4 / V4L 需要新版驱动</h2>
-<p>这两个型号需要 librtlsdr <b>2.0.2 以上（V4L 需要 2.0.3 以上）</b>。用 <code>rtl_test -t</code> 检查：能看到 <code>RTL-SDR Blog V4 Detected</code> 或 <code>RTL-SDR Blog V4 Lite Detected</code> 才算正确识别。如果只显示 R820T 而且收不到任何信号，说明系统自带的版本太旧，需要升级软件包，或者按 <a href="https://github.com/rtlsdrblog/rtl-sdr-blog">RTL-SDR Blog 的说明</a>从源码编译安装。</p>
+<p>这两个型号需要 librtlsdr <b>2.0.2 以上（V4L 需要 2.0.3 以上）</b>。用 <code>rtl_test -t</code> 检查：能看到 <code>RTL-SDR Blog V4 Detected</code> 或 <code>RTL-SDR Blog V4 Lite Detected</code> 才算正确识别。如果只显示 R820T 而且收不到任何信号，说明系统自带的版本太旧，需要升级软件包，或者按 <a href="https://github.com/rtlsdrblog/rtl-sdr-blog">RTL-SDR Blog 的说明</a>从源码编译安装。具体命令见<a href="install-pi.html#v4">树莓派一篇里的这一节</a>：Debian 13（trixie）用方法一；Ubuntu 和其它版本用方法二从源码编译最稳妥。</p>
 
 <h2>想让它开机自动运行</h2>
 <p>见<a href="install-pi.html">树莓派</a>一篇里的系统服务写法，在任何使用 systemd 的 Linux 上都一样。</p>

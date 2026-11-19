@@ -32,7 +32,7 @@ sudo modprobe -r dvb_usb_rtl28xxu</code></pre>
 <div class="ok"><p>The computer is ready. Next: <a href="connect.html">Connect in the app →</a></p></div>
 
 <h2>An RTL-SDR Blog V4 or V4L needs a recent driver</h2>
-<p>These two need librtlsdr <b>2.0.2 or later (2.0.3 for the V4L)</b>. Check with <code>rtl_test -t</code>: it must say <code>RTL-SDR Blog V4 Detected</code> or <code>RTL-SDR Blog V4 Lite Detected</code>. If it shows only an R820T and nothing is received, the packaged version is too old: upgrade the package, or build from source following <a href="https://github.com/rtlsdrblog/rtl-sdr-blog">RTL-SDR Blog's instructions</a>.</p>
+<p>These two need librtlsdr <b>2.0.2 or later (2.0.3 for the V4L)</b>. Check with <code>rtl_test -t</code>: it must say <code>RTL-SDR Blog V4 Detected</code> or <code>RTL-SDR Blog V4 Lite Detected</code>. If it shows only an R820T and nothing is received, the packaged version is too old: upgrade the package, or build from source following <a href="https://github.com/rtlsdrblog/rtl-sdr-blog">RTL-SDR Blog's instructions</a>. The commands are in <a href="install-pi.html#v4">this section of the Raspberry Pi page</a>: method 1 on Debian 13 (trixie); on Ubuntu and other releases, method 2, building from source, is the safe choice.</p>
 
 <h2>Starting it automatically</h2>
 <p>The service file on the <a href="install-pi.html">Raspberry Pi</a> page works on any Linux with systemd.</p>

@@ -55,7 +55,8 @@
 <pre><code>sudo apt update
 sudo apt install rtl-sdr
 rtl_test -t</code></pre>
-<p>看到 <code>Found 1 device(s)</code> 和型号就对了。遇到问题参考 <a href="install-linux.html">Linux</a> 一篇，步骤完全相同。</p></li>
+<p>看到 <code>Found 1 device(s)</code> 和型号就对了。遇到问题参考 <a href="install-linux.html">Linux</a> 一篇，步骤完全相同。</p>
+<p>用的是 <b>RTL-SDR Blog V4 或 V4L</b>？先看下面的<a href="#v4">新版驱动</a>一节，系统自带的版本很可能认不出它。</p></li>
 
 <li><strong>做成开机自动运行的服务</strong>
 <p>把下面的内容保存成一个服务文件。先打开编辑器：</p>
@@ -93,6 +94,69 @@ sudo systemctl enable --now rtl_tcp</code></pre>
 </ol>
 
 <div class="ok"><p>树莓派准备好了。接下来：<a href="connect.html">在 App 里连接 →</a></p></div>
+
+<h2 id="v4">RTL-SDR Blog V4 / V4L：升级驱动</h2>
+<p>这两个型号需要较新的驱动（librtlsdr）：<b>V4 要 2.0.2 以上，V4L 要 2.0.3 以上</b>。驱动太旧时，<code>rtl_tcp</code> 照样能启动、App 也能连上，瀑布图在动，但<b>一个信号都收不到</b>，很容易误以为是天线或增益的问题。</p>
+
+<h3>先确认是不是这个问题</h3>
+<p><code>rtl_test</code> 和 <code>rtl_tcp</code> 不能同时用一只接收机，所以先停掉服务：</p>
+<pre><code>sudo systemctl stop rtl_tcp
+rtl_test -t</code></pre>
+<p>正确识别时会出现 <code>RTL-SDR Blog V4 Detected</code> 或 <code>RTL-SDR Blog V4 Lite Detected</code>。只看到 <code>Found Rafael Micro R820T tuner</code>、后面没有这一行，就是驱动太旧。按 <kbd>Control</kbd> + <kbd>C</kbd> 退出。</p>
+<p>再看系统版本和驱动版本，决定用哪种方法：</p>
+<pre><code>grep VERSION_CODENAME /etc/os-release
+dpkg -l librtlsdr0 | tail -1</code></pre>
+
+<table>
+<tr><th>系统</th><th>自带的驱动</th><th>怎么办</th></tr>
+<tr><td><code>trixie</code>（2025 年下半年以后的 Raspberry Pi OS）</td><td>2.0.2：V4 可以，V4L 不行</td><td>方法一：装 Debian 的 2.0.3 安装包</td></tr>
+<tr><td><code>bookworm</code> 或更早</td><td>0.6.0：V4、V4L 都不行</td><td>方法二：从源码编译，或者重新烧一张新系统</td></tr>
+</table>
+
+<h3>方法一：trixie，装 Debian 的 2.0.3 安装包</h3>
+<p>Debian 新版本里已经有 2.0.3，而且这两个安装包在 trixie 上可以直接装，不用改软件源：</p>
+<pre><code>sudo systemctl stop rtl_tcp
+cd /tmp
+arch=$(dpkg --print-architecture)
+wget http://deb.debian.org/debian/pool/main/r/rtl-sdr/librtlsdr0_2.0.3-1_${arch}.deb \
+     http://deb.debian.org/debian/pool/main/r/rtl-sdr/rtl-sdr_2.0.3-1_${arch}.deb
+sudo apt install ./librtlsdr0_2.0.3-1_${arch}.deb ./rtl-sdr_2.0.3-1_${arch}.deb
+rtl_test -t</code></pre>
+<p>看到 <code>RTL-SDR Blog V4 Lite Detected</code> 后按 <kbd>Control</kbd> + <kbd>C</kbd>，再启动服务：</p>
+<pre><code>sudo systemctl start rtl_tcp</code></pre>
+<ul>
+<li><code>$(dpkg --print-architecture)</code> 会自动填 <code>arm64</code>（64 位系统）或 <code>armhf</code>（32 位系统）。</li>
+<li>如果下载报 404，说明 Debian 已经换了更新的版本号：打开 <a href="https://deb.debian.org/debian/pool/main/r/rtl-sdr/">这个目录</a>，找 <code>librtlsdr0_</code> 和 <code>rtl-sdr_</code> 开头、2.0.3 或更高、架构对得上的两个文件，把命令里的版本号换掉。</li>
+<li>只装这两个包，<b>不要</b>把 Debian 的测试版加进软件源，那样系统会提示把整个系统升级上去。</li>
+<li>以后 <code>sudo apt upgrade</code> 不会把它降回旧版；等 trixie 自己带上 2.0.3 或更新版本时，会正常替换。</li>
+</ul>
+
+<h3>方法二：bookworm 或更早，从源码编译</h3>
+<p>Debian 的 2.0.3 安装包需要比 bookworm 更新的系统库，在 bookworm 上装不上。可以按 RTL-SDR Blog 官方的方法从源码编译（树莓派 4 / 5 上大约几分钟）：</p>
+<pre><code>sudo systemctl stop rtl_tcp
+sudo apt purge ^librtlsdr rtl-sdr
+sudo apt install git cmake build-essential pkg-config libusb-1.0-0-dev
+git clone https://github.com/rtlsdrblog/rtl-sdr-blog
+cd rtl-sdr-blog
+mkdir build &amp;&amp; cd build
+cmake .. -DINSTALL_UDEV_RULES=ON
+make
+sudo make install
+sudo ldconfig
+echo 'blacklist dvb_usb_rtl28xxu' | sudo tee /etc/modprobe.d/blacklist-dvb_usb_rtl28xxu.conf</code></pre>
+<p>编译版装在 <code>/usr/local/bin</code>，不在 <code>/usr/bin</code>。所以要<b>改一下服务文件</b>，把 <code>ExecStart=/usr/bin/rtl_tcp</code> 改成 <code>ExecStart=/usr/local/bin/rtl_tcp</code>：</p>
+<pre><code>sudo sed -i 's|/usr/bin/rtl_tcp|/usr/local/bin/rtl_tcp|' /etc/systemd/system/rtl_tcp.service
+sudo systemctl daemon-reload</code></pre>
+<p>然后<b>拔下接收机再插上</b>（让新的权限规则生效），检查并启动：</p>
+<pre><code>rtl_test -t
+sudo systemctl start rtl_tcp</code></pre>
+<p>另一个办法是用 Raspberry Pi Imager 重新烧一张最新的系统（已经是 trixie），再用方法一。树莓派如果只用来跑 <code>rtl_tcp</code>，这样反而更省事。</p>
+
+<h3>还是不行</h3>
+<ul>
+<li><code>journalctl -u rtl_tcp</code> 里出现 <code>usb_open error -3</code>：权限规则还没对这只接收机生效，拔下再插上，或者重启树莓派。</li>
+<li><code>rtl_test</code> 报设备被占用：服务还在运行，先 <code>sudo systemctl stop rtl_tcp</code>。</li>
+</ul>
 
 <h2>带出门用</h2>
 <ul>

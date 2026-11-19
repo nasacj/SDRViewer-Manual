@@ -55,7 +55,8 @@
 <pre><code>sudo apt update
 sudo apt install rtl-sdr
 rtl_test -t</code></pre>
-<p><code>Found 1 device(s)</code> and the model name mean it is working. For problems see the <a href="install-linux.html">Linux</a> page; the steps are the same.</p></li>
+<p><code>Found 1 device(s)</code> and the model name mean it is working. For problems see the <a href="install-linux.html">Linux</a> page; the steps are the same.</p>
+<p>Using an <b>RTL-SDR Blog V4 or V4L</b>? Read <a href="#v4">a newer driver</a> below first: the one the system ships may not recognise it.</p></li>
 
 <li><strong>Make it a service that starts at boot</strong>
 <p>Open an editor on a new service file:</p>
@@ -93,6 +94,69 @@ sudo systemctl enable --now rtl_tcp</code></pre>
 </ol>
 
 <div class="ok"><p>The Pi is ready. Next: <a href="connect.html">Connect in the app →</a></p></div>
+
+<h2 id="v4">RTL-SDR Blog V4 / V4L: a newer driver</h2>
+<p>These two need a recent driver (librtlsdr): <b>2.0.2 or later for the V4, 2.0.3 or later for the V4L</b>. With an older one, <code>rtl_tcp</code> still starts, the app still connects and the waterfall moves, but <b>nothing is received</b> — which looks exactly like an antenna or gain problem.</p>
+
+<h3>Check that this is the problem</h3>
+<p><code>rtl_test</code> and <code>rtl_tcp</code> cannot share a receiver, so stop the service first:</p>
+<pre><code>sudo systemctl stop rtl_tcp
+rtl_test -t</code></pre>
+<p>A receiver that is recognised prints <code>RTL-SDR Blog V4 Detected</code> or <code>RTL-SDR Blog V4 Lite Detected</code>. Only <code>Found Rafael Micro R820T tuner</code>, with no such line after it, means the driver is too old. <kbd>Control</kbd> + <kbd>C</kbd> to stop it.</p>
+<p>Then see which system and driver you have, which decides the method:</p>
+<pre><code>grep VERSION_CODENAME /etc/os-release
+dpkg -l librtlsdr0 | tail -1</code></pre>
+
+<table>
+<tr><th>System</th><th>Driver it ships</th><th>What to do</th></tr>
+<tr><td><code>trixie</code> (Raspberry Pi OS from late 2025)</td><td>2.0.2: the V4 works, the V4L does not</td><td>Method 1: install Debian's 2.0.3 packages</td></tr>
+<tr><td><code>bookworm</code> or older</td><td>0.6.0: neither works</td><td>Method 2: build from source, or write a new card</td></tr>
+</table>
+
+<h3>Method 1: trixie — install Debian's 2.0.3 packages</h3>
+<p>A newer Debian already has 2.0.3, and its two packages install on trixie as they are, with no change to the package sources:</p>
+<pre><code>sudo systemctl stop rtl_tcp
+cd /tmp
+arch=$(dpkg --print-architecture)
+wget http://deb.debian.org/debian/pool/main/r/rtl-sdr/librtlsdr0_2.0.3-1_${arch}.deb \
+     http://deb.debian.org/debian/pool/main/r/rtl-sdr/rtl-sdr_2.0.3-1_${arch}.deb
+sudo apt install ./librtlsdr0_2.0.3-1_${arch}.deb ./rtl-sdr_2.0.3-1_${arch}.deb
+rtl_test -t</code></pre>
+<p>Once it prints <code>RTL-SDR Blog V4 Lite Detected</code>, <kbd>Control</kbd> + <kbd>C</kbd> and start the service again:</p>
+<pre><code>sudo systemctl start rtl_tcp</code></pre>
+<ul>
+<li><code>$(dpkg --print-architecture)</code> fills in <code>arm64</code> (64-bit system) or <code>armhf</code> (32-bit).</li>
+<li>A 404 when downloading means Debian has moved to a newer version number: open <a href="https://deb.debian.org/debian/pool/main/r/rtl-sdr/">this folder</a>, find the two files starting <code>librtlsdr0_</code> and <code>rtl-sdr_</code>, version 2.0.3 or later, for your architecture, and put that version in the commands.</li>
+<li>Install just these two packages. <b>Do not</b> add Debian's testing release to your sources: the system would then offer to upgrade everything to it.</li>
+<li><code>sudo apt upgrade</code> will not put the old version back. When trixie itself ships 2.0.3 or later, it replaces these in the ordinary way.</li>
+</ul>
+
+<h3>Method 2: bookworm or older — build from source</h3>
+<p>Debian's 2.0.3 packages need newer system libraries than bookworm has and will not install there. Build RTL-SDR Blog's own version instead (a few minutes on a Pi 4 or 5):</p>
+<pre><code>sudo systemctl stop rtl_tcp
+sudo apt purge ^librtlsdr rtl-sdr
+sudo apt install git cmake build-essential pkg-config libusb-1.0-0-dev
+git clone https://github.com/rtlsdrblog/rtl-sdr-blog
+cd rtl-sdr-blog
+mkdir build &amp;&amp; cd build
+cmake .. -DINSTALL_UDEV_RULES=ON
+make
+sudo make install
+sudo ldconfig
+echo 'blacklist dvb_usb_rtl28xxu' | sudo tee /etc/modprobe.d/blacklist-dvb_usb_rtl28xxu.conf</code></pre>
+<p>This installs into <code>/usr/local/bin</code>, not <code>/usr/bin</code>, so <b>the service file must change</b>: <code>ExecStart=/usr/bin/rtl_tcp</code> becomes <code>ExecStart=/usr/local/bin/rtl_tcp</code>.</p>
+<pre><code>sudo sed -i 's|/usr/bin/rtl_tcp|/usr/local/bin/rtl_tcp|' /etc/systemd/system/rtl_tcp.service
+sudo systemctl daemon-reload</code></pre>
+<p>Then <b>unplug the receiver and plug it back in</b>, so the new permission rule applies to it, check it and start the service:</p>
+<pre><code>rtl_test -t
+sudo systemctl start rtl_tcp</code></pre>
+<p>The other way is to write a fresh card with Raspberry Pi Imager — current images are trixie — and use method 1. For a Pi that only runs <code>rtl_tcp</code>, that is often less work.</p>
+
+<h3>Still not working</h3>
+<ul>
+<li><code>usb_open error -3</code> in <code>journalctl -u rtl_tcp</code>: the permission rule has not reached this receiver yet. Unplug it and plug it back in, or restart the Pi.</li>
+<li><code>rtl_test</code> says the device is busy: the service is still running. <code>sudo systemctl stop rtl_tcp</code> first.</li>
+</ul>
 
 <h2>Taking it outdoors</h2>
 <ul>
