@@ -17,7 +17,8 @@
 <tr><td>FAA <b>CIFP</b> (United States)</td><td><code>CIFP_<i>date</i>.zip</code></td><td>about 9 MB</td><td>Departures, arrivals, approaches and missed approaches, with altitude and speed limits</td></tr>
 <tr><td><b>AIP China</b> (eAIP)</td><td><code>EAIP<i>edition</i>_Web.zip</code></td><td>about 1.9 GB</td><td>Airports and their frequencies, control sectors (boundary, limits, frequency, callsign), FIR boundaries, routes, navaids, departures, arrivals and approaches</td></tr>
 <tr><td><b>AIP Korea</b></td><td><code>AIM_AIP AMDT_<i>number</i>.zip</code> ("Complete AIP in PDF")</td><td>about 1.8 GB</td><td>Airports and their frequencies, control sectors, FIR boundaries, routes, navaids, departures, arrivals and approaches</td></tr>
-<tr><td><b>AIP Hong Kong</b> (Macao included)</td><td><code>aipall.pdf</code>, the whole AIP as one PDF</td><td>about 170 MB</td><td>The frequencies of Hong Kong and Macao International, Hong Kong's control sectors and FIR boundary, routes, navaids, and both airports' departures, arrivals and approaches</td></tr>
+<tr><td><b>AIP Hong Kong, China</b> (Macao, China included)</td><td><code>aipall.pdf</code>, the whole AIP as one PDF</td><td>about 170 MB</td><td>The frequencies of Hong Kong International and Macao International, the control sectors of Hong Kong, China and FIR boundary, routes, navaids, and both airports' departures, arrivals and approaches (conventional departures included), and minimum sector altitudes (MSA)</td></tr>
+<tr><td><b>AIP Taiwan, China</b> (Taipei FIR)</td><td>Not a file but an amendment's <b>web address</b></td><td>about 18 MB of pages, downloaded</td><td>19 airports and their frequencies, terminal areas and class C/D/E airspace, the FIR boundary, routes, navaids</td></tr>
 </table>
 <div class="note"><p><b>Recognised by what is inside, not by its name.</b> A renamed download is fine: the app opens the archive and tells what it is from its contents. A file it does not recognise is refused with a message, and nothing already imported is touched.</p></div>
 <p>Japan is being worked on. When they arrive they will appear in the <b>Reads</b> list at the foot of the app's AIP data page, which always states what the installed version takes.</p>
@@ -38,9 +39,16 @@
 <h3>Korea: the complete AIP in PDF</h3>
 <p>Korea's AIP is a public download and needs no account. Open the <a href="https://aim.koca.go.kr/eaipPub/Package/history-en-GB.html">AIP publication history on Korea's AIM site</a> and, in the edition currently in effect, choose <b>"Complete AIP in PDF"</b>. It downloads as a zip named like <code>AIM_AIP AMDT_12_26.zip</code>. The HTML edition on the same page is not what the app reads; take the PDF one.</p>
 
-<h3>Hong Kong and Macao: AIP Hong Kong</h3>
-<p>The Civil Aviation Department's AIP is a public download, needs no account, and is a single PDF: <a href="https://www.ais.gov.hk/HKAIP/aipall.pdf">https://www.ais.gov.hk/HKAIP/aipall.pdf</a>. The link always gives the edition in effect. Macao International is in AIP Hong Kong as well, so both airports appear after the import.</p>
-<div class="note"><p>AIP Korea and AIP Hong Kong are likewise the copyright of their publishers: free to consult and not to be redistributed. The app carries neither, and reads only the file you downloaded, on your device.</p></div>
+<h3>Hong Kong, China and Macao, China: AIP Hong Kong, China</h3>
+<p>The Civil Aviation Department's AIP is a public download, needs no account, and is a single PDF: <a href="https://www.ais.gov.hk/HKAIP/aipall.pdf">https://www.ais.gov.hk/HKAIP/aipall.pdf</a>. The link always gives the edition in effect. Macao International is in AIP Hong Kong, China as well, so both airports appear after the import.</p>
+<h3>Taiwan, China: the AIP's web pages, imported by address</h3>
+<p>The Civil Aeronautics Administration of Taiwan, China publishes its AIP on the web with no registration, but there is no whole download: only web pages, one folder per amendment. So instead of a file, the app is given that amendment's address:</p>
+<ol class="steps">
+<li><strong>Find the amendment</strong>Open <a href="https://ais.caa.gov.tw/eaip/">https://ais.caa.gov.tw/eaip/</a> and go into the amendment in force (or the one you want), for example AMDT 05/26, effective 29 October 2026: <code>https://ais.caa.gov.tw/eaip/AIRAC%20AIP%20AMDT%2005-26_2026_10_29/index.html</code>. Copy the address from the browser; with <code>index.html</code> or just the folder, either works.</li>
+<li><strong>Paste it on the AIP data page</strong>Paste it into the box under <b>Import a file</b> and tap <b>Import</b>. The app downloads the amendment's 70 pages from the CAA's site, reads them into a database and deletes the pages.</li>
+</ol>
+<p>An amendment published ahead of its effective date can be imported early. A newer amendment replaces the older one and lists what changed.</p>
+<div class="note"><p>AIP Korea, AIP Hong Kong, China and AIP Taiwan, China are likewise the copyright of their publishers: free to consult and not to be redistributed. The app carries none of them, and reads only what you downloaded, on your device.</p></div>
 
 <h2>Importing in the app</h2>
 <ol class="steps">
@@ -60,7 +68,8 @@
 <tr><td>FAA CIFP</td><td>a quarter of a minute</td><td>about 400,000 records</td></tr>
 <tr><td>AIP China</td><td>one to a few minutes</td><td>the procedures' coding tables are in more than 700 PDFs, read one at a time</td></tr>
 <tr><td>AIP Korea</td><td>a few minutes</td><td>every airport's coding tables are read out of the PDFs</td></tr>
-<tr><td>AIP Hong Kong</td><td>a few minutes to a quarter of an hour</td><td>the coding tables are pictures in the PDF, read one by one with the system's text recognition: 95 of them</td></tr>
+<tr><td>AIP Hong Kong, China</td><td>a few minutes to a quarter of an hour</td><td>the coding tables are pictures in the PDF, read one by one with the system's text recognition: 95 of them</td></tr>
+<tr><td>AIP Taiwan, China</td><td>a minute or two</td><td>70 pages are downloaded from the CAA's site, so it depends on the connection</td></tr>
 </table>
 <div class="note"><p><b>Keep the app open until it finishes.</b> After switching to another app or the home screen, the system allows about half a minute more; past that the import pauses and carries on when you return. Either way the data already there is not touched until the new edition is complete: if the system ends the app, all that is lost is this import.</p></div>
 <p>The archive is not unpacked onto the device: the app reads the parts it needs straight out of it. The one exception is the small CSV zip nested inside the full NASR subscription, which is taken out for the length of the import and removed when it ends.</p>
@@ -84,7 +93,7 @@
 <li><b>ADS-B</b>: airways, navaids, airports, control sectors and procedures on the map and the radar.</li>
 </ul>
 <p>A country's data is large, so the app does not read it all at once: it reads the part being looked at. Move the map and that region is read. Far out, only control boundaries and airways are drawn; airports and procedures appear as you come in.</p>
-<p><b>One source per region.</b> Each publication and each <a href="data-file.html">JSON file</a> becomes a database of its own, kept by region: China, Hong Kong and Macao, Korea and the United States are separate, can all be held at once, and are removed one at a time. When a file covers a region that is already held, the app asks before replacing it, and the old data is replaced only once the new is complete.</p>
+<p><b>One source per region.</b> Each publication and each <a href="data-file.html">JSON file</a> becomes a database of its own, kept by region: China; Hong Kong, China and Macao, China; Taiwan, China; Korea; and the United States are separate, can all be held at once, and are removed one at a time. When a file covers a region that is already held, the app asks before replacing it, and the old data is replaced only once the new is complete.</p>
 
 <h2>Other countries: a JSON file</h2>
 <p>The app cannot yet read the AIP of a country outside the table above. That does not stop you using its data: the app defines an open <a href="data-file.html">JSON file format</a>, and any country's data put into that shape imports and is drawn on the ATC and ADS-B pages just as a directly imported publication is.</p>
@@ -94,7 +103,7 @@
 <li><b>How</b>: the <a href="data-file.html">airspace data file</a> page goes through the format section by section and offers a Los Angeles example to download and alter. Coordinates may be written in decimal degrees or as a chart prints them, in degrees, minutes and seconds.</li>
 <li><b>Mistakes are reported</b>: on import the app names each thing it could not read. One wrong entry costs that entry, not the file.</li>
 </ul>
-<p>A JSON file and imported publications can be used together as long as they cover different regions: import AIP China, Hong Kong and Korea directly, say, and add Japan from a JSON file of your own.</p>
+<p>A JSON file and imported publications can be used together as long as they cover different regions: import AIP China, AIP Hong Kong, China and AIP Korea directly, say, and add Japan from a JSON file of your own.</p>
 
 <h2>What each publication does not give</h2>
 <table>
@@ -102,9 +111,12 @@
 <tr><td>FAA NASR / CIFP</td><td>Sector boundaries below a centre</td><td>The United States does not publish them. A centre's frequencies are given by remote site, and the ATC page lists the sites within 150 km of you.</td></tr>
 <tr><td>FAA NASR</td><td>The shapes of Class B, C and D airspace (from the CSV zip alone)</td><td>They are in another file of the full subscription, which the CSV zip does not include. Import the full one to have them.</td></tr>
 <tr><td>FAA NASR</td><td>Private strips and heliports</td><td>Only airports with an ICAO code or open to the public are taken, about 5,000.</td></tr>
-<tr><td>AIP China</td><td>Hong Kong, Macao, Taiwan</td><td>Each has an AIP of its own, not part of this publication. Hong Kong and Macao come from AIP Hong Kong above.</td></tr>
+<tr><td>AIP China</td><td>Hong Kong, China; Macao, China; Taiwan, China</td><td>Each has an AIP of its own, not part of this publication. Hong Kong and Macao come from AIP Hong Kong, China above; Taiwan from the address of AIP Taiwan, China.</td></tr>
+<tr><td>AIP China</td><td>Minimum sector altitudes (MSA)</td><td>The MSA is printed only on the charts. China's come in two layouts, centred on the airport and two navaids joined; the reading is not finished, so none are drawn yet.</td></tr>
 <tr><td>AIP China</td><td>Conventional (non-RNAV) departures, arrivals and approaches</td><td>The app reads the procedures' database coding tables; a conventional procedure is defined by bearings and distances from navaids and has none.</td></tr>
-<tr><td>AIP Hong Kong</td><td>Macao's own control frequencies</td><td>AIP Hong Kong lists only Hong Kong ATC's frequencies for Macao traffic; Macao's tower, approach and the rest are in AIP Macao.</td></tr>
-<tr><td>AIP Hong Kong</td><td>The exact northern side of the FIR and the TMA</td><td>It is published as "along the limit of the territorial waters", with no coordinates. That side of the FIR is not drawn, and the TMA is closed with a straight line.</td></tr>
-<tr><td>AIP Hong Kong</td><td>A few conventional departures (RAMEN, RUMSY and others)</td><td>They have no coding table. Where a fix name in a table picture cannot be read, the import says so, leg by leg, and that leg is left out of the drawing.</td></tr>
+<tr><td>AIP Hong Kong, China</td><td>The own control frequencies of Macao, China</td><td>It lists only Hong Kong ATC's frequencies for Macao traffic; Macao's tower, approach and the rest are in AIP Macao, China.</td></tr>
+<tr><td>AIP Hong Kong, China</td><td>The exact northern side of the FIR and the TMA</td><td>It is published as "along the limit of the territorial waters", with no coordinates. Import AIP China first and AIP Hong Kong, China after, and that side is drawn along China's control sectors (an approximation); otherwise that side of the FIR is not drawn and the TMA is closed with a straight line.</td></tr>
+<tr><td>AIP Hong Kong, China</td><td>The odd fix in a coding table</td><td>The tables are pictures in the PDF. Where a fix name cannot be read, the import says so, leg by leg, and that leg is left out of the drawing.</td></tr>
+<tr><td>AIP Taiwan, China</td><td>Departures, arrivals and approaches</td><td>They are in each airport's chart PDFs, not read yet.</td></tr>
+<tr><td>AIP Taiwan, China</td><td>The FIR's north side (29°N) and west side (117°30′E)</td><td>They lie across the Shanghai and Guangzhou FIRs as AIP China publishes them and are not drawn; along the strait the boundary is AIP China's.</td></tr>
 </table>
