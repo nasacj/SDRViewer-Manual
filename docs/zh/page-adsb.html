@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ADS-B 飞机雷达 · SDRViewer 使用手册</title>
-<meta name="description" content="把收到的飞机画在雷达和地图上，叠加离场、进场程序、航路、导航台，放大还能看到滑行道和登机口。">
+<meta name="description" content="把收到的飞机画在雷达和地图上，叠加离场、进场程序、航路、导航台、地形和障碍物，放大还能看到滑行道和登机口。">
 <link rel="stylesheet" href="../assets/style.css">
 <script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
 <script src="../assets/site.js"></script>
@@ -155,6 +155,36 @@
 <li>这一层的数据来自 OpenStreetMap，<b>不需要航图数据文件</b>，全世界大多数机场都有，第一次查看某个机场时需要联网。</li>
 </ul>
 
+<h2>地形等高线</h2>
+<figure class="phone"><img class="shot" src="../img/adsb-terrain.png" alt="黑底地图上的香港地形：橙色等高线和分层设色"><figcaption>香港：橙色等高线，越高颜色越深。</figcaption></figure>
+<p>点地图右下角的<b>山形按钮</b>，地图上会画出地形：橙色的等高线加分层设色，越高颜色越深，和纸质航图上画山的方式一样。飞机在山区进近时为什么要绕、为什么高度压得那么高，一看就明白。</p>
+<ul>
+<li>等高线随缩放变密：远看每 500 英尺一条，放大后 250 英尺、100 英尺一条。单位跟顶部的 <b>CN / ICAO</b> 走，CN 用米（200、100、50 米一条）。</li>
+<li>分层设色按固定高度分档（ICAO：500、1000、2000、3000、5000 英尺…；CN：150、300、600、1000、1500 米…），黑底地图和卫星图上都看得清。</li>
+<li><b>雷达图上也有</b>，同一个按钮控制。雷达图不加载地图，只画地形，适合单独看山和程序的关系。</li>
+<li><b>放行路线图</b>（<a href="page-aviation.html">航空数据链</a>页）和 APRS 地图（含 Track 页）上也有同样的开关。</li>
+<li>高程数据来自 AWS 公开的 Terrain Tiles（SRTM、GMTED2010、ETOPO1），全世界都有，第一次看某个地方时需要联网，之后会缓存。精度约 30 米，是地形数据的精度，<b>不是航图，不能用于飞行</b>。</li>
+</ul>
+
+<h2>障碍物</h2>
+<div class="pair">
+<figure class="phone"><img class="shot" src="../img/adsb-obstacles.png" alt="卫星图上香港的有灯山头，带标高"><figcaption>卫星图：屯门、大榄涌一带装有障碍灯的山头，数字是标高（英尺）。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/adsb-obstacles-airport.png" alt="香港机场内的障碍物：塔台、风速计、下滑台天线"><figcaption>放大到机场：塔台（283）、NAT 塔（336）、风速计和下滑台天线。</figcaption></figure>
+</div>
+<p>导入的 AIP 里有<b>机场障碍物</b>（AD 2.10）：机场周围的高楼、天线、烟囱、山头，以及它们的标高。图层菜单 → <b>Layers</b> → <b>Obstacles</b> 打开后，它们用航图上的符号画出来：</p>
+<ul>
+<li><b>倒 V 加一个点</b>是单个障碍物（楼、塔、天线、烟囱、风机）；<b>两个倒 V</b> 是成组的（输电线、成片建筑）；顶上有<b>光芒</b>的是装了障碍灯的；<b>一个点</b>是山头的标高点。</li>
+<li>符号下面的数字是<b>海拔标高</b>，单位跟 CN / ICAO 走，按航图的习惯向上取整。重叠时只留较高的那个数字。</li>
+<li>黑底地图上是橙色，卫星图上是浅黄色加深色描边。</li>
+<li>放大到 zoom 10 左右才出现；海拔不到 100 米的（机场里的风速计、天线等）要再放大才出现。雷达图上范围在 30 公里以内才画，低矮的在 10 公里以内。</li>
+</ul>
+<p>目前有障碍物数据的出版物：</p>
+<ul>
+<li><b>中国香港 AIP</b>：香港机场的 60 个场内障碍物和 9 座装有障碍灯的山头，坐标是公布的原值。</li>
+<li><b>中国 AIP</b>：82 个机场，约 6900 个障碍物。中国 AIP 不给坐标，只给离机场基准点或跑道中点的磁方位和距离，App 用该机场自己公布的磁差换算出位置。按地形数据抽查，八成的山头和实际地形高度相差不到 50 米。</li>
+</ul>
+<div class="note"><p><b>要重新导入一次。</b>2026-11-24 以前导入的中国 AIP 和中国香港 AIP 里没有障碍物，请在 AIP data 页把同一份文件再导入一次，见<a href="aip-import.html">导入 AIP</a>。</p></div>
+
 <h2>可以看些什么</h2>
 <ul>
 <li><b>看一次进场。</b>打开进场程序，把范围拉到 150 公里，挑一架正在下降的飞机，看它沿着程序一个点一个点飞过来，最后对准跑道。</li>
@@ -173,6 +203,8 @@
 <tr><td>打开了航图图层但什么都没有</td><td>还没有导入航图数据文件，见<a href="data-file.html">航图数据文件</a>。机场地面那一层不受影响。</td></tr>
 <tr><td>开了程序但什么都没画</td><td>检查 Airport 选的是不是你想看的机场；Runways 选了某个方向时，只画这个方向的程序，可以改成 All 试试。</td></tr>
 <tr><td>看不到滑行道和登机口</td><td>需要放大到机场范围（雷达图约 6 公里以内）；第一次查看需要联网；确认 Airport ground 里的开关是开着的。</td></tr>
+<tr><td>打开了 Obstacles 但看不到障碍物</td><td>需要放大到机场附近（zoom 10 以上）；数据要来自 2026-11-24 之后导入的中国或中国香港 AIP，之前导入的请重新导入。其他地区的出版物还没有障碍物。</td></tr>
+<tr><td>地形一块一块慢慢出现</td><td>正常。高程数据按需下载，第一次看某个地方要联网，看过的会缓存下来。</td></tr>
 <tr><td>切到地图后航图过一会儿才出现</td><td>正常。底图先显示，航图稍后加载，期间会有 Loading chart… 的提示。</td></tr>
 <tr><td>查不到注册号或航线</td><td>这些信息来自网上的公开数据库，不是飞机广播的，不保证每一架都有。</td></tr>
 </table>

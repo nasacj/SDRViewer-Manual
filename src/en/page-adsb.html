@@ -1,4 +1,4 @@
-<!-- ADS-B | Draws the aircraft you receive on a radar scope and a map, with departures, arrivals, airways and navaids over them, down to taxiways and gates. -->
+<!-- ADS-B | Draws the aircraft you receive on a radar scope and a map, with departures, arrivals, airways, navaids, terrain and obstacles over them, down to taxiways and gates. -->
 <h1>ADS-B</h1>
 <p class="lede">Every second, aircraft broadcast their position, altitude, speed and callsign on 1090 MHz. This page receives them and draws a radar picture, then lays the chart over it: not just "an aircraft up there", but which arrival it is flying, which runway it is lined up for, and which gate it taxis to afterwards.</p>
 
@@ -108,6 +108,36 @@
 <li>This layer comes from OpenStreetMap and <b>needs no data file</b>. Most airports in the world are covered, and the first look at an airport needs a network connection.</li>
 </ul>
 
+<h2>Terrain contours</h2>
+<figure class="phone"><img class="shot" src="img/adsb-terrain.png" alt="Hong Kong's terrain on the dark map: orange contours and layered tint"><figcaption>Hong Kong: orange contours, darker the higher it goes.</figcaption></figure>
+<p>The <b>mountain button</b> at the map's lower right draws the terrain: orange contour lines over a layered tint, darker with height, the way a paper chart draws high ground. Why an approach into hilly country turns where it does, and why it holds so high, becomes plain.</p>
+<ul>
+<li>Contours get closer as you zoom in: every 500 ft from afar, then 250 ft and 100 ft. The unit follows <b>CN / ICAO</b> at the top; CN uses metres (200, 100, 50 m).</li>
+<li>The tint changes at fixed heights (ICAO: 500, 1000, 2000, 3000, 5000 ft…; CN: 150, 300, 600, 1000, 1500 m…) and reads on both the dark map and satellite imagery.</li>
+<li><b>The radar scope has it too</b>, on the same button. The scope loads no map, only the terrain, which is the clearest way to see the hills against the procedures.</li>
+<li>The departure map on the <a href="page-aviation.html">aviation data link</a> page and the APRS map (with its Track tab) have the same switch.</li>
+<li>Heights are AWS's public Terrain Tiles (SRTM, GMTED2010, ETOPO1), worldwide. The first look at a place needs a network connection; after that it is cached. Accuracy is about 30 m, the data's own — <b>this is not a chart and not for navigation</b>.</li>
+</ul>
+
+<h2>Obstacles</h2>
+<div class="pair">
+<figure class="phone"><img class="shot" src="img/adsb-obstacles.png" alt="Hong Kong's lit peaks on satellite imagery with their elevations"><figcaption>Satellite imagery: the peaks around Tuen Mun and Tai Lam Chung that carry obstruction lights, with their elevations in feet.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/adsb-obstacles-airport.png" alt="Obstacles inside Hong Kong airport: towers, anemometers, glide-path aerials"><figcaption>Zoomed into the airport: the control tower (283), the NAT tower (336), anemometers and glide-path aerials.</figcaption></figure>
+</div>
+<p>An imported AIP lists each airport's <b>obstacles</b> (AD 2.10): the buildings, masts, stacks and hills around it, with their elevations. Chart layers → <b>Layers</b> → <b>Obstacles</b> draws them with the chart's own symbols:</p>
+<ul>
+<li>An <b>inverted V with a dot</b> is one obstacle (a building, tower, mast, stack or wind turbine); <b>two</b> are a group (power lines, a block of buildings); <b>rays</b> over it mean it is lit; a <b>dot</b> alone is a peak's spot height.</li>
+<li>The figure under it is the <b>elevation above sea level</b>, in the CN / ICAO unit, rounded up as a chart rounds it. Where two would overlap, the higher keeps its figure.</li>
+<li>Orange on the dark map, pale yellow on a dark outline over satellite imagery.</li>
+<li>They appear from about zoom 10; those under 100 m above sea level (an airport's anemometers and aerials) only closer in. On the scope they are drawn within 30 km, the low ones within 10 km.</li>
+</ul>
+<p>Publications that carry obstacles so far:</p>
+<ul>
+<li><b>AIP Hong Kong, China</b>: the 60 obstacles on Hong Kong airport and the 9 peaks carrying obstruction lights, at their published co-ordinates.</li>
+<li><b>AIP China</b>: about 6,900 at 82 airports. AIP China gives no co-ordinates, only a magnetic bearing and a distance from the aerodrome reference point or a runway's middle; the app places them with the variation the airport itself publishes. Checked against terrain data, eight in ten peaks land within 50 m of the ground's real height.</li>
+</ul>
+<div class="note"><p><b>Import once more.</b> AIP China and AIP Hong Kong, China imported before 2026-11-24 carry no obstacles: import the same file again on the AIP data page; see <a href="aip-import.html">Importing an AIP</a>.</p></div>
+
 <h2>Things to watch</h2>
 <ul>
 <li><b>An arrival, start to finish.</b> Turn on arrivals, set the range to 150 km, pick an aircraft descending, and watch it come down the procedure point by point and line up with the runway.</li>
@@ -126,6 +156,8 @@
 <tr><td>A chart layer is on and nothing is drawn</td><td>No data file has been imported; see <a href="data-file.html">Airspace data file</a>. The airport ground layer does not depend on it.</td></tr>
 <tr><td>Procedures are on and nothing is drawn</td><td>Check that Airport is the one you mean. With Runways set to one direction only that direction is drawn; try All.</td></tr>
 <tr><td>No taxiways or gates</td><td>Zoom to the airport (within about 6 km on the scope); the first look needs a network connection; check the switches under Airport ground.</td></tr>
+<tr><td>Obstacles is on and none appear</td><td>Zoom in to an airport (zoom 10 or closer). The data must come from AIP China or AIP Hong Kong, China imported on or after 2026-11-24; import an older one again. Other publications carry no obstacles yet.</td></tr>
+<tr><td>Terrain appears a piece at a time</td><td>Normal. Heights are downloaded as needed; the first look at a place needs a network connection, and what has been seen is cached.</td></tr>
 <tr><td>On the map, the chart arrives a moment late</td><td>Normal. The base map comes first and the chart follows, under a Loading chart… notice.</td></tr>
 <tr><td>No registration or route</td><td>Those come from public databases on the internet, not from the aircraft, and not every aircraft is in them.</td></tr>
 </table>
