@@ -113,7 +113,7 @@
 <p>The <b>mountain button</b> at the map's lower right draws the terrain: orange contour lines over a layered tint, darker with height, the way a paper chart draws high ground. Why an approach into hilly country turns where it does, and why it holds so high, becomes plain.</p>
 <ul>
 <li>Contours get closer as you zoom in: every 500 ft from afar, then 250 ft and 100 ft. The unit follows <b>CN / ICAO</b> at the top; CN uses metres (200, 100, 50 m).</li>
-<li>The tint changes at fixed heights (ICAO: 500, 1000, 2000, 3000, 5000 ft…; CN: 150, 300, 600, 1000, 1500 m…) and reads on both the dark map and satellite imagery.</li>
+<li>The tint is measured from <b>the nearby airports' elevation</b>, in steps of height above it (ICAO: 500, 1000, 2000, 3000, 5000 ft…; CN: 150, 300, 600, 1000, 1500 m…), the way an approach chart draws terrain. A plateau's plain (Hohhot, the Lhasa valley) stays clear and only what rises above the airports is tinted. Contours are still labelled above sea level.</li>
 <li><b>The radar scope has it too</b>, on the same button. The scope loads no map, only the terrain, which is the clearest way to see the hills against the procedures.</li>
 <li>The departure map on the <a href="page-aviation.html">aviation data link</a> page and the APRS map (with its Track tab) have the same switch.</li>
 <li>Heights are AWS's public Terrain Tiles (SRTM, GMTED2010, ETOPO1), worldwide. The first look at a place needs a network connection; after that it is cached. Accuracy is about 30 m, the data's own — <b>this is not a chart and not for navigation</b>.</li>
@@ -135,8 +135,12 @@
 <ul>
 <li><b>AIP Hong Kong, China</b>: the 60 obstacles on Hong Kong airport and the 9 peaks carrying obstruction lights, at their published co-ordinates.</li>
 <li><b>AIP China</b>: about 6,900 at 82 airports. AIP China gives no co-ordinates, only a magnetic bearing and a distance from the aerodrome reference point or a runway's middle; the app places them with the variation the airport itself publishes. Checked against terrain data, eight in ten peaks land within 50 m of the ground's real height.</li>
+<li><b>AIP Korea</b>: about 400 at 18 airports, at their published co-ordinates.</li>
+<li><b>AIP Taiwan, China</b>: about 220 in the approach and take-off areas of 15 airports.</li>
+<li><b>AIP Malaysia</b>: about 800. Rows whose position or elevation is given as NIL ("a high concentration of tall trees") are not drawn.</li>
 </ul>
-<div class="note"><p><b>Import once more.</b> AIP China and AIP Hong Kong, China imported before 2026-11-24 carry no obstacles: import the same file again on the AIP data page; see <a href="aip-import.html">Importing an AIP</a>.</p></div>
+<p>Where several airports list the same obstacle — Shanghai's Hongqiao and Pudong both list Lujiazui's towers, Shenzhen lists Hong Kong's hills — it is drawn once, at the position worked out from the nearer airport.</p>
+<div class="note"><p><b>Import once more.</b> An AIP imported before 2026-11-24 carries no obstacles: import the same file (or address) again on the AIP data page; see <a href="aip-import.html">Importing an AIP</a>.</p></div>
 
 <h2>Things to watch</h2>
 <ul>
@@ -156,7 +160,7 @@
 <tr><td>A chart layer is on and nothing is drawn</td><td>No data file has been imported; see <a href="data-file.html">Airspace data file</a>. The airport ground layer does not depend on it.</td></tr>
 <tr><td>Procedures are on and nothing is drawn</td><td>Check that Airport is the one you mean. With Runways set to one direction only that direction is drawn; try All.</td></tr>
 <tr><td>No taxiways or gates</td><td>Zoom to the airport (within about 6 km on the scope); the first look needs a network connection; check the switches under Airport ground.</td></tr>
-<tr><td>Obstacles is on and none appear</td><td>Zoom in to an airport (zoom 10 or closer). The data must come from AIP China or AIP Hong Kong, China imported on or after 2026-11-24; import an older one again. Other publications carry no obstacles yet.</td></tr>
+<tr><td>Obstacles is on and none appear</td><td>Zoom in to an airport (zoom 10 or closer). The data must come from an AIP imported on or after 2026-11-24; import an older one again. The US and Singapore publications carry no obstacles yet.</td></tr>
 <tr><td>Terrain appears a piece at a time</td><td>Normal. Heights are downloaded as needed; the first look at a place needs a network connection, and what has been seen is cached.</td></tr>
 <tr><td>On the map, the chart arrives a moment late</td><td>Normal. The base map comes first and the chart follows, under a Loading chart… notice.</td></tr>
 <tr><td>No registration or route</td><td>Those come from public databases on the internet, not from the aircraft, and not every aircraft is in them.</td></tr>
