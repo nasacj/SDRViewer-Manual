@@ -40,6 +40,7 @@
 <a href="page-receiver.html">Receiver 接收机</a>
 <a href="page-dstar.html">D-STAR 数字语音</a>
 <a class="on" href="page-ysf.html">YSF 数字语音</a>
+<a href="page-dmr.html">DMR 数字语音</a>
 <a href="page-aviation.html">Aviation 航空数据链</a>
 <a href="page-atc.html">ATC 航空管制</a>
 <a class="soon">APRS</a>
@@ -48,18 +49,18 @@
 </nav>
 <main>
 <h1>YSF 数字语音（System Fusion）</h1>
-<p class="lede">System Fusion（简称 YSF 或 C4FM）是八重洲（Yaesu）电台的数字语音制式。SDRViewer 接收它的方式和 <a href="page-dstar.html">D-STAR</a> 完全一样：同一个 DV/YSF 方式、同一张卡片、同一个 RX History。能听到语音，看到对方的呼号、电台 ID 和位置。目前支持 <b>DN</b> 和 <b>VW</b> 两种语音格式。</p>
+<p class="lede">System Fusion（简称 YSF 或 C4FM）是八重洲（Yaesu）电台的数字语音制式。SDRViewer 接收它的方式和 <a href="page-dstar.html">D-STAR</a> 完全一样：同一个 Digital 方式、同一张卡片、同一个 RX History。能听到语音，看到对方的呼号、电台 ID 和位置。目前支持 <b>DN</b> 和 <b>VW</b> 两种语音格式。</p>
 
 <h2>怎么开始收</h2>
 <ol class="steps">
 <li><strong>调到 YSF 的频率</strong>在 <a href="page-receiver.html">Receiver</a> 页面输入频率，比如本地的 C4FM 直频或 YSF 中继的下行频率。</li>
-<li><strong>解调方式选 DV/YSF</strong>点左边蓝色的方式按钮，选 <b>DV/YSF</b>。D-STAR 和 YSF 不用分开选：两种信号各带校验，App 自己认出是哪一种。选 <b>NFM</b> 也一样：来了数字信号按钮会自动变成 DV/YSF，来了模拟调频就变回 NFM 播出来，和八重洲车台的 AMS 一样。</li>
+<li><strong>解调方式选 Digital</strong>点左边蓝色的方式按钮，选 <b>Digital</b>。D-STAR 和 YSF 不用分开选：两种信号各带校验，App 自己认出是哪一种。选 <b>NFM</b> 也一样：来了数字信号按钮会自动变成 Digital，来了模拟调频就变回 NFM 播出来，和八重洲车台的 AMS 一样。</li>
 <li><strong>点播放，等人发射</strong>有人发射时，页面下方弹出卡片，扬声器里播放解码后的语音。</li>
 </ol>
 <div class="warn"><p><b>频率要准。</b>和 D-STAR 一样，接收机频率偏了就解不出来。使用前先完成<a href="connect.html">频率校准</a>；手持机离接收机太近（几米之内）信号过强也会解不出来。</p></div>
 
 <h2>收语音时弹出的卡片</h2>
-<figure class="phone"><img class="shot" src="../img/ysf-card-voice.png" alt="Receiver 页面在 DV/YSF 方式下，下方弹出一张 YSF 卡片"><figcaption>有人发射时，卡片出现在瀑布图下方；发射结束后停留几秒再消失。</figcaption></figure>
+<figure class="phone"><img class="shot" src="../img/ysf-card-voice.png" alt="Receiver 页面在 Digital 方式下，下方弹出一张 YSF 卡片"><figcaption>有人发射时，卡片出现在瀑布图下方；发射结束后停留几秒再消失。</figcaption></figure>
 <div class="parts">
 <div class="part"><img src="../img/ysf-card-gps.png" alt="带位置的 YSF 卡片"><div><b class="name">卡片上的内容</b>
 <p><b>第一行</b>：对方的呼号。左边的绿点和右上角的 RX 表示正在接收。</p>
@@ -119,7 +120,7 @@
 
 <div class="pager">
 <a href="page-dstar.html"><small>上一篇</small>D-STAR 数字语音</a>
-<a class="next" href="page-aviation.html"><small>下一篇</small>Aviation 航空数据链</a>
+<a class="next" href="page-dmr.html"><small>下一篇</small>DMR 数字语音</a>
 </div>
 <footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
 </main>

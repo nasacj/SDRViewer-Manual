@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DMR digital voice · SDRViewer Manual</title>
+<meta name="description" content="Receiving DMR on the Receiver page: timeslot, colour code, ID and callsign, voice and RX History.">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
+<script src="assets/site.js"></script>
+</head>
+<body data-soon="soon">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="zh/page-dmr.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<a href="bridge-bl618.html">BL618 Wi-Fi board</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="aip-import.html">Importing an AIP directly</a>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a href="page-ysf.html">YSF digital voice</a>
+<a class="on" href="page-dmr.html">DMR digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
+</nav>
+<main>
+<h1>DMR digital voice</h1>
+<p class="lede">DMR (Digital Mobile Radio) is the digital mode of Motorola and Hytera handhelds and of many amateur repeaters; one channel carries two timeslots, so two calls can run at once. SDRViewer receives it exactly as it receives <a href="page-dstar.html">D-STAR</a> and <a href="page-ysf.html">YSF</a>: the same <b>Digital</b> mode, the same card, the same RX History, nothing to choose.</p>
+
+<h2>Getting started</h2>
+<ol class="steps">
+<li><strong>Tune to a DMR frequency</strong>Enter the frequency on the <a href="page-receiver.html">Receiver</a> page, such as a local DMR repeater's output.</li>
+<li><strong>Choose Digital or NFM</strong>Either works: a DMR transmission turns the button to <b>Digital</b> and plays the digital voice; when it ends the button turns back to <b>NFM</b>.</li>
+<li><strong>Press play and wait for a transmission</strong>When somebody transmits, a card appears at the bottom of the page and the decoded voice plays.</li>
+</ol>
+<div class="warn"><p><b>The frequency has to be right.</b> As with the other digital modes, a receiver that is off frequency decodes nothing. Do the <a href="connect.html">frequency calibration</a> first.</p></div>
+
+<h2>What the card shows</h2>
+<figure class="phone"><img class="shot" src="img/dmr-card.png" alt="A DMR card under the waterfall: callsign, talkgroup, timeslot and colour code"></figure>
+<table>
+<tr><th>Where</th><th>Meaning</th></tr>
+<tr><td>Top line</td><td>Who it is: the name the radio sent over the air (talker alias), otherwise the callsign looked up for its ID, otherwise the 7-digit DMR ID.</td></tr>
+<tr><td>→ TG 46001</td><td>Who is being called. <b>TG</b> is a talkgroup; <b>ID</b> is a private call.</td></tr>
+<tr><td>DMR TS2 · ID 4600123 · CC1</td><td>Timeslot (TS1 or TS2), the caller's DMR ID, and the colour code (CC, the repeater's "house number").</td></tr>
+<tr><td>ENC</td><td>The call is encrypted. The card and the record still appear, but the voice is <b>not played</b> — encrypted data through a vocoder is only a harsh noise.</td></tr>
+</table>
+<p>A repeater's two timeslots can both be busy; the speaker follows the call that started first and moves to the other when it ends. Each becomes its own record.</p>
+
+<h2>Where the callsign comes from</h2>
+<p>A DMR radio transmits a 7-digit ID, not a callsign. SDRViewer looks for the callsign in this order:</p>
+<ol>
+<li><b>The name the radio sends itself</b> (talker alias). Many radios and BrandMeister repeaters attach the callsign and name to the call. It is the station's own statement, so it comes first.</li>
+<li><b>The RadioID user file you import.</b> Amateur DMR IDs worldwide are registered at <a href="https://radioid.net/database/dumps">RadioID.net</a>. Its terms do not allow the file to be built into the app, so download <code>user.csv</code> with your own RadioID account and import it in Settings. The whole table then lives on the phone and lookups need no network.</li>
+<li><b>Online lookup</b> (on by default). When neither of the above knows an ID, RadioID.net is asked about that one ID and the answer is kept on the phone. This sends the received ID to RadioID.net; turn it off in Settings if you would rather it did not.</li>
+</ol>
+<figure class="phone"><img class="shot" src="img/dmr-settings.png" alt="The DMR ID section in Settings: import button, online lookup switch and download link"><figcaption>Receiver page, gear at the top left → Settings → <b>DMR ID</b>.</figcaption></figure>
+<p>A record keeps the ID itself and the callsign is looked up when it is shown, so importing a newer file later names old records too.</p>
+
+<h2>DMR records in RX History</h2>
+<figure class="phone"><img class="shot" src="img/dmr-record.png" alt="A DMR record: play button, contact, party and signal"></figure>
+<p>They are in the same list as D-STAR and YSF, tagged <b>DMR</b>. The detail page's party section lists the alias (over the air), callsign, name, location, source ID, target, group or private call, timeslot, colour code and the channel kind — <b>repeater output</b>, <b>radio to repeater</b> or <b>direct</b> (radio to radio).</p>
+
+<h2>Common situations</h2>
+<table>
+<tr><th>What you see</th><th>Cause and remedy</th></tr>
+<tr><td>A signal on the waterfall but no card and no sound</td><td>The frequency is off — do the <a href="connect.html">calibration</a> — or it is not DMR.</td></tr>
+<tr><td>The card shows a number, not a callsign</td><td>The radio sent no alias, no RadioID file is imported, and online lookup is off or has no network.</td></tr>
+<tr><td>A card marked ENC and no sound</td><td>The call is encrypted and cannot be decoded.</td></tr>
+<tr><td>A record that starts mid-sentence</td><td>Reception started while the station was already talking. DMR repeats who is talking every 360 ms, so a late start still names the caller; it only misses the beginning.</td></tr>
+</table>
+
+<div class="pager">
+<a href="page-ysf.html"><small>Previous</small>YSF digital voice</a>
+<a class="next" href="page-aviation.html"><small>Next</small>Aviation</a>
+</div>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
+</main>
+</div>
+</body>
+</html>

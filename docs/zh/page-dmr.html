@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DMR 数字语音 · SDRViewer 使用手册</title>
+<meta name="description" content="在 Receiver 页面接收 DMR：时隙、色码、ID 和呼号，语音和 RX History。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../page-dmr.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<a href="bridge-bl618.html">BL618 无线小板</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="aip-import.html">直接导入各国 AIP</a>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a href="page-ysf.html">YSF 数字语音</a>
+<a class="on" href="page-dmr.html">DMR 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>DMR 数字语音</h1>
+<p class="lede">DMR（数字移动无线电）是摩托罗拉、海能达等手台和不少业余中继用的数字制式，一个频道分成两个时隙，可以同时跑两路通话。SDRViewer 接收它的方式和 <a href="page-dstar.html">D-STAR</a>、<a href="page-ysf.html">YSF</a> 一样：同一个 <b>Digital</b> 方式、同一张卡片、同一个 RX History，不用另选。</p>
+
+<h2>怎么开始收</h2>
+<ol class="steps">
+<li><strong>调到 DMR 的频率</strong>在 <a href="page-receiver.html">Receiver</a> 页面输入频率，比如本地 DMR 中继的下行频率。</li>
+<li><strong>方式选 Digital 或 NFM</strong>两个都可以：来了 DMR 信号，按钮自动变成 <b>Digital</b> 并播放数字语音；信号结束变回 <b>NFM</b>。</li>
+<li><strong>点播放，等人发射</strong>有人发射时，页面下方弹出卡片，扬声器里播放解码后的语音。</li>
+</ol>
+<div class="warn"><p><b>频率要准。</b>和其它数字制式一样，接收机频率偏了就解不出来。使用前先完成<a href="connect.html">频率校准</a>。</p></div>
+
+<h2>卡片上的内容</h2>
+<figure class="phone"><img class="shot" src="../img/dmr-card.png" alt="Receiver 页面下方的 DMR 卡片：呼号、组呼号、时隙和色码"></figure>
+<table>
+<tr><th>位置</th><th>含义</th></tr>
+<tr><td>第一行</td><td>对方是谁：电台在空中发来的名字（Talker Alias），没有的话是查到的呼号，都没有就是 7 位 DMR ID。</td></tr>
+<tr><td>→ TG 46001</td><td>呼叫的对象。<b>TG</b> 是组呼（talkgroup），<b>ID</b> 开头是单呼。</td></tr>
+<tr><td>DMR TS2 · ID 4600123 · CC1</td><td>时隙（TS1 或 TS2）、对方的 DMR ID、色码（CC，相当于中继的“门牌号”）。</td></tr>
+<tr><td>ENC</td><td>对方加密了。卡片照常显示，记录照常保存，但<b>不播放语音</b>——加密的数据送进声码器只会是刺耳的杂音。</td></tr>
+</table>
+<p>中继的两个时隙可以同时有人说话，这时扬声器跟着先开始的那一路，那一路结束后再换到另一路；两路都各自存成记录。</p>
+
+<h2>呼号是怎么来的</h2>
+<p>DMR 电台在空中发的是一个 7 位数字 ID，不是呼号。SDRViewer 按这个顺序找它对应的呼号：</p>
+<ol>
+<li><b>电台自己发的名字</b>（Talker Alias）。很多电台和 BrandMeister 中继会在通话里附带呼号和名字，这是对方自己说的，最准。</li>
+<li><b>你导入的 RadioID 用户表。</b>全球业余 DMR ID 都在 <a href="https://radioid.net/database/dumps">RadioID.net</a> 登记。它的条款不允许把这张表内置进 App，所以需要你用自己的 RadioID 账号下载 <code>user.csv</code>，在设置里导入。导入后整张表在手机本地，查询不联网。</li>
+<li><b>在线查询</b>（默认打开）。上面两个都查不到时，向 RadioID.net 查这一个 ID，结果保存在手机里，下次不再查。这会把收到的 ID 发给 RadioID.net；不希望这样就在设置里关掉。</li>
+</ol>
+<figure class="phone"><img class="shot" src="../img/dmr-settings.png" alt="设置里的 DMR ID 一栏：导入按钮、在线查询开关和下载链接"><figcaption>Receiver 页面左上角齿轮 → 设置 → <b>DMR ID</b>。</figcaption></figure>
+<p>记录里保存的是 ID 本身，呼号是显示时才查的。所以以后导入了新的用户表，旧记录也会显示出呼号。</p>
+
+<h2>RX History 里的 DMR 记录</h2>
+<figure class="phone"><img class="shot" src="../img/dmr-record.png" alt="一条 DMR 记录：播放按钮、通联、对方和信号"></figure>
+<p>和 D-STAR、YSF 的记录在同一个列表里，左边的标签写着 <b>DMR</b>。详情页的“对方”一栏有：别名（空中）、呼号、姓名、所在地、源 ID、目标、组呼还是单呼、时隙、色码，以及信道类型——<b>中继下行</b>（中继发出来的）、<b>手台上行</b>（手台发给中继的）或<b>直通</b>（手台对手台）。</p>
+
+<h2>常见情况</h2>
+<table>
+<tr><th>现象</th><th>原因和办法</th></tr>
+<tr><td>瀑布图上有信号，但没有卡片也没有声音</td><td>频率偏了，先做<a href="connect.html">频率校准</a>；或者那不是 DMR 信号。</td></tr>
+<tr><td>卡片上只有数字，没有呼号</td><td>对方没发别名，你也没导入 RadioID 表，在线查询又关着或没联网。</td></tr>
+<tr><td>有卡片、写着 ENC，没有声音</td><td>对方加密了，无法解码。</td></tr>
+<tr><td>只录到一部分，开头没有</td><td>你打开接收时对方已经在说话了。DMR 每 360 毫秒重复一次身份信息，中途加入也能认出是谁，只是缺了开头。</td></tr>
+</table>
+
+<div class="pager">
+<a href="page-ysf.html"><small>上一篇</small>YSF 数字语音</a>
+<a class="next" href="page-aviation.html"><small>下一篇</small>Aviation 航空数据链</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

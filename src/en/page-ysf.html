@@ -1,17 +1,17 @@
 <!-- YSF digital voice | Receiving Yaesu System Fusion on the Receiver page: the live card, voice, the position compass, and the records in RX History. -->
 <h1>YSF digital voice (System Fusion)</h1>
-<p class="lede">System Fusion (YSF, or C4FM) is Yaesu's digital voice mode. SDRViewer receives it exactly as it receives <a href="page-dstar.html">D-STAR</a>: the same DV/YSF mode, the same card, the same RX History. You hear the voice and see the callsign, the radio's ID and the position. The <b>DN</b> and <b>VW</b> voice formats are supported.</p>
+<p class="lede">System Fusion (YSF, or C4FM) is Yaesu's digital voice mode. SDRViewer receives it exactly as it receives <a href="page-dstar.html">D-STAR</a>: the same Digital mode, the same card, the same RX History. You hear the voice and see the callsign, the radio's ID and the position. The <b>DN</b> and <b>VW</b> voice formats are supported.</p>
 
 <h2>Getting started</h2>
 <ol class="steps">
 <li><strong>Tune to a YSF frequency</strong>On the <a href="page-receiver.html">Receiver</a> page, enter the frequency: a local C4FM simplex channel, or a YSF repeater's output.</li>
-<li><strong>Choose DV/YSF</strong>Tap the blue mode button on the left and choose <b>DV/YSF</b>. D-STAR and YSF need no separate choice: each signal carries its own check and the app recognises which it is. <b>NFM</b> is the same: a digital transmission turns the button to DV/YSF, and analogue FM turns it back to NFM and plays, like the AMS on a Yaesu mobile.</li>
+<li><strong>Choose Digital</strong>Tap the blue mode button on the left and choose <b>Digital</b>. D-STAR and YSF need no separate choice: each signal carries its own check and the app recognises which it is. <b>NFM</b> is the same: a digital transmission turns the button to Digital, and analogue FM turns it back to NFM and plays, like the AMS on a Yaesu mobile.</li>
 <li><strong>Press play and wait for a transmission</strong>When somebody transmits, a card appears at the bottom of the page and the decoded voice plays.</li>
 </ol>
 <div class="warn"><p><b>The frequency has to be right.</b> As with D-STAR, a receiver that is off frequency decodes nothing. Do the <a href="connect.html">frequency calibration</a> first; a handheld within a few metres of the receiver is also too strong to decode.</p></div>
 
 <h2>The card during a voice transmission</h2>
-<figure class="phone"><img class="shot" src="img/ysf-card-voice.png" alt="The Receiver page in DV/YSF with a YSF card at the bottom"><figcaption>The card appears under the waterfall while somebody transmits, and stays a few seconds after they stop.</figcaption></figure>
+<figure class="phone"><img class="shot" src="img/ysf-card-voice.png" alt="The Receiver page in Digital with a YSF card at the bottom"><figcaption>The card appears under the waterfall while somebody transmits, and stays a few seconds after they stop.</figcaption></figure>
 <div class="parts">
 <div class="part"><img src="img/ysf-card-gps.png" alt="A YSF card with a position"><div><b class="name">What is on the card</b>
 <p><b>First line</b>: the station's callsign. The green dot and the RX at the right mean it is being received now.</p>

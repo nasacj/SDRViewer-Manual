@@ -69,7 +69,11 @@ a.card:hover { border-color: var(--accent); text-decoration: none; transform: tr
 .card b { display: block; font-size: 16px; margin-bottom: 2px; }
 .card span { color: var(--muted); font-size: 14px; line-height: 1.55; display: block; }
 .hero { padding: 26px 0 8px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 34px; align-items: center; }
-.hero h1 { font-size: 40px; } .hero p.lede { font-size: 18.5px; color: var(--muted); }
+.hero h1 { font-size: 40px; }
+.hero-title { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; }
+.hero-title h1 { margin: 0; }
+/* The app's own icon beside the title, cornered as iOS draws it (22.37% of the side). */
+.app-icon { width: 72px; height: 72px; border-radius: 22.37%; flex: none; box-shadow: 0 2px 10px rgba(0,0,0,.25); } .hero p.lede { font-size: 18.5px; color: var(--muted); }
 .btn { display: inline-block; background: var(--accent); color: #fff; border-radius: 10px; padding: 10px 18px; font-weight: 600; margin: 8px 8px 0 0; }
 .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); } .btn:hover { text-decoration: none; filter: brightness(1.08); }
 .shot { border-radius: 22px; border: 1px solid var(--line); box-shadow: var(--shadow); max-width: 100%; height: auto; display: block; }
@@ -89,7 +93,7 @@ kbd { border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6p
   .layout { grid-template-columns: 1fr; } #menu { display: inline-block; }
   nav.side { position: fixed; top: 56px; left: 0; width: 280px; background: var(--bg); transform: translateX(-100%); transition: transform .2s; z-index: 15; box-shadow: var(--shadow); }
   body.open nav.side { transform: none; }
-  main { padding: 24px 16px 60px; } h1 { font-size: 27px; } .hero { grid-template-columns: 1fr; } .hero h1 { font-size: 31px; }
+  main { padding: 24px 16px 60px; } h1 { font-size: 27px; } .hero { grid-template-columns: 1fr; } .hero h1 { font-size: 31px; } .app-icon { width: 56px; height: 56px; } .hero-title { gap: 10px; }
 }
 .parts { display: grid; gap: 14px; margin: 18px 0; }
 .part { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 18px; align-items: center;

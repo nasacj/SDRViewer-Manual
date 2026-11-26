@@ -31,6 +31,7 @@ NAV = [
                               ("page-receiver", "Receiver 接收机", "Receiver"),
                               ("page-dstar", "D-STAR 数字语音", "D-STAR digital voice"),
                               ("page-ysf", "YSF 数字语音", "YSF digital voice"),
+                              ("page-dmr", "DMR 数字语音", "DMR digital voice"),
                               ("page-aviation", "Aviation 航空数据链", "Aviation"),
                               ("page-atc", "ATC 航空管制", "ATC"), ("page-aprs", "APRS", "APRS"),
                               ("page-ais", "AIS 船舶", "AIS"), ("page-adsb", "ADS-B 飞机", "ADS-B")]),

@@ -40,6 +40,7 @@
 <a href="page-receiver.html">Receiver</a>
 <a href="page-dstar.html">D-STAR digital voice</a>
 <a href="page-ysf.html">YSF digital voice</a>
+<a href="page-dmr.html">DMR digital voice</a>
 <a href="page-aviation.html">Aviation</a>
 <a class="on" href="page-atc.html">ATC</a>
 <a class="soon">APRS</a>
@@ -121,6 +122,16 @@
 <tr><td>The controller is heard and the pilots are not, or the reverse</td><td>Normal. The ground station and the aircraft are in different places and your antenna may not reach both; aircraft, being high, are often the easier.</td></tr>
 <tr><td>A whistle under the speech</td><td>Turn on Notch.</td></tr>
 </table>
+
+<h2>Auto recording</h2>
+<p>With <b>AUTO REC</b> on (the right end of the playing row; on by default) the ATC page records, in the background, <b>every listed frequency the current placement covers</b> — not only the one you are listening to. Each transmission becomes one record named airport or sector code, frequency, date and time, such as <code>ZSPD-121.900-20261126-13:33:43</code>.</p>
+<ul>
+<li>A transmission is judged by how far the channel stands above the gaps either side of it, so interference that lifts the whole band — a switch-mode supply, broadband bursts — is not recorded.</li>
+<li>The "shadow" a strong signal throws onto nearby frequencies — the same words, 20 dB or more weaker, starting at the same moment — is recognised and not recorded.</li>
+<li>A frequency with a signal up for more than 30 seconds without a break is taken as interference: that stretch is deleted, the frequency is marked with an orange <b>IGN</b> and not recorded until the signal has been gone five seconds, then it comes back by itself.</li>
+<li><b>ATIS</b> is a loop and is not recorded in the background; it is recorded while you are listening to it, in five-minute pieces.</li>
+</ul>
+<figure class="phone"><img class="shot" src="img/atc-history.png" alt="ATC RX History: recordings named by airport and frequency"><figcaption>The clock at the top right opens <b>ATC RX History</b>, which lists only ATC recordings; its trash deletes only those.</figcaption></figure>
 
 <div class="pager">
 <a href="page-aviation.html"><small>Previous</small>Aviation</a>

@@ -40,6 +40,7 @@
 <a class="on" href="page-receiver.html">Receiver 接收机</a>
 <a href="page-dstar.html">D-STAR 数字语音</a>
 <a href="page-ysf.html">YSF 数字语音</a>
+<a href="page-dmr.html">DMR 数字语音</a>
 <a href="page-aviation.html">Aviation 航空数据链</a>
 <a href="page-atc.html">ATC 航空管制</a>
 <a class="soon">APRS</a>
@@ -89,13 +90,13 @@
 <tr><td><b>AM</b></td><td>航空管制通话</td><td>118–137 MHz</td></tr>
 <tr><td><b>USB / LSB</b></td><td>业余无线电和短波的单边带语音</td><td>144 MHz 附近的弱信号段等</td></tr>
 <tr><td><b>CW</b></td><td>莫尔斯电码</td><td>各业余波段的低端</td></tr>
-<tr><td><b>DV/YSF</b></td><td>D-STAR 和 System Fusion（YSF）数字语音，自动识别</td><td>业余波段的 D-STAR、C4FM 频率和中继</td></tr>
+<tr><td><b>Digital</b></td><td>D-STAR、System Fusion（YSF）和 DMR 数字语音，自动识别</td><td>业余波段的 D-STAR、C4FM、DMR 频率和中继</td></tr>
 </table>
-<div class="note"><p><b>NFM 和 DV/YSF 会自动互相切换。</b>像八重洲车台的 AMS 一样：在同一个频率上，来了 D-STAR 或 YSF 数字信号，按钮自动变成 <b>DV/YSF</b>，播放数字语音并弹出卡片；数字信号结束，按钮变回 <b>NFM</b>，模拟调频通话照常播放。所以选这两个中的哪一个都可以，不需要事先知道对方用的是什么制式。没人说话时的底噪靠 <b>SQL</b> 挡住。</p></div>
+<div class="note"><p><b>NFM 和 Digital 会自动互相切换。</b>像八重洲车台的 AMS 一样：在同一个频率上，来了 D-STAR、YSF 或 DMR 数字信号，按钮自动变成 <b>Digital</b>，播放数字语音并弹出卡片；数字信号结束，按钮变回 <b>NFM</b>，模拟调频通话照常播放。所以选这两个中的哪一个都可以，不需要事先知道对方用的是什么制式。没人说话时的底噪靠 <b>SQL</b> 挡住。</p></div>
 <p>选错了方式不会损坏任何东西，只是听起来不对：调频信号用 AM 听是很小的失真声，AM 信号用 NFM 听是沙沙声。换一个试试就知道了。</p>
 
 <h2>D-STAR 数字语音</h2>
-<p>把方式选成 <b>DV/YSF</b> 并调到 D-STAR 的频率，就能听到数字语音，看到对方的呼号、留言、位置，还能收图片；收到的通联都记在右上角时钟图标的 <b>RX History</b> 里。这部分内容比较多，单独写了一篇：<a href="page-dstar.html">D-STAR 数字语音 →</a>。八重洲的 System Fusion 也在同一个方式里接收：<a href="page-ysf.html">YSF 数字语音 →</a></p>
+<p>把方式选成 <b>Digital</b> 并调到 D-STAR 的频率，就能听到数字语音，看到对方的呼号、留言、位置，还能收图片；收到的通联都记在右上角时钟图标的 <b>RX History</b> 里。这部分内容比较多，单独写了一篇：<a href="page-dstar.html">D-STAR 数字语音 →</a>。八重洲的 System Fusion 和 DMR 也在同一个方式里接收：<a href="page-ysf.html">YSF 数字语音 →</a>、<a href="page-dmr.html">DMR 数字语音 →</a></p>
 
 <h2>设置里和这一页有关的项</h2>
 <table>
@@ -118,6 +119,17 @@
 <tr><td>电台在瀑布图上，但偏离中线</td><td>频率没校准，见<a href="connect.html">频率校准</a>。</td></tr>
 <tr><td>调到 24 MHz 以下没有信号</td><td>RTL-SDR 的调谐范围大约是 24–1766 MHz，中波和短波需要另外的上变频器或支持直采的型号。</td></tr>
 </table>
+
+<h2>录音</h2>
+<figure><img class="shot" src="../img/rec-button.png" alt="频率右边的 AUTO REC 按钮"></figure>
+<p>频率数字右边的圆点就是录音按钮，在不同方式下作用不同：</p>
+<table>
+<tr><th>方式</th><th>按钮</th><th>怎么录</th></tr>
+<tr><td><b>NFM / Digital</b></td><td>红色实心圆，下面写 <b>AUTO REC</b></td><td>自动录：静噪每打开一次（有人按下发射），就录成 RX History 里的一条。短于半秒的毛刺不录；10 秒内静噪开开关关 4 次以上（静噪设得太低在抖），会暂停录音，等它安静下来再恢复。点一下关掉自动录音。</td></tr>
+<tr><td><b>WFM</b></td><td>空心圆</td><td>手动录：广播电台从不停播，没法按“一次发射”切分，所以播放时点一下开始录，再点一下停止。录的是立体声。</td></tr>
+</table>
+<p>只有打开了 <b>SQL</b> 才会自动录——静噪关着时听到的是一直不停的底噪，那不是一次发射。数字语音（D-STAR、YSF、DMR）本来就单独记录，带着呼号，所以不会再录成一条模拟录音。</p>
+<p>录音占用的空间在设置的 <b>Recording</b> 一栏里设上限（默认 2 GB），超过后从最旧的记录开始删，数字记录也算在内。</p>
 
 <div class="pager">
 <a href="page-radio.html"><small>上一篇</small>Radio 收音机</a>
