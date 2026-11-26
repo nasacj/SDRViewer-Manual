@@ -5,7 +5,7 @@
 <h2>Getting started</h2>
 <ol class="steps">
 <li><strong>Tune to a D-STAR frequency</strong>On the <a href="page-receiver.html">Receiver</a> page, enter the frequency: a local D-STAR simplex channel, or a repeater's output.</li>
-<li><strong>Choose DV</strong>Tap the blue mode name on the left and choose <b>DV</b>. <b>NFM</b> works too: the app recognises a D-STAR signal by itself, and the only difference is that in NFM you hear ordinary FM while nobody transmits.</li>
+<li><strong>Choose DV/YSF</strong>Tap the blue mode button on the left and choose <b>DV/YSF</b> (Yaesu <a href="page-ysf.html">System Fusion</a> is received in the same mode). <b>NFM</b> is the same: a D-STAR transmission turns the button to DV/YSF and its end turns it back to NFM, and analogue FM on the same frequency plays as usual.</li>
 <li><strong>Press play and wait for a transmission</strong>When somebody transmits, a card appears at the bottom of the page and the decoded voice plays.</li>
 </ol>
 <div class="warn"><p><b>The frequency has to be right.</b> A D-STAR channel is 6.25 kHz wide, and a receiver slightly off decodes nothing at all. Do the <a href="connect.html">frequency calibration</a> first. A handheld within a few metres of the receiver is also too strong to decode; move it away.</p></div>
@@ -47,8 +47,13 @@
 
 <h3>Playing the voice</h3>
 <figure class="phone"><img class="shot" src="img/dstar-record-voice.png" alt="A record with voice and a position: play button, details and the dial"></figure>
-<p>At the top of a record are the <b>play button</b> and a progress bar: tap to hear the voice as it was received. Below are the mode, frequency, time, duration, callsign, destination, repeaters and message. If the station sent a position, the same dial, distance, coordinates, course and speed as on the live card are shown, with the format the position arrived in.</p>
-<p>The last two lines are for those curious about signal quality: the voice line gives the number of voice frames and how many bits were corrected (fewer means a cleaner signal), and the FEC line is what the app used to tell voice from data.</p>
+<p>At the top of a record are the <b>play button</b> and a progress bar: tap to hear the voice as it was received. Below it the record is laid out in cards:</p>
+<ul>
+<li><b>Contact</b> (通联): frequency, duration, mode and time.</li>
+<li><b>Station</b> (对方): callsign, destination, repeaters and message.</li>
+<li><b>Position</b> (位置, only when one was sent): the same dial as on the live card (on the right), the distance and direction, coordinates, course and speed, with the format the position arrived in.</li>
+<li><b>Signal</b> (信号), for those curious about quality: voice frames and the bits the vocoder corrected (fewer means a cleaner signal), and the FEC verdict the app used to tell voice from data.</li>
+</ul>
 <div class="note"><p>The field names on this page are shown in Chinese in the current version of the app.</p></div>
 
 <h3>Looking at a picture</h3>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YSF 数字语音 · SDRViewer 使用手册</title>
+<meta name="description" content="在 Receiver 页面接收 Yaesu System Fusion：实时卡片、语音、位置罗盘，以及 RX History 里的记录。">
+<link rel="stylesheet" href="../assets/style.css">
+<script>window.MANUAL = {copy: "复制", copied: "已复制"};</script>
+<script src="../assets/site.js"></script>
+</head>
+<body data-soon="编写中">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="目录">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>使用手册</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="../page-ysf.html">English</a>
+  <button class="iconbtn" id="theme" aria-label="切换深色或浅色">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>开始</h4>
+<a href="index.html">首页</a>
+<a href="start.html">需要准备什么</a>
+<h4>安装 rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">树莓派</a>
+<a href="bridge-bl618.html">BL618 无线小板</a>
+<h4>连接</h4>
+<a href="connect.html">在 App 里连接</a>
+<a href="troubleshoot.html">连不上怎么办</a>
+<h4>航图数据</h4>
+<a href="aip-import.html">直接导入各国 AIP</a>
+<a href="data-file.html">航图数据文件（JSON）</a>
+<h4>各页面说明</h4>
+<a href="pages.html">页面一览</a>
+<a href="page-radio.html">Radio 收音机</a>
+<a href="page-receiver.html">Receiver 接收机</a>
+<a href="page-dstar.html">D-STAR 数字语音</a>
+<a class="on" href="page-ysf.html">YSF 数字语音</a>
+<a href="page-aviation.html">Aviation 航空数据链</a>
+<a href="page-atc.html">ATC 航空管制</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS 船舶</a>
+<a href="page-adsb.html">ADS-B 飞机</a>
+</nav>
+<main>
+<h1>YSF 数字语音（System Fusion）</h1>
+<p class="lede">System Fusion（简称 YSF 或 C4FM）是八重洲（Yaesu）电台的数字语音制式。SDRViewer 接收它的方式和 <a href="page-dstar.html">D-STAR</a> 完全一样：同一个 DV/YSF 方式、同一张卡片、同一个 RX History。能听到语音，看到对方的呼号、电台 ID 和位置。目前支持 <b>DN</b> 和 <b>VW</b> 两种语音格式。</p>
+
+<h2>怎么开始收</h2>
+<ol class="steps">
+<li><strong>调到 YSF 的频率</strong>在 <a href="page-receiver.html">Receiver</a> 页面输入频率，比如本地的 C4FM 直频或 YSF 中继的下行频率。</li>
+<li><strong>解调方式选 DV/YSF</strong>点左边蓝色的方式按钮，选 <b>DV/YSF</b>。D-STAR 和 YSF 不用分开选：两种信号各带校验，App 自己认出是哪一种。选 <b>NFM</b> 也一样：来了数字信号按钮会自动变成 DV/YSF，来了模拟调频就变回 NFM 播出来，和八重洲车台的 AMS 一样。</li>
+<li><strong>点播放，等人发射</strong>有人发射时，页面下方弹出卡片，扬声器里播放解码后的语音。</li>
+</ol>
+<div class="warn"><p><b>频率要准。</b>和 D-STAR 一样，接收机频率偏了就解不出来。使用前先完成<a href="connect.html">频率校准</a>；手持机离接收机太近（几米之内）信号过强也会解不出来。</p></div>
+
+<h2>收语音时弹出的卡片</h2>
+<figure class="phone"><img class="shot" src="../img/ysf-card-voice.png" alt="Receiver 页面在 DV/YSF 方式下，下方弹出一张 YSF 卡片"><figcaption>有人发射时，卡片出现在瀑布图下方；发射结束后停留几秒再消失。</figcaption></figure>
+<div class="parts">
+<div class="part"><img src="../img/ysf-card-gps.png" alt="带位置的 YSF 卡片"><div><b class="name">卡片上的内容</b>
+<p><b>第一行</b>：对方的呼号。左边的绿点和右上角的 RX 表示正在接收。</p>
+<p><b>→ CQCQCQ</b>：对方呼叫的对象。全是星号表示呼叫所有人；以 <b>ID</b> 开头时，对方用的是电台 ID 呼叫。</p>
+<p><b>YSF DN · ID F0DM2</b>：发送格式和对方电台的 5 位 ID。<b>DN</b> 是语音和数据各占一半的格式，八重洲电台默认用它；<b>VW</b> 是全速语音，音质更好但不带数据。对方设了 DG-ID 时，这一行也会显示。</p>
+<p><b>位置</b>（对方电台开了 GPS 才有）：<b>HUP / NUP</b> 是罗盘现在的朝向方式（见下）；<b>DISTANCE</b> 是对方到你的距离；下面是对方的经纬度和网格（<b>GL</b>），以及对方自己的航向和速度（<b>COURSE / SPEED</b>）。</p></div></div>
+</div>
+
+<h3>罗盘：HUP 和 NUP</h3>
+<p>罗盘照八重洲电台的导航画面画：<b>蓝色小人</b>标出对方所在的方向，<b>红色箭头</b>是你自己。</p>
+<figure class="pair"><img class="shot" src="../img/ysf-card-gps.png" alt="HUP：本机朝向朝上"><img class="shot" src="../img/ysf-card-nup.png" alt="NUP：正北朝上"><figcaption>左：HUP，红箭头朝上，表盘随手机转。右：NUP，正北朝上，不画红箭头。</figcaption></figure>
+<table>
+<tr><th>方式</th><th>样子</th><th>什么时候</th></tr>
+<tr><td><b>HUP</b>（Heading up，朝向朝上）</td><td>红箭头永远朝上，代表你手机指的方向；N/E/S/W 和蓝色小人跟着手机转动。手机转到让蓝色小人在正上方，你就正对着对方。</td><td>手机有指南针，并且设置里“我的位置”打开了<b>表盘随手机朝向转</b>和跟随我的位置。</td></tr>
+<tr><td><b>NUP</b>（North up，正北朝上）</td><td>N 固定在上方，表盘不转；不画红箭头。</td><td>没有指南针（Mac、部分 iPad），或者关掉了表盘随手机朝向转。</td></tr>
+</table>
+<div class="note"><p>距离和方向是按<b>你的位置</b>算的。在设置的“我的位置”里填上坐标或网格，或者打开“跟随我的位置”。没填的话卡片只显示对方的坐标，不显示罗盘和距离，因为瞎猜一个位置算出来的距离是错的。</p></div>
+
+<h3>对方没发位置时</h3>
+<figure class="phone"><img class="shot" src="../img/ysf-card-nogps.png" alt="没有位置的 YSF 卡片：只有呼号、呼叫对象和发送格式"></figure>
+<p>对方电台没开 GPS，或者还没定到位，卡片就只有呼号、呼叫对象和发送格式三行，没有罗盘。语音照常播放。</p>
+
+<h3>没有呼号时</h3>
+<p>呼号所在的数据没通过校验（通常是信号太弱）时，发射期间不弹卡片，但语音仍然照常解码播放。发射结束后，这次通联以<b>（无呼号）</b>存进 RX History，可以回放。</p>
+
+<h2>RX History：收到过的通联</h2>
+<p>点 Receiver 页面右上角的<b>时钟图标</b>打开。YSF 和 D-STAR 的记录在同一个列表里，左边的标签写着 <b>YSF</b> 或 <b>DSTAR</b>，最新的在最上面。</p>
+<figure class="phone"><img class="shot" src="../img/ysf-history.png" alt="RX History 列表：三条 YSF 记录，一条带位置，一条只有语音，一条没有呼号"></figure>
+<p>列表上的标记和 D-STAR 一样：喇叭图标和秒数表示有语音，塔形图标后面是对方的距离和方向。点一条记录看详情；向左滑删除单条；右上角的垃圾桶清空全部。</p>
+
+<h3>带位置的记录</h3>
+<figure class="phone"><img class="shot" src="../img/ysf-record-gps.png" alt="一条带语音和位置的 YSF 记录：播放按钮、通联信息和罗盘"></figure>
+<p>顶部是<b>播放按钮</b>，点一下回放当时的语音。下面和 D-STAR 的记录一样分成<b>通联</b>、<b>对方</b>、<b>位置</b>、<b>信号</b>几张卡片；通联卡片的模式格写着 YSF，下面小字是 DN 或 VW。YSF 自己的几项：</p>
+<table>
+<tr><th>字段</th><th>含义</th></tr>
+<tr><td>发送格式</td><td>DN 或 VW；对方用窄带时后面写“窄带”。</td></tr>
+<tr><td>电台 ID</td><td>对方电台自己的 5 位 ID，每台八重洲电台出厂就有。</td></tr>
+<tr><td>DG-ID</td><td>对方设了 DG-ID（数字群组号）时才有。</td></tr>
+<tr><td>上行 / 下行</td><td>经过中继或 WIRES-X 节点时，信号进入和发出的中继。</td></tr>
+<tr><td>位置</td><td>和卡片一样的罗盘、距离、坐标、航向和速度；“发送格式”一行写着 <b>YSF DT</b>，即位置来自数据帧里的 GPS。</td></tr>
+<tr><td>语音</td><td>语音帧数、长度和声码器纠正的错误位数，越少说明信号越干净。</td></tr>
+</table>
+
+<h3>没有呼号的记录</h3>
+<figure class="phone"><img class="shot" src="../img/ysf-record-nocall.png" alt="一条没有呼号的 YSF 记录：只有模式、频率、时间、时长、发送格式和语音"></figure>
+<p>只剩模式、频率、时间、时长、发送格式和语音几行，语音照样可以回放。</p>
+
+<h2>常见情况</h2>
+<table>
+<tr><th>现象</th><th>原因和办法</th></tr>
+<tr><td>瀑布图上有信号，但没有卡片也没有声音</td><td>频率偏了，先做<a href="connect.html">频率校准</a>；或者信号太强，离发射机远一点；也可能那不是 YSF 或 D-STAR 信号。</td></tr>
+<tr><td>有声音但没有卡片</td><td>呼号没收到，见上面“没有呼号时”。</td></tr>
+<tr><td>卡片上没有罗盘</td><td>对方没开 GPS，或者你没有填自己的位置。</td></tr>
+<tr><td>罗盘一直是 NUP</td><td>设备没有指南针，或者设置里没打开“表盘随手机朝向转”。</td></tr>
+<tr><td>收不到 DW 模式</td><td>DW（数据全速）不带语音，目前不解码。</td></tr>
+</table>
+
+<div class="pager">
+<a href="page-dstar.html"><small>上一篇</small>D-STAR 数字语音</a>
+<a class="next" href="page-aviation.html"><small>下一篇</small>Aviation 航空数据链</a>
+</div>
+<footer>SDRViewer 使用手册 · 内容随 App 更新。发现错误或有看不懂的地方，欢迎告诉作者。</footer>
+</main>
+</div>
+</body>
+</html>

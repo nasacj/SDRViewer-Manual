@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YSF digital voice · SDRViewer Manual</title>
+<meta name="description" content="Receiving Yaesu System Fusion on the Receiver page: the live card, voice, the position compass, and the records in RX History.">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.MANUAL = {copy: "Copy", copied: "Copied"};</script>
+<script src="assets/site.js"></script>
+</head>
+<body data-soon="soon">
+<header class="top">
+  <button class="iconbtn" id="menu" aria-label="Contents">☰</button>
+  <a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0a7cff"/><path d="M5 20c2.5 0 2.5-9 5-9s2.5 12 5 12 2.5-15 5-15 2.5 12 5 12 1.7-4 2-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>SDRViewer <small>Manual</small></span></a>
+  <span class="spacer"></span>
+  <a class="iconbtn langlink" href="zh/page-ysf.html">中文</a>
+  <button class="iconbtn" id="theme" aria-label="Light or dark">◐</button>
+</header>
+<div class="layout">
+<nav class="side">
+<h4>Start</h4>
+<a href="index.html">Home</a>
+<a href="start.html">What you need</a>
+<h4>Install rtl_tcp</h4>
+<a href="install-macos.html">macOS</a>
+<a href="install-windows.html">Windows</a>
+<a href="install-linux.html">Linux</a>
+<a href="install-pi.html">Raspberry Pi</a>
+<a href="bridge-bl618.html">BL618 Wi-Fi board</a>
+<h4>Connect</h4>
+<a href="connect.html">Connect in the app</a>
+<a href="troubleshoot.html">If it will not connect</a>
+<h4>Airspace data</h4>
+<a href="aip-import.html">Importing an AIP directly</a>
+<a href="data-file.html">Airspace data file (JSON)</a>
+<h4>The pages</h4>
+<a href="pages.html">All pages</a>
+<a href="page-radio.html">Radio</a>
+<a href="page-receiver.html">Receiver</a>
+<a href="page-dstar.html">D-STAR digital voice</a>
+<a class="on" href="page-ysf.html">YSF digital voice</a>
+<a href="page-aviation.html">Aviation</a>
+<a href="page-atc.html">ATC</a>
+<a class="soon">APRS</a>
+<a class="soon">AIS</a>
+<a href="page-adsb.html">ADS-B</a>
+</nav>
+<main>
+<h1>YSF digital voice (System Fusion)</h1>
+<p class="lede">System Fusion (YSF, or C4FM) is Yaesu's digital voice mode. SDRViewer receives it exactly as it receives <a href="page-dstar.html">D-STAR</a>: the same DV/YSF mode, the same card, the same RX History. You hear the voice and see the callsign, the radio's ID and the position. The <b>DN</b> and <b>VW</b> voice formats are supported.</p>
+
+<h2>Getting started</h2>
+<ol class="steps">
+<li><strong>Tune to a YSF frequency</strong>On the <a href="page-receiver.html">Receiver</a> page, enter the frequency: a local C4FM simplex channel, or a YSF repeater's output.</li>
+<li><strong>Choose DV/YSF</strong>Tap the blue mode button on the left and choose <b>DV/YSF</b>. D-STAR and YSF need no separate choice: each signal carries its own check and the app recognises which it is. <b>NFM</b> is the same: a digital transmission turns the button to DV/YSF, and analogue FM turns it back to NFM and plays, like the AMS on a Yaesu mobile.</li>
+<li><strong>Press play and wait for a transmission</strong>When somebody transmits, a card appears at the bottom of the page and the decoded voice plays.</li>
+</ol>
+<div class="warn"><p><b>The frequency has to be right.</b> As with D-STAR, a receiver that is off frequency decodes nothing. Do the <a href="connect.html">frequency calibration</a> first; a handheld within a few metres of the receiver is also too strong to decode.</p></div>
+
+<h2>The card during a voice transmission</h2>
+<figure class="phone"><img class="shot" src="img/ysf-card-voice.png" alt="The Receiver page in DV/YSF with a YSF card at the bottom"><figcaption>The card appears under the waterfall while somebody transmits, and stays a few seconds after they stop.</figcaption></figure>
+<div class="parts">
+<div class="part"><img src="img/ysf-card-gps.png" alt="A YSF card with a position"><div><b class="name">What is on the card</b>
+<p><b>First line</b>: the station's callsign. The green dot and the RX at the right mean it is being received now.</p>
+<p><b>→ CQCQCQ</b>: who is being called. All asterisks is a call to everybody; a value starting <b>ID</b> means the station called by radio ID.</p>
+<p><b>YSF DN · ID F0DM2</b>: the format and the transmitting radio's five-character ID. <b>DN</b> shares the channel between voice and data and is what Yaesu radios use by default; <b>VW</b> is full-rate voice, better audio and no data. A DG-ID, when the station set one, is shown here too.</p>
+<p><b>Position</b> (only when the station's radio has GPS on): <b>HUP / NUP</b> is how the compass is turned (below); <b>DISTANCE</b> is how far the station is from you; beneath are its coordinates and grid locator (<b>GL</b>) and its own course and speed (<b>COURSE / SPEED</b>).</p></div></div>
+</div>
+
+<h3>The compass: HUP and NUP</h3>
+<p>The compass is drawn the way Yaesu radios draw their navigation screen: the <b>blue person</b> marks where the other station is, and the <b>red arrow</b> is you.</p>
+<figure class="pair"><img class="shot" src="img/ysf-card-gps.png" alt="HUP: heading up"><img class="shot" src="img/ysf-card-nup.png" alt="NUP: north up"><figcaption>Left: HUP, the red arrow points up and the dial turns with the phone. Right: NUP, north up, no red arrow.</figcaption></figure>
+<table>
+<tr><th>Mode</th><th>What you see</th><th>When</th></tr>
+<tr><td><b>HUP</b> (heading up)</td><td>The red arrow always points up: it is the way your phone points. N/E/S/W and the blue person turn as the phone turns. Turn until the person is at the top and you are facing the station.</td><td>The phone has a compass, and under My position in the settings both <b>表盘随手机朝向转</b> (dial turns with the phone) and <b>跟随我的位置</b> (follow my location) are on.</td></tr>
+<tr><td><b>NUP</b> (north up)</td><td>N stays at the top and the dial does not turn; there is no red arrow.</td><td>No compass (a Mac, some iPads), or the dial is not set to turn with the phone.</td></tr>
+</table>
+<div class="note"><p>Distance and direction are measured from <b>your position</b>. Enter coordinates or a grid locator under My position in the settings, or turn on following your location. Without it the card shows the station's coordinates and no compass or distance: a distance from a guessed position would be wrong.</p></div>
+
+<h3>When the station sends no position</h3>
+<figure class="phone"><img class="shot" src="img/ysf-card-nogps.png" alt="A YSF card with no position: callsign, who is called, and the format"></figure>
+<p>If the station's radio has GPS off, or has no fix yet, the card has three lines — callsign, who is called and the format — and no compass. The voice plays as usual.</p>
+
+<h3>When there is no callsign</h3>
+<p>If the data carrying the callsign fails its check (usually a weak signal), no card appears during the transmission, but the voice is still decoded and played. When it ends, the transmission is kept in RX History as <b>（无呼号）</b>, “no callsign”, and can be played back.</p>
+
+<h2>RX History: what was received</h2>
+<p>Tap the <b>clock</b> at the top right of the Receiver page. YSF and D-STAR records share one list, tagged <b>YSF</b> or <b>DSTAR</b>, newest first.</p>
+<figure class="phone"><img class="shot" src="img/ysf-history.png" alt="RX History with three YSF records: one with a position, one with voice only, one with no callsign"></figure>
+<p>The marks are the same as for D-STAR: a speaker and seconds mean there is voice, and after the tower icon are the station's distance and direction. Tap a record for its details; swipe left to delete one; the bin at the top right clears them all.</p>
+
+<h3>A record with a position</h3>
+<figure class="phone"><img class="shot" src="img/ysf-record-gps.png" alt="A YSF record with voice and a position: play button, details and the compass"></figure>
+<p>At the top is the <b>play button</b>, which plays the voice back. Below it, as for D-STAR, are the <b>Contact</b>, <b>Station</b>, <b>Position</b> and <b>Signal</b> cards; the mode tile reads YSF with DN or VW beneath. The fields only YSF has:</p>
+<table>
+<tr><th>Field</th><th>Meaning</th></tr>
+<tr><td>Format</td><td>DN or VW, with “narrow” when the station used narrow mode.</td></tr>
+<tr><td>Radio ID</td><td>The station radio's own five-character ID, which every Yaesu radio has from the factory.</td></tr>
+<tr><td>DG-ID</td><td>Only when the station set a DG-ID (digital group).</td></tr>
+<tr><td>Uplink / downlink</td><td>The repeaters the signal went in and came out of, through a repeater or a WIRES-X node.</td></tr>
+<tr><td>Position</td><td>The same compass, distance, coordinates, course and speed as the card; the format line reads <b>YSF DT</b>, the GPS carried in the data frames.</td></tr>
+<tr><td>Voice</td><td>Voice frames, length, and the errors the vocoder corrected — fewer means a cleaner signal.</td></tr>
+</table>
+
+<h3>A record with no callsign</h3>
+<figure class="phone"><img class="shot" src="img/ysf-record-nocall.png" alt="A YSF record with no callsign: mode, frequency, time, duration, format and voice only"></figure>
+<p>Only the mode, frequency, time, duration, format and voice remain, and the voice can be played back.</p>
+
+<h2>Common situations</h2>
+<table>
+<tr><th>What you see</th><th>Cause and remedy</th></tr>
+<tr><td>A signal on the waterfall, but no card and no sound</td><td>Off frequency: do the <a href="connect.html">frequency calibration</a>. Or too strong: move away from the transmitter. Or it is not a YSF or D-STAR signal.</td></tr>
+<tr><td>Sound but no card</td><td>The callsign was not received; see “When there is no callsign” above.</td></tr>
+<tr><td>No compass on the card</td><td>The station has GPS off, or you have not entered your own position.</td></tr>
+<tr><td>The compass is always NUP</td><td>The device has no compass, or 表盘随手机朝向转 is off.</td></tr>
+<tr><td>DW transmissions show nothing</td><td>DW (full-rate data) carries no voice and is not decoded yet.</td></tr>
+</table>
+
+<div class="pager">
+<a href="page-dstar.html"><small>Previous</small>D-STAR digital voice</a>
+<a class="next" href="page-aviation.html"><small>Next</small>Aviation</a>
+</div>
+<footer>SDRViewer Manual · updated with the app. If something is wrong or unclear, tell the author.</footer>
+</main>
+</div>
+</body>
+</html>
